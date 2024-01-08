@@ -1,0 +1,21 @@
+.foot-col {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 10px;
+}
+.foot {
+  width: 33.3333%;
+}
+.foot-left-col {
+  width: 200px;
+}
+.foot-left-col .logo {
+  width: 130px;
+}
+@media only screen and (max-width: 767px) {
+  .foot-col {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,192 @@
+.my-order-page {
+  width: 100%;
+}
+.my-order-page [role="row"] {
+  transition: all 0.3s ease-in;
+  background: #fff;
+}
+.order-title {
+  margin: 20px 0;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  background: #f5f5f5;
+  padding: 10px;
+}
+.order-header p {
+  margin: 0px;
+  font-weight: 600;
+}
+
+.order-details {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #00000030;
+}
+.billing-details,
+.pay-mode {
+  width: 40%;
+  padding: 20px;
+}
+.order-containor > h3 {
+  text-align: center;
+  margin: 20px 0px;
+}
+#order-details {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 40px;
+}
+.order-item {
+  display: flex;
+  align-items: center;
+  border: 1px solid #00000030;
+  background: #fff;
+  border-radius: 5px;
+}
+.order-item > div {
+  padding: 10px 20px;
+  border-right: 1px solid #000;
+}
+.order-item > div:nth-last-child(1) {
+  border: none;
+}
+.order-item-img {
+  max-width: 100px;
+  width: 100%;
+}
+.order-item-name {
+  width: 80%;
+}
+.orders > h2,
+.order-d-page h1 {
+  text-align: center;
+  margin: 10px 0px 30px;
+}
+.Billing-details-area,
+.pay-mod-details {
+  margin: 10px 0;
+}
+.Billing-details-area > p,
+.pay-mod-details > p {
+  margin: 5px 0;
+}
+.order-cont-area {
+  padding: 150px 10px;
+  text-align: center;
+}
+.order-cont-area h1 {
+  margin: 0px 0 30px;
+}
+.order-cont-area a {
+  width: 80%;
+  padding: 15px 50px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 99px;
+  background: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease-in;
+}
+.order-cont-area a:hover {
+  background: #e31e25;
+  color: #fff !important;
+}
+
+.order-card-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px; 
+}
+
+.order-card {
+  width: 100%;
+}
+.order-card-inner-row {
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.order-id {
+  text-align: center;
+}
+.order-card-status span:nth-last-child(1) {
+  text-align: center;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.order-card-status span:nth-last-child(3) {
+  width: 50%;
+  display: inline-table;
+  font-weight: 600;
+}
+.order-card-status span:nth-last-child(2) {
+  background: whitesmoke;
+  display: inline;
+  padding: 10px 15px;
+  font-weight: 600;
+
+  border-radius: 100px;
+}
+.order-id span {
+  padding: 10px;
+  font-weight: 600;
+  font-size: 20px;
+}
+.order-card-status span {
+  display: block;
+  margin: 10px 0px;
+}
+.process {
+  background: #e31e25;
+}
+.shipped {
+  background: #97ba5f;
+}
+.process span {
+  color: #fff;
+}
+.shipped span {
+  color: #fff;
+}
+.delivered span {
+  color: #fff;
+}
+.order-card-status span:nth-last-child(2) {
+  color: #000;
+}
+.delivered {
+  background: #04af70;
+}
+.cancle,
+.return {
+  background: #000;
+}
+.cancle span,
+.return span {
+  color: #fff;
+}
+
+@media only screen and (max-width: 1020px) {
+  .order-card-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media only screen and (max-width: 767px) {
+  .order-card-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media only screen and (max-width: 500px) {
+  .order-card-row {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

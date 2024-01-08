@@ -1,0 +1,33 @@
+.allpost-filter {
+    display:flex;
+    justify-content:space-between;
+}
+.allpost-filter select{
+    padding: 10px !important;
+}
+.first-filter{
+    display:flex;
+    gap:15px;
+}
+.sec-filter{
+    display:flex;
+    gap:15px;
+}
+.search-filter{
+    display:flex;
+    gap:7px;
+}
+#table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 100%;
+       
+    
+}
+#table th{
+    width: 17%;
+}
+#table th,td{
+text-align: left;
+padding: 10px;
+}
