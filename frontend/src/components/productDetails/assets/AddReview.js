@@ -18,16 +18,6 @@ const AddReview = ({
   comment,
   setComment,
   reviewSubmitHandler,
-  //   buyHandler,
-  //   submitReviewToggle,
-  //   open,
-  //   submitReviewToggle,
-  //   setRating,
-  //   rating,
-  //   comment,
-  //   setComment,
-  //   submitReviewToggle,
-  //   reviewSubmitHandler,
 }) => {
   return (
     <>
@@ -41,7 +31,7 @@ const AddReview = ({
           </Button>
         </DialogActions>
         <Dialog
-        className="review-main-div"
+          className="review-main-div"
           area-aria-labelledby="simpale-dialog-title"
           open={open}
           onClose={submitReviewToggle}

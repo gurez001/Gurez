@@ -115,11 +115,14 @@
 .product-sticky-content {
   margin-left: 40px;
 }
-.addtocart-button button,
-button:hover {
+.addtocart-button button {
   color: var(--g-white) !important;
   background: var(--G-green) !important;
   padding: 10px;
+}
+.addtocart-button button:hover {
+  color: var(--g-white) !important;
+  background: var(--G-green) !important;
 }
 .addtocart-button .cart-svg {
   font-size: 20px;

@@ -6,7 +6,7 @@ const upload = require("../middleware/multer");
 const { createProductReviews, getAllReviews } = require("../controllers/reviewsController");
 
 router.route("/create/product-review").put(
-  //isAuthenticatedUser,
+  isAuthenticatedUser,
   createProductReviews
 );
 

@@ -13,10 +13,11 @@ const productModels = require("../models/productModels");
 
 exports.createProductReviews = catchAsyncError(async (req, res, next) => {
   try {
-    const { rating, comment, productId, imageid, user } = req.body;
+    const { rating, comment, productId, imageid } = req.body;
+    const user = req.user;
 
     const reviews = {
-      user,
+      user: user._id,
       imageid,
       rating,
       productid: productId,
@@ -25,40 +26,32 @@ exports.createProductReviews = catchAsyncError(async (req, res, next) => {
 
     let isExistReview = await reviewsSchema.findOne({
       productid: productId,
-      user,
+      user: user._id,
     });
 
-    if (isExistReview) {
-      isExistReview.rating = rating;
-      isExistReview.comment = comment;
-      await isExistReview.save();
+    if (!isExistReview) {
+      const newReview = await reviewsSchema.create(reviews);
 
       const product = await productModels.findById(productId);
+      if (product) {
+        product.reviewsids.push(newReview._id);
+        await product.save();
+      }
 
-      // Assuming 'reviewsids' is an array field in your 'productModels' schema
-      product.reviewsids.push(isExistReview._id);
-      await product.save();
-
-      res.status(200).json({
-        message: "Review updated successfully",
-        isExistReview,
+      res.status(201).json({
+        message: "Review created successfully",
+        newReview,
       });
-    } else {
-      const newReview = await reviewsSchema.create(reviews);
-      // const totalReviewsCount = await isExistReview.countDocuments();
-      // await reviewsSchema.findByIdAndUpdate(productid, {
-      //   numOfReviews: totalReviewsCount,
-      // });
-      res
-        .status(201)
-        .json({ message: "Review created successfully", newReview });
     }
 
-    // Assuming there's a 'Product' schema with a 'totalReviews' field
-    // await Product.findOneAndUpdate(
-    //   { _id: productid },
-    //   { totalReviews: totalReviewsCount }
-    // );
+    isExistReview.rating = rating;
+    isExistReview.comment = comment;
+    await isExistReview.save();
+
+    res.status(200).json({
+      message: "Review updated successfully",
+      isExistReview,
+    });
   } catch (error) {
     return next(
       new ErrorHandler(`product review internal server error: ${error}`, 500)
@@ -71,10 +64,9 @@ exports.createProductReviews = catchAsyncError(async (req, res, next) => {
 exports.getAllReviews = catchAsyncError(async (req, res, next) => {
   try {
     //   const Product = await products.findById(req.query.id);
-    const productReview = await reviewsSchema.find().populate([
-      { path: "user", model: "user" },
-      
-    ]);
+    const productReview = await reviewsSchema
+      .find()
+      .populate([{ path: "user", model: "user" }]);
 
     if (!productReview) {
       return next(new ErrorHandler("Product review not found", 404));

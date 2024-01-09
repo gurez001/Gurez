@@ -37,7 +37,7 @@ const ProductDetails = () => {
 
   const [showContent, setShowContent] = useState(true);
   const { success, error: reverror } = useSelector((state) => state.review);
-  const { user } = useSelector((state) => state.user);
+
 
   // //--------------- useSelector ----------------------------
 
@@ -92,7 +92,7 @@ const ProductDetails = () => {
 
   const reviewSubmitHandler = () => {
     dispatch(
-      createReview(rating, comment, product && product._id, user && user._id)
+      createReview(rating, comment, product && product._id)
     );
 
     setOpen(false);
@@ -162,7 +162,7 @@ const ProductDetails = () => {
                           product={product}
                           addToCartHandler={addToCartHandler}
                           buyHandler={buyHandler}
-                        />{" "}
+                        />
                       </div>
                     </div>
                     <AddReview

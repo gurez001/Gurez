@@ -9,16 +9,15 @@ import {
   REVIEWS_CLEAR_ERROR,
 } from "../constants/ReviewsConstant";
 
-export const createReview = (rating, comment, productId,user) => async (dispatch) => {
+export const createReview = (rating, comment, productId) => async (dispatch) => {
   try {
     dispatch({ type: NEW_REVIEW_REQUEST });
-    console.log(rating, comment, productId,user);
 
     const formData = new FormData();
     formData.append("rating", rating);
     formData.append("comment", comment);
     formData.append("productId", productId);
-    formData.append("user", user);
+  
     const config = {
       headers: {
         "Content-Type": "application/json",
