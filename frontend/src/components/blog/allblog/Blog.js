@@ -6,13 +6,13 @@ import { NavLink, useParams } from "react-router-dom";
 import TimeAndDate from '../../layout/time/TimeAndDate';
 import BlogPostCards from './BlogPostCards';
 import BlogCategory from './BlogCategory';
+import { GetBlogCategory } from '../../../actions/BlogCategoryAction';
 
 function Blog() {
     const dispatch = useDispatch();
     const alert = useAlert();
 
     const { loading, blog, error } = useSelector(state => state.allBlog)
-
 
     useEffect(() => {
         if (error) {
@@ -21,7 +21,7 @@ function Blog() {
 
         }
         dispatch(GetBlogPost())
-
+        dispatch(GetBlogCategory())
     }, [dispatch, alert, error])
     return (
         <>

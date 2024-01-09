@@ -1,31 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Aside } from "../../aside/Aside";
 import "./CreatePost.css";
 import MyEditor from "../../../layout/classiceditor/MyEditor";
 import MetaData from "../../../layout/metaData/MetaData";
 import { CharCount } from "../../../layout/CharCount/CharCount";
 import { Button } from "@material-ui/core";
-
+import Categore from "./assets/Categore";
+import { GetBlogCategory } from "../../../../actions/BlogCategoryAction";
+import { useDispatch, useSelector } from "react-redux";
+import { useAlert } from "react-alert";
+import { ClearError, CreateBlogPost } from "../../../../actions/BlogPostAction";
+import { useNavigate } from "react-router-dom";
+import { CREATE_BLOG_POST_RESET } from "../../../../constants/BlogPostConstants";
 
 function CreatePost() {
-  const [content, setContent] = useState("");
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  const Navigate = useNavigate();
+  const {loading,success,error} = useSelector(state=>state.adminCreatePost)
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [title, setTitle] = useState("");
-  const [coupen, setCoupen] = useState(false);
-  const [inputValue, setinputValue] = useState({
-    
-    //  description: "",
-    category: "",
-    metatitle: "",
-    keywords: [],
-    metalink: "",
-    metadec: "",
-  });
-  const contentHeandle = (e) => {
-    setContent(e);
-  };
-  const createProductInputHandle=()=>{
+  const [description, setSescription] = useState("");
+  const [slug, setSlug] = useState("");
 
-  }
+  const contentHeandle = (e) => {
+    setSescription(e);
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    if (
+      selectedCategoryId.trim() === "" ||
+      title.trim() === "" ||
+      description.trim() === "" ||
+      slug.trim() === ""
+    ) {
+      return alert.error("Please fill out all required fields.");
+    }
+    dispatch(CreateBlogPost(selectedCategoryId, title, description, slug));
+  };
+
+  useEffect(() => {
+    if(error){
+      alert.error(error);
+      dispatch(ClearError());
+    }
+    if(success){
+      alert.success('Product successfully created')
+      Navigate('/admin/post/all-post')
+      dispatch({type:CREATE_BLOG_POST_RESET});
+    }
+    dispatch(GetBlogCategory());
+  }, [dispatch,success,error,alert]);
 
   return (
     <>
@@ -37,149 +64,40 @@ function CreatePost() {
               <section className="ad-section">
                 <h2>Add New Post</h2>
                 <div className="post-tilte">
-                  <input
-                    type="text"
-                    placeholder="Add Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-
-                  <div className="input-field-area">
-                    <label htmlFor="description">description</label>
-
-                    <div>
-                      <MyEditor event={contentHeandle} />
-                    </div>
-                  </div>
-                  <div className="post-anc">
-                    <div className="post-category">
-                      <h3>All Category</h3>
+                  <form onSubmit={submitHandler}>
+                    <div className="input-field-area">
                       <input
-                        type="checkbox"
-                        name="coupen"
-                        onChange={(e) => setCoupen(e.target.checked)}
+                        type="text"
+                        name="name"
+                        onBlur={(e) => setTitle(e.target.value)}
+                        placeholder="Add Title"
                       />
-
-                      <label for="coupen">Coupen</label>
-
-                      <br />
-
-                      <input type="checkbox" name="coupen" />
-
-                      <label for="Packing Materials">Packing Materials</label>
-
-                      <br />
-                      <input type="checkbox" name="coupen" />
-
-                      <label for="Pet Products">Pet Products</label>
-
-                      <br />
                     </div>
-                    <div className="post-tag">
-                      <h3>Tags</h3>
-                      <input type="checkbox" name="coupen" />
-
-                      <label for="Corrugated Box">Corrugated Box</label>
-
-                      <br />
-                      <input type="checkbox" name="coupen" />
-
-                      <label for="Packing">Packing</label>
-
-                      <br />
-                      <input type="checkbox" name="coupen" />
-
-                      <label for="Products">Products</label>
-
-                      <br />
+                    <div className="input-field-area">
+                      <label htmlFor="description">description</label>
+                      <div>
+                        <MyEditor event={contentHeandle} />
+                      </div>
                     </div>
-                  </div>
-                  <h2>SEO</h2>
-                              <div className="input-field-area">
-                                <label htmlFor="keyword">Keyword</label>
-                                <input
-                                  type="text"
-                                  name="keywords"
-                                  autoComplete="off"
-                                  id="keywords"
-                                  value={inputValue.keywords}
-                                  // onKeyDown={handleInputKeyDown}
-                                  onChange={createProductInputHandle}
-                                />
-                              </div>
-                              <div className="input-field-area">
-                                <label htmlFor="metatitle">Meta Title</label>
-                                <input
-                                  type="metatitle"
-                                  name="metatitle"
-                                  autoComplete="off"
-                                  id="metatitle"
-                                  value={inputValue.metatitle}
-                                  onChange={createProductInputHandle}
-                                />
-                                <CharCount
-                                  char={inputValue.metatitle}
-                                  limit={60}
-                                />
-                              </div>
-                              <div className="input-field-area">
-                                <label htmlFor="metalink">Meta link</label>
-                                <input
-                                  type="metalink"
-                                  name="metalink"
-                                  autoComplete="off"
-                                  id="metalink"
-                                  value={inputValue.metalink}
-                                  onChange={createProductInputHandle}
-                                />
-                                <CharCount
-                                  char={inputValue.metalink}
-                                  limit={60}
-                                />
-                              </div>
-                              <div className="input-field-area">
-                                <label htmlFor="metalink">Meta link</label>
-                                <input
-                                  type="metalink"
-                                  name="metalink"
-                                  autoComplete="off"
-                                  id="metalink"
-                                  value={inputValue.metalink}
-                                  onChange={createProductInputHandle}
-                                />
-                                <CharCount
-                                  char={inputValue.metalink}
-                                  limit={60}
-                                />
-                              </div>
-                              <div className="input-field-area">
-                                <label htmlFor="metadec">
-                                  Meta description
-                                </label>
-                                <textarea
-                                  type="metadec"
-                                  name="metadec"
-                                  autoComplete="off"
-                                  id="metadec"
-                                  value={inputValue.metadec}
-                                  onChange={createProductInputHandle}
-                                ></textarea>
-                                <CharCount
-                                  char={inputValue.metadec}
-                                  limit={160}
-                                />
-                              </div>
-                              <div>
-                                <Button
-                               className="post-btn"
-                                  type="submit"
-                                  value="Singup"
-                                >
-                                  Publish
-                                </Button>
-                              </div>
+
+                    <div className="input-field-area">
+                      <label htmlFor="slug">Slug</label>
+                      <input
+                        type="text"
+                        placeholder="slug"
+                        onBlur={(e) => setSlug(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <input type="submit" value={"Create post"} />
+                    </div>
+                  </form>
                 </div>
               </section>
+            </div>
+
+            <div>
+              <Categore setSelectedCategoryId={setSelectedCategoryId} />
             </div>
           </div>
         </div>

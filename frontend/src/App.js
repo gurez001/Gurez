@@ -55,6 +55,7 @@ import Editor from "./components/admin/editor/Editor";
 import ImageUploader from "./components/admin/ImageGellery/uploadimage/ImageUploader";
 import Blog from "./components/blog/allblog/Blog";
 import SingleBlog from "./components/blog/singleblog/SingleBlog";
+import UpdatePost from "./components/admin/post/update/UpdatePost";
 
 function App() {
   const { loading } = useSelector((state) => state.user);
@@ -97,6 +98,7 @@ function App() {
                 />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:id" element={<SingleBlog />} />
+          
 
                 <Route
                   path="/product/:id"
@@ -168,6 +170,12 @@ function App() {
                   path="/admin/dashboard"
                   element={
                     <ProtectedRoute isAdmin={true} Component={Dashboard} />
+                  }
+                />
+                 <Route
+                  path="/admin/post/update/:id"
+                  element={
+                    <ProtectedRoute isAdmin={true} Component={UpdatePost} />
                   }
                 />
                 <Route

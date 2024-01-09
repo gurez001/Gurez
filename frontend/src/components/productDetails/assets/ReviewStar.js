@@ -2,16 +2,22 @@ import React from "react";
 import { StarComponent } from "./StarComponent";
 
 export const ReviewStar = ({ product }) => {
- 
   if (!product || (!product && product.reviewsids && product.reviewsids[0])) {
     return null; // Handle the case where product or reviews are undefined
   }
-
+  // console.log(product.reviewsids.length)
   const starValue = [0, 0, 0, 0, 0];
   const starInPercentage = [0, 0, 0, 0, 0];
 
+  
   const reviewLength =
     product && product.reviewsids && product.reviewsids.length;
+
+  const sum =
+    product && product.reviewsids
+      ? product.reviewsids.reduce((acc, review) => acc + review.rating, 0)
+      : 0;
+
   // if (product.reviewsids.length > 0) {
   //   product.reviewsids.forEach((review) => {
   //     const rating = review.rating;
@@ -27,12 +33,14 @@ export const ReviewStar = ({ product }) => {
           <div className="he-content">
             <div className="avg-rating-container">
               <div>
-                <h3>{product.ratings ? product.ratings.toFixed(2) : "0"}</h3>
+                <h3>
+                  {product && product.reviewsids && product.reviewsids.length >0 ? (sum / reviewLength).toFixed(2) : 0}
+                </h3>
               </div>
               <div>
                 <p>Average Rating</p>
                 <div>
-                  <StarComponent review={product.ratings || 0} />
+                  <StarComponent review={sum / reviewLength || 0} />
                   <div>({reviewLength} Reviews)</div>
                 </div>
               </div>

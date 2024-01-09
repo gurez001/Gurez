@@ -1,88 +1,150 @@
-import React, { useState } from 'react';
-import { Aside } from '../../aside/Aside';
-import { NavLink } from 'react-router-dom';
-import './AllPost.css';
-import CreatePost from '../createpost/CreatePost';
-
-
+import React, { useEffect, useState } from "react";
+import { Aside } from "../../aside/Aside";
+import { NavLink, useNavigate } from "react-router-dom";
+import "./AllPost.css";
+import CreatePost from "../createpost/CreatePost";
+import { useDispatch, useSelector } from "react-redux";
+import { useAlert } from "react-alert";
+import { ClearError, GetBlogPost } from "../../../../actions/BlogPostAction";
+import { DataGrid } from "@material-ui/data-grid";
+import Loader from "../../../layout/loader/Loader";
+import { FaUpRightFromSquare, FaTrash } from "react-icons/fa6";
+import { TimeAgo } from "../../../layout/time/TimeAgo";
 
 function AllPost() {
-  const [action,setAction]=useState("");
-  const [tarik,setTarik]=useState("");
-  const [catego,setCatego]=useState("");
-  const [sear,setSear]=useState("");
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  const Navigate = useNavigate();
+  const { loading, blog, error } = useSelector((state) => state.allBlog);
+
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(ClearError());
+    }
+    dispatch(GetBlogPost());
+  }, [alert, dispatch, error, Navigate]);
+
+  const deletehandler = (id) => {
+    // dispatch(deleteAdminProduct(id));
+  };
+
+  const columns = [
+    {
+      field: "id",
+      headerName: "Post id",
+      minWidth: 200,
+      flex: 0.3,
+    },
+    {
+      field: "name",
+      headerName: "Title",
+      minWidth: 200,
+      flex: 0.3,
+    },
+    {
+      field: "category",
+      headerName: "Category",
+      minWidth: 200,
+      flex: 0.3,
+    },
+    {
+      field: "date",
+      headerName: "Date",
+      minWidth: 200,
+      flex: 0.3,
+      renderCell: (params) => <TimeAgo time={params.value} />,
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      type: "number",
+      minWidth: 200,
+      flex: 0.3,
+      shortable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <NavLink
+              to={`/admin/post/update/${params.getValue(params.id, "id")}`}
+            >
+              <FaUpRightFromSquare />
+            </NavLink>
+
+            <span
+              onClick={() => deletehandler(params.getValue(params.id, "id"))}
+            >
+              <FaTrash />
+            </span>
+          </>
+        );
+      },
+    },
+  ];
+
+  const rows = [];
+  blog &&
+    blog.forEach((item, i) => {
+      rows.push({
+        id: item.postid,
+        name: item.title,
+        category: item.category && item.category.name,
+        date: item.creditAt,
+      });
+    });
+
   return (
-   <>
-    <div className="admin-page">
+    <>
+      <div className="admin-page">
         <div className="admin-page-area">
           <Aside />
           <div id="ad-body">
             <div className="ad-cont">
               <section className="ad-section">
-               
-            <div className='all-post'>
-              <h2>Posts <span><NavLink to="/admin/post/add-new-post">Add New</NavLink></span></h2>
-            <div className='allpost-filter'>
-              <div className='first-filter'>
-                <select value={action} onChange={(e)=>setAction(e.target.value)}>
-                  <option>Bulk Action</option>
-                  <option value="Edit">Edit</option>
-                  <option value="Move To Trash">Move To Trash</option>
-                </select>
-                <button>Apply</button>
-              </div>
-              <div className='sec-filter'>
-                <select value={tarik} onCanPlay={setTarik}>
-                  <option>All Date</option>
-                  <option Value="december 2023">December 2023</option>
-                  <option Value="August 2023">August 2023</option>
-                </select>
-                <select value={catego} onChange={setCatego}>
-                  <option>All categories</option>
-                  <option value="Coupen">Coupen</option>
-                  <option value="Packiong Material">Packing material</option>
-                  <option value="Pet Products">Pet Product</option>
-                </select>
-                <button>Filter</button>
-              </div>
-              <div className='search-filter'>
-                <input type='text' placeholder='Search Post' value={sear} onChange={(e)=>setSear(e.target.value)} />
-                <button type='search'>Search</button>
-              </div>
-            </div>
-            <div className='post-table'>
-              <table id="table">  
-                <thead>
-                  <tr>
-                   
-                    <th><span><input type='checkbox' /></span>Title</th>
-                    <th>Author</th>
-                    <th>categories</th>
-                    <th>Tag</th>
-                    <th>Comments</th>
-                    <th>Date</th>
-                  </tr>
-                  <tr>
-                   
-                   <td><span><input type='checkbox' /></span>title</td>
-                   <td>Author</td>
-                   <td>categories</td>
-                   <td>Tag</td>
-                   <td>Comments</td>
-                   <td>Date</td>
-                 </tr>
-                </thead>
-              </table>
-            </div>
-            </div>
-                  
+                <div className="all-post">
+                  <h2>
+                    Posts
+                    <span>
+                      <NavLink to="/admin/post/add-new-post">Add New</NavLink>
+                    </span>
+                  </h2>
+                  <div className="all-products-cont">
+                    <div className="all-products-content-area">
+                      <div className="all-products-title">
+                        <h1>All products</h1>
+                      </div>
+                      <div className="productdata">
+                        {loading ? (
+                          <Loader />
+                        ) : (
+                          <>
+                            {blog && blog.length > 0 ? (
+                              <>
+                                <DataGrid
+                                  rows={rows}
+                                  columns={columns}
+                                  // page={10}
+                                  disableSelectionOnClick
+                                  className="product-list-table"
+                                  autoHeight
+                                />
+                              </>
+                            ) : (
+                              <p>no data found</p>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </section>
             </div>
           </div>
         </div>
       </div>
-   </>
-  )
+    </>
+  );
 }
 
-export default AllPost
+export default AllPost;

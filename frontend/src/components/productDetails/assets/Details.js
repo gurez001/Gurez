@@ -4,6 +4,15 @@ import { NavLink } from "react-router-dom";
 import { StarComponent } from "./StarComponent";
 const Details = ({ product }) => {
 
+  const reviewLength =
+    product && product.reviewsids && product.reviewsids.length;
+  const sum =
+  product && product.reviewsids
+    ? product.reviewsids.reduce((acc, review) => acc + review.rating, 0)
+    : 0;
+
+    const average =sum/ reviewLength ;
+
   return (
     <>
       <div className="summary entry-summary">
@@ -71,9 +80,12 @@ const Details = ({ product }) => {
           </p>
         </div>
         <div className="ratings">
-          <StarComponent review={product && product.reviewsids} />
+          <StarComponent review={average} />
           <div className="numOfReviews">
-            ( <span>{product && product.reviewsids && product.reviewsids.length}</span>{" "}
+            (
+            <span>
+              {product && product.reviewsids && product.reviewsids.length}
+            </span>
             <span>Reviews</span> )
           </div>
         </div>

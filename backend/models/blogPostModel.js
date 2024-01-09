@@ -24,7 +24,7 @@ const blogPostSchema = new mongoose.Schema({
   user: {
     type: Number,
     ref: "User",
-    // required: true,
+    required: true,
   },
   creditAt: {
     type: Date,

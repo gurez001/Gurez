@@ -125,103 +125,125 @@ const ProductDetails = () => {
 
   return (
     <>
-      <section className="section-cont prod-details-page">
-        <div className="product-cont">
-          <div className="product-single">
-            <div className="product-gallery">
-              <ImageLightbox images={product && product.imageId} />
-              <ImageSlider
-                product={product && product}
-                imgIndex={imgIndex}
-                imgSlideFun={imgSlideFun}
-              />
-            </div>
-            <div className="product-details">
-              <Details product={product && product} />
-              <AddQuantitBtns
-                decreaseQuantity={decreaseQuantity}
-                quentity={quentity}
-                increaseQuantity={increaseQuantity}
-              />
-              <AddToCartBtn
-                product={product}
-                addToCartHandler={addToCartHandler}
-                buyHandler={buyHandler}
-              />
-              <AddReview
-                addToWishtHandler={addToWishtHandler}
-                submitReviewToggle={submitReviewToggle}
-                open={open}
-                setRating={setRating}
-                rating={rating}
-                comment={comment}
-                setComment={setComment}
-                reviewSubmitHandler={reviewSubmitHandler}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="product-des-and-rate">
-        <div className="product-des-and-rate-tab">
-          <ul>
-            <li
-              className={showContent ? "prod-active-class" : null}
-              onClick={() => setShowContent(true)}
-            >
-              Description
-            </li>
-            <li
-              className={!showContent ? "prod-active-class" : null}
-              onClick={() => setShowContent(false)}
-            >
-              Reviews (
-              {product && product.reviewsids && product.reviewsids.length})
-            </li>
-          </ul>
-        </div>
-        <div className={showContent ? "prod-des-show" : "prod-des-hide"}>
-          <SinglePageArticle product={product} />
-        </div>
-        <div
-          className={
-            !showContent
-              ? "prod-des-show -review-area"
-              : "prod-des-hide -review-area"
-          }
-        >
-          <h2>REVIEWS</h2>
-
-          <div className="review-cont">
-            <ReviewStar product={product} />
-
-            <div className="rev-col">
-              {product.reviews && product.reviewsids[0] ? (
-                <>
-                  <div className="review-row">
-                    {product.reviewsids.map((review, i) => {
-                      return (
-                        <ReviewCard
-                          key={i}
-                          review={review}
-                          length={
-                            product &&
-                            product.reviewsids &&
-                            product.reviewsids.length
-                          }
-                        />
-                      );
-                    })}
+      {loding ? (
+        <Loader />
+      ) : (
+        <>
+          <section className="section-cont prod-details-page">
+            <div className="product-cont">
+              <div className="product-single">
+                <div className="product-main">
+                  <div className="product-main-left">
+                    <div className="product-gallery">
+                      <div className="main-product-gallery">
+                        <div className="main-product-gallery-left">
+                          <ImageLightbox images={product && product.imageId} />
+                        </div>
+                        <div className="main-product-gallery-right">
+                          <ImageSlider
+                            product={product && product}
+                            imgIndex={imgIndex}
+                            imgSlideFun={imgSlideFun}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </>
-              ) : (
-                <p className="noReview">NO Reviews yest</p>
-              )}
+                  <div className="product-main-right">
+                    <div className="product-details">
+                      <Details product={product && product} />
+                      <div className="product-purchase">
+                        <AddQuantitBtns
+                          decreaseQuantity={decreaseQuantity}
+                          quentity={quentity}
+                          increaseQuantity={increaseQuantity}
+                        />
+                        <AddToCartBtn
+                          product={product}
+                          addToCartHandler={addToCartHandler}
+                          buyHandler={buyHandler}
+                        />{" "}
+                      </div>
+                    </div>
+                    <AddReview
+                      addToWishtHandler={addToWishtHandler}
+                      submitReviewToggle={submitReviewToggle}
+                      open={open}
+                      setRating={setRating}
+                      rating={rating}
+                      comment={comment}
+                      setComment={setComment}
+                      reviewSubmitHandler={reviewSubmitHandler}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <div className="product-review-main">
+            <div className="product-des-and-rate">
+              <div className="product-des-and-rate-tab">
+                <ul>
+                  <li
+                    className={showContent ? "prod-active-class" : null}
+                    onClick={() => setShowContent(true)}
+                  >
+                    Description
+                  </li>
+                  <li
+                    className={!showContent ? "prod-active-class" : null}
+                    onClick={() => setShowContent(false)}
+                  >
+                    Reviews (
+                    {product && product.reviewsids && product.reviewsids.length}
+                    )
+                  </li>
+                </ul>
+              </div>
+              <div className={showContent ? "prod-des-show" : "prod-des-hide"}>
+                <SinglePageArticle product={product} />
+              </div>
+              <div
+                className={
+                  !showContent
+                    ? "prod-des-show -review-area"
+                    : "prod-des-hide -review-area"
+                }
+              >
+                <h2>REVIEWS</h2>
+
+                <div className="review-cont">
+                  <ReviewStar product={product} />
+
+                  <div className="rev-col">
+                    {product.reviews && product.reviewsids[0] ? (
+                      <>
+                        <div className="review-row">
+                          {product.reviewsids.map((review, i) => {
+                            return (
+                              <ReviewCard
+                                key={i}
+                                review={review}
+                                length={
+                                  product &&
+                                  product.reviewsids &&
+                                  product.reviewsids.length
+                                }
+                              />
+                            );
+                          })}
+                        </div>
+                      </>
+                    ) : (
+                      <p className="noReview">NO Reviews yest</p>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware,compose } from "redux";
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { thunk } from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
@@ -41,8 +41,16 @@ import {
   selectImageeReducer,
 } from "./reducers/imageGelleryReducer";
 import { WishListReducer } from "./reducers/WiahListReducer";
-import { getAllCategoriesReducer, newCategoreReducer } from "./reducers/CategorieReducer";
-import { BlogPostReducer, SingleBlogPageReducer } from "./reducers/BlogPostReducer";
+import {
+  getAllCategoriesReducer,
+  newCategoreReducer,
+} from "./reducers/CategorieReducer";
+import {
+  BlogPostReducer,
+  SingleBlogPageReducer,
+  createBlogPostReducer,
+  singleBlogPost,
+} from "./reducers/BlogPostReducer";
 import { BlogCategoryReducer } from "./reducers/BlogCategoryReducer";
 
 const reducer = combineReducers({
@@ -79,10 +87,12 @@ const reducer = combineReducers({
   resetPassword: resetPasswordReducer,
   wishList: WishListReducer,
   productFeature: featureProductReducer,
-  adminCategore:newCategoreReducer,
-  allCategroe:getAllCategoriesReducer,
-  allBlog:BlogPostReducer,
-  allBlogCategory:SingleBlogPageReducer,
+  adminCategore: newCategoreReducer,
+  allCategroe: getAllCategoriesReducer,
+  allBlog: BlogPostReducer,
+  singleBlogPage: singleBlogPost,
+  allBlogCategore: BlogCategoryReducer,
+  adminCreatePost: createBlogPostReducer,
 });
 let inialState = {
   cart: {

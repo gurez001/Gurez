@@ -4,14 +4,17 @@ const CountModel = require("../models/CountModel");
 const blogPost = require("../models/blogPostModel");
 const ErrorHandler = require("../utils/errorhandler");
 
-
 //-------------- get all post
 exports.getAllBlogPost = catchAsyncError(async (req, res, next) => {
   try {
-    const blog = await blogPost.find().populate([ { path: "category", model: "blogCategore" },]);
+    const blog = await blogPost
+      .find()
+      .populate([{ path: "category", model: "blogCategore" },{ path: "user", model: "User" }]);
+
+    const reverseBlog = blog.reverse();
     res.status(200).json({
       success: true,
-      blog,
+      blog: reverseBlog,
     });
   } catch (err) {
     console.log(err);
@@ -22,9 +25,11 @@ exports.getAllBlogPost = catchAsyncError(async (req, res, next) => {
 exports.createBlogPost = catchAsyncError(async (req, res, next) => {
   try {
     const bloggCounter = await CountModel.findOne({ entityName: "User" });
-    const { title, article, slug,category } = req.body;
+    const { title, article, slug, category } = req.body;
+   
     const url = slug.split(" ").join("-").toLowerCase();
-    // const user = req.user.id;
+    const user = req.user._id;
+
     const blog = await blogPost.create({
       postid:
         bloggCounter && bloggCounter.blogpost !== null
@@ -34,7 +39,7 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
       article,
       category,
       slug: url,
-      // user
+      user
     });
     res.status(201).json({
       success: true,
@@ -112,29 +117,27 @@ exports.deleteBlogPost = catchAsyncError(async (req, res, next) => {
   }
 });
 
-
 //------------- get single post
 
 exports.singleBlogPost = catchAsyncError(async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log( id)
+
     // if (!mongoose.Types.ObjectId.isValid(id)) {
     //   return next(new ErrorHandler("Invalid ID format", 400));
     // }
 
-    const existingPost = await blogPost.findOne({slug:id});
+    const existingPost = await blogPost.findOne({ slug: id });
 
     if (!existingPost) {
       return next(new ErrorHandler("Post not found", 404));
     }
 
-    const blog = await blogPost.findOne({slug:id});
-
+    const blog = await blogPost.findOne({ slug: id });
 
     res.status(200).json({
       success: true,
-     blog,
+      blog,
     });
   } catch (error) {
     console.error(error);

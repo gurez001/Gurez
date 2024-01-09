@@ -7,21 +7,19 @@ const AddToCartBtn = ({ product, addToCartHandler, buyHandler }) => {
     <>
       <div className="product-sticky-content">
         <DialogActions>
-          <Button
-            disabled={product && product.stock < 1 ? true : false}
-            onClick={addToCartHandler}
-          >
-            <FaOpencart />
-            Add to Cart
-          </Button>
+          <div className="addtocart-button">
+            <Button
+              disabled={product && product.stock < 1 ? true : false}
+              onClick={addToCartHandler}
+            >
+              <FaOpencart className="cart-svg" />
+              Add to Cart
+            </Button>
+          </div>
         </DialogActions>
       </div>
       <div className="prod-wish">
-        <Button
-        onClick={buyHandler}
-        >
-          Buy Now
-        </Button>
+        <Button onClick={buyHandler}>Buy Now</Button>
       </div>
     </>
   );

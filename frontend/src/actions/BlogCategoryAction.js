@@ -8,8 +8,10 @@ import {
 
 export const GetBlogCategory = () => async (dispatch) => {
   try {
+console.log('call')
+
     dispatch({ type: BLOG_CATEGORY_REQUEST });
-    const { data } = await axios.get("api/v1/blog/all-categore");
+    const { data } = await axios.get("/api/v1/blog/all-categore");
 
     dispatch({
       type: BLOG_CATEGORY_SUCCESS,
