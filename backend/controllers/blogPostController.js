@@ -7,9 +7,10 @@ const ErrorHandler = require("../utils/errorhandler");
 //-------------- get all post
 exports.getAllBlogPost = catchAsyncError(async (req, res, next) => {
   try {
-    const blog = await blogPost
-      .find()
-      .populate([{ path: "category", model: "blogCategore" },{ path: "user", model: "User" }]);
+    const blog = await blogPost.find().populate([
+      { path: "category", model: "blogCategore" },
+      { path: "user", model: "User" },
+    ]);
 
     const reverseBlog = blog.reverse();
     res.status(200).json({
@@ -26,7 +27,7 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
   try {
     const bloggCounter = await CountModel.findOne({ entityName: "User" });
     const { title, article, slug, category } = req.body;
-   
+
     const url = slug.split(" ").join("-").toLowerCase();
     const user = req.user._id;
 
@@ -39,7 +40,7 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
       article,
       category,
       slug: url,
-      user
+      user,
     });
     res.status(201).json({
       success: true,
@@ -96,11 +97,11 @@ exports.deleteBlogPost = catchAsyncError(async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return next(new ErrorHandler("Invalid ID format", 400));
-    }
+    // if (!mongoose.Types.ObjectId.isValid(id)) {
+    //   return next(new ErrorHandler("Invalid ID format", 400));
+    // }
 
-    const existingPost = await blogPost.findById(id);
+    const existingPost = await blogPost.findOne({ postid: id });
 
     if (!existingPost) {
       return next(new ErrorHandler("Post not found", 404));
