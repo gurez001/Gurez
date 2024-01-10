@@ -10,6 +10,12 @@ import {
   CREATE_BLOG_POST_REQUEST,
   CREATE_BLOG_POST_SUCCESS,
   CREATE_BLOG_POST_FAILED,
+  UPDATE_BLOG_POST_REQUEST,
+  UPDATE_BLOG_POST_SUCCESS,
+  UPDATE_BLOG_POST_FAILED,
+  DELETE_BLOG_POST_REQUEST,
+  DELETE_BLOG_POST_SUCCESS,
+  DELETE_BLOG_POST_FAILED,
 } from "../constants/BlogPostConstants";
 
 export const GetBlogPost = () => async (dispatch) => {
@@ -37,7 +43,7 @@ export const singleBlogPost = (id) => async (dispatch) => {
     dispatch({ type: SINGLE_BLOG_POST_REQUEST });
 
     const { data } = await axios.get(`/api/v1/blog/post/${id}`);
-    console.log(data);
+
     dispatch({
       type: SINGLE_BLOG_POST_SUCCESS,
       payload: data.blog,
@@ -59,17 +65,21 @@ export const CreateBlogPost =
 
       const formData = new FormData();
 
-      formData.append('category',selectedCategoryId);
-      formData.append('title',title);
-      formData.append('description',description);
-      formData.append('slug',slug);
+      formData.append("category", selectedCategoryId);
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("slug", slug);
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axios.post(`/api/v1/blog/add-new-post`,formData,config);
-     console.log(data)
+      const { data } = await axios.post(
+        `/api/v1/blog/add-new-post`,
+        formData,
+        config
+      );
+
       dispatch({
         type: CREATE_BLOG_POST_SUCCESS,
         payload: data,
@@ -78,6 +88,61 @@ export const CreateBlogPost =
       dispatch({
         type: CREATE_BLOG_POST_FAILED,
         payload: error.response.data.message,
+      });
+    }
+  };
+
+// Delete blog post
+
+export const DeleteBlogPost = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_BLOG_POST_REQUEST });
+    const { data } = await axios.delete(`/api/v1/blog/delete-post/${id}`);
+    dispatch({
+      type: DELETE_BLOG_POST_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_BLOG_POST_FAILED,
+      error: error.response.data.message,
+    });
+  }
+};
+
+// UPDATE blog post
+
+export const UpdateBlogPost =
+  (title, selectedCategoryId, description, slug, id) => async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_BLOG_POST_REQUEST });
+
+      const formData = new FormData();
+
+      formData.append("category", selectedCategoryId);
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("slug", slug);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/v1/blog/update-post/${id}`,
+        formData,
+        config
+      );
+
+      dispatch({
+        type: UPDATE_BLOG_POST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_BLOG_POST_FAILED,
+        error: error.response.data.message,
       });
     }
   };

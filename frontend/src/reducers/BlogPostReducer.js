@@ -12,6 +12,14 @@ import {
   CREATE_BLOG_POST_SUCCESS,
   CREATE_BLOG_POST_FAILED,
   CREATE_BLOG_POST_RESET,
+  UPDATE_BLOG_POST_RESET,
+  UPDATE_BLOG_POST_FAILED,
+  UPDATE_BLOG_POST_SUCCESS,
+  UPDATE_BLOG_POST_REQUEST,
+  DELETE_BLOG_POST_RESET,
+  DELETE_BLOG_POST_FAILED,
+  DELETE_BLOG_POST_SUCCESS,
+  DELETE_BLOG_POST_REQUEST,
 } from "../constants/BlogPostConstants";
 
 export const BlogPostReducer = (state = { blog: [] }, action) => {
@@ -140,3 +148,68 @@ export const createBlogPostReducer = (state = {}, action) => {
 //       return state;
 //   }
 // };
+
+// Delete blog post
+
+export const DeletePostReducer = (state = {}, action) => {
+
+  switch (action.type) {
+    case DELETE_BLOG_POST_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case DELETE_BLOG_POST_SUCCESS:
+      return {
+
+        loading: false,
+        isDeleted: action.payload
+      }
+    case DELETE_BLOG_POST_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
+    case DELETE_BLOG_POST_RESET:
+      return {
+        ...state,
+        loading: false,
+        isDeleted: null
+      }
+    default:
+      return state;
+  }
+}
+
+
+// Update blog post reducer
+
+export const UpdateBlogPostReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_BLOG_POST_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case UPDATE_BLOG_POST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdate: true
+      }
+    case UPDATE_BLOG_POST_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
+    case UPDATE_BLOG_POST_RESET:
+      return {
+        ...state,
+        loading: false,
+        isUpdate: null
+      }
+    default: return state
+  }
+}

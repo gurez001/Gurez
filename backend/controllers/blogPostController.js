@@ -76,7 +76,7 @@ exports.updateBlogPost = catchAsyncError(async (req, res, next) => {
       return next(new ErrorHandler("Post not found", 404));
     }
 
-    const updatedPost = await blogPost.findByIdAndUpdate(id, data, {
+    const updatedPost = await blogPost.findByIdAndUpdate(existingPost._id, data, {
       new: true,
       runValidators: true,
       useFindAndModify: false,
@@ -87,7 +87,7 @@ exports.updateBlogPost = catchAsyncError(async (req, res, next) => {
       blog: updatedPost,
     });
   } catch (error) {
-    console.error(error);
+
     return next(new ErrorHandler("Post - Internal Server Error", 500));
   }
 });

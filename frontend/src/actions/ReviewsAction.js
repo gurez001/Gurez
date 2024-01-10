@@ -9,37 +9,38 @@ import {
   REVIEWS_CLEAR_ERROR,
 } from "../constants/ReviewsConstant";
 
-export const createReview = (rating, comment, productId) => async (dispatch) => {
-  try {
-    dispatch({ type: NEW_REVIEW_REQUEST });
+export const createReview =
+  (rating, comment, productId) => async (dispatch) => {
+    try {
+      dispatch({ type: NEW_REVIEW_REQUEST });
 
-    const formData = new FormData();
-    formData.append("rating", rating);
-    formData.append("comment", comment);
-    formData.append("productId", productId);
-  
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const { data } = await axios.put(
-      "/api/v1/create/product-review",
-      formData,
-      config
-    );
-    console.log(data);
-    dispatch({
-      type: NEW_REVIEW_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: NEW_REVIEW_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      const formData = new FormData();
+      formData.append("rating", rating);
+      formData.append("comment", comment);
+      formData.append("productId", productId);
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.put(
+        "/api/v1/create/product-review",
+        formData,
+        config
+      );
+
+      dispatch({
+        type: NEW_REVIEW_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: NEW_REVIEW_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 export const getAllReview = () => async (dispatch) => {
   try {

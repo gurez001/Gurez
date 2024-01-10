@@ -47,7 +47,9 @@ import {
 } from "./reducers/CategorieReducer";
 import {
   BlogPostReducer,
+  DeletePostReducer,
   SingleBlogPageReducer,
+  UpdateBlogPostReducer,
   createBlogPostReducer,
   singleBlogPost,
 } from "./reducers/BlogPostReducer";
@@ -93,6 +95,8 @@ const reducer = combineReducers({
   singleBlogPage: singleBlogPost,
   allBlogCategore: BlogCategoryReducer,
   adminCreatePost: createBlogPostReducer,
+  adminDeletePost:DeletePostReducer,
+  adminUpdatePost:UpdateBlogPostReducer,
 });
 let inialState = {
   cart: {
