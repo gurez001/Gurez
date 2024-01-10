@@ -19,16 +19,12 @@ const ImageGallery = () => {
   const [selectIds, setSelectIds] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-
   const handleImageSelection = (index) => {
     setSelectIds((old) => [...old, index]);
   };
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-      dispatch(getAllImages(pageNumber));
-  };
-  const toggleSelectAll = () => {
-    setSelectAll(!selectAll);
+    dispatch(getAllImages(pageNumber));
   };
 
   function SelectImageIds(index) {
@@ -51,19 +47,13 @@ const ImageGallery = () => {
     dispatch(getImageId(oddStrings));
   }
 
-
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
     SelectImageIds(selectIds);
-
-
-
-  }, [alert, error, dispatch, selectIds,currentPage]);
-
-
+  }, [alert, error, dispatch, selectIds, currentPage]);
 
   const imageRenderer = useCallback(
     ({ index, left, top, key, photo }) => (
@@ -96,14 +86,13 @@ const ImageGallery = () => {
   return (
     <>
       <div>
-        <p>
-          <button onClick={toggleSelectAll}>toggle select all</button>
-        </p>
-        {/* {loading?<Loader/>:(
-          <> */}
-        <Gallery photos={imagesWithParams} renderImage={imageRenderer} />
-          {/* </>
-        )} */}
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <Gallery photos={imagesWithParams} renderImage={imageRenderer} />
+          </>
+        )}
       </div>
       <div>
         {resultPerPage < imageCount && (

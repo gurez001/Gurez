@@ -20,22 +20,11 @@ import ImageGallery from "./ImageGallery";
 
 const AllImages = () => {
   const dispatch = useDispatch();
-  const alert = useAlert();
-  const { loading, images, resultPerPage, imageCount, error } = useSelector(
-    (state) => state.images
-  );
-
-  const [selectAll, setSelectAll] = useState(false);
 
 
-
-
-  const toggleSelectAll = () => {
-    setSelectAll(!selectAll);
-  };
   useEffect(() => {
     dispatch(getAllImages());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -65,14 +54,6 @@ const AllImages = () => {
                       {/* <p>No of media {images && images.length}</p> */}
 
                       <div className="gallery-containor">
-                        <div>
-                          <p>
-                            <button onClick={toggleSelectAll}>
-                              Toggle Select All
-                            </button>
-                          </p>
-                        </div>
-
                         <ImageGallery />
                       </div>
                     </div>

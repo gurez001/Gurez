@@ -33,8 +33,8 @@ function AllPost() {
     {
       field: "id",
       headerName: "Post id",
-      minWidth: 200,
-      flex: 0.3,
+      minWidth: 150,
+      
     },
     {
       field: "name",
@@ -45,14 +45,14 @@ function AllPost() {
     {
       field: "category",
       headerName: "Category",
-      minWidth: 200,
-      flex: 0.3,
+      minWidth: 150,
+      
     },
     {
       field: "date",
       headerName: "Date",
-      minWidth: 200,
-      flex: 0.3,
+      minWidth: 150,
+      
       renderCell: (params) => <TimeAgo time={params.value} />,
     },
     {
@@ -102,16 +102,17 @@ function AllPost() {
             <div className="ad-cont">
               <section className="ad-section">
                 <div className="all-post">
+                  <div className="all-post-heading">
                   <h2>
                     Posts
                     <span>
                       <NavLink to="/admin/post/add-new-post">Add New</NavLink>
                     </span>
-                  </h2>
+                  </h2></div>
                   <div className="all-products-cont">
                     <div className="all-products-content-area">
                       <div className="all-products-title">
-                        <h1>All products</h1>
+                        <h1>All post</h1>
                       </div>
                       <div className="productdata">
                         {loading ? (
@@ -120,6 +121,7 @@ function AllPost() {
                           <>
                             {blog && blog.length > 0 ? (
                               <>
+                              <div className="table-grid">
                                 <DataGrid
                                   rows={rows}
                                   columns={columns}
@@ -127,7 +129,7 @@ function AllPost() {
                                   disableSelectionOnClick
                                   className="product-list-table"
                                   autoHeight
-                                />
+                                /></div>
                               </>
                             ) : (
                               <p>no data found</p>
