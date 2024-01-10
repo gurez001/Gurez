@@ -27,7 +27,7 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
   try {
     const bloggCounter = await CountModel.findOne({ entityName: "User" });
     const { title, description, slug, category } = req.body;
-console.log( req.body)
+    console.log(req.body);
     const url = slug.split(" ").join("-").toLowerCase();
     const user = req.user._id;
 
@@ -37,7 +37,7 @@ console.log( req.body)
           ? bloggCounter.blogpost
           : 1,
       title,
-      article:description,
+      article: description,
       category,
       slug: url,
       user,
@@ -123,18 +123,22 @@ exports.deleteBlogPost = catchAsyncError(async (req, res, next) => {
 exports.singleBlogPost = catchAsyncError(async (req, res, next) => {
   try {
     const { id } = req.params;
+    console.log(id);
+    let blog;
+    if (isNaN(req.params.id)) {
+      blog = await blogPost.findOne({ slug: id });
+    } else {
+      blog = await blogPost.findOne({ postid: id });
+      //  Product = await Product.findById(req.params.metalink).populate('imageId');
+    }
 
     // if (!mongoose.Types.ObjectId.isValid(id)) {
     //   return next(new ErrorHandler("Invalid ID format", 400));
     // }
 
-    const existingPost = await blogPost.findOne({ slug: id });
-
-    if (!existingPost) {
+    if (!blog) {
       return next(new ErrorHandler("Post not found", 404));
     }
-
-    const blog = await blogPost.findOne({ slug: id });
 
     res.status(200).json({
       success: true,

@@ -5,9 +5,9 @@ const {
   updateProducts,
   deleteProduct,
   getSingleProduct,
-  createProductReviews,
-  DeleteProductReviews,
-  getAllProductReviews,
+  // createProductReviews,
+  // DeleteProductReviews,
+  // getAllProductReviews,
   getAdminAllProducts,
   featureProduct,
 } = require("../controllers/productsController");
@@ -36,15 +36,15 @@ router
     upload.array("avatar", 4),
     updateProducts
   )
-  .delete(isAuthenticatedUser, authorizeRols("admin"), deleteProduct)
- // .get(getSingleProduct);
+  .delete(isAuthenticatedUser, authorizeRols("admin"), deleteProduct);
+// .get(getSingleProduct);
 router.route("/product/:metalink").get(getSingleProduct);
 
-router.route("/review").put(isAuthenticatedUser, createProductReviews);
+// router.route("/review").put(isAuthenticatedUser, createProductReviews);
 
-router
-  .route("/review")
-  .get(getAllProductReviews)
-  .delete(isAuthenticatedUser, DeleteProductReviews);
+// router
+//   .route("/review")
+//   .get(getAllProductReviews)
+//   .delete(isAuthenticatedUser, DeleteProductReviews);
 
 module.exports = router;

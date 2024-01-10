@@ -3,15 +3,19 @@ import { Aside } from "../../aside/Aside";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import { GetBlogCategory } from "../../../../actions/BlogCategoryAction";
+import { useParams } from "react-router-dom";
+import { singleBlogPost } from "../../../../actions/BlogPostAction";
 
 
 const UpdatePost = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
-
+  const {id} = useParams();
   useEffect(() => {
+
     dispatch(GetBlogCategory());
-  }, [dispatch]);
+    dispatch(singleBlogPost(id))
+  }, [dispatch,id]);
 
   return (
     <>
