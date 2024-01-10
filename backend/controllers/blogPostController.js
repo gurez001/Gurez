@@ -26,8 +26,8 @@ exports.getAllBlogPost = catchAsyncError(async (req, res, next) => {
 exports.createBlogPost = catchAsyncError(async (req, res, next) => {
   try {
     const bloggCounter = await CountModel.findOne({ entityName: "User" });
-    const { title, article, slug, category } = req.body;
-
+    const { title, description, slug, category } = req.body;
+console.log( req.body)
     const url = slug.split(" ").join("-").toLowerCase();
     const user = req.user._id;
 
@@ -37,7 +37,7 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
           ? bloggCounter.blogpost
           : 1,
       title,
-      article,
+      article:description,
       category,
       slug: url,
       user,
