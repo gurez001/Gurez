@@ -56,20 +56,21 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
 
 exports.updateBlogPost = catchAsyncError(async (req, res, next) => {
   try {
-    const { title, article, slug } = req.body;
+    const { title, description,category, slug } = req.body;
     const { id } = req.params;
 
     const data = {
       title,
-      article,
+      article:description,
       slug,
+      category:category
     };
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return next(new ErrorHandler("Invalid ID format", 400));
-    }
+    // if (!mongoose.Types.ObjectId.isValid(id)) {
+    //   return next(new ErrorHandler("Invalid ID format", 400));
+    // }
 
-    const existingPost = await blogPost.findById(id);
+    const existingPost = await blogPost.findOne({ postid: id });
 
     if (!existingPost) {
       return next(new ErrorHandler("Post not found", 404));

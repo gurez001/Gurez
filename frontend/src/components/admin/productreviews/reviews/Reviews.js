@@ -26,11 +26,13 @@ export const Reviews = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const Navigate = useNavigate();
+
   const {
     error: deletError,
     isDeleted,
     loading,
   } = useSelector((state) => state.contReview);
+
   const {
     error,
     product,
@@ -51,37 +53,37 @@ export const Reviews = () => {
 
   const singupSubmit = (e) => {
     e.preventDefault();
-    dispatch(getAllReview(singupValue.productId));
-      const { name, email, role } = singupValue;
-      // const data = {
-      //   name,
-      //   email,
-      //   role,
-      // };
-      // dispatch(updateUserDetails(id, data));
+
+    const { name, email, role } = singupValue;
+    // const data = {
+    //   name,
+    //   email,
+    //   role,
+    // };
+    // dispatch(updateUserDetails(id, data));
   };
 
   useEffect(() => {
-  
-    if (singupValue.productId.length === 24) {
-      dispatch(getAllReview(singupValue.productId));
-    }
-    if (error) {
-      alert.error(error);
-      dispatch(ClearError());
-    }
-    if (deletError) {
-      alert.error(deletError);
-      dispatch(ClearError());
-    }
-    if (isDeleted) {
-      alert.success("Review deleted succesfully");
-      Navigate("/admin/reviews");
-      dispatch({
-        type: DELETE_REVIEW_RESET,
-      });
-    }
-    dispatch(adminGetAllProducts());
+    // if (singupValue.productId.length === 24) {
+    //   dispatch(getAllReview(singupValue.productId));
+    // }
+    // if (error) {
+    //   alert.error(error);
+    //   dispatch(ClearError());
+    // }
+    // if (deletError) {
+    //   alert.error(deletError);
+    //   dispatch(ClearError());
+    // }
+    // if (isDeleted) {
+    //   alert.success("Review deleted succesfully");
+    //   Navigate("/admin/reviews");
+    //   dispatch({
+    //     type: DELETE_REVIEW_RESET,
+    //   });
+    // }
+    // dispatch(adminGetAllProducts());
+    dispatch(getAllReview());
   }, [alert, dispatch, error, deletError, Navigate, isDeleted, singupValue]);
 
   const columns = [
@@ -126,7 +128,6 @@ export const Reviews = () => {
       renderCell: (params) => {
         return (
           <>
-           
             <NavLink
               to={`/admin/update-review/${params.getValue(params.id, "id")}`}
             >
@@ -156,11 +157,11 @@ export const Reviews = () => {
 
   return (
     <>
-    <MetaData
-              title={"Admin product review"}
-              content={"Admin product review"}
-              keywords={"Admin product review"}
-            />
+      <MetaData
+        title={"Admin product review"}
+        content={"Admin product review"}
+        keywords={"Admin product review"}
+      />
 
       <div className="admin-page">
         <div className="admin-page-area">

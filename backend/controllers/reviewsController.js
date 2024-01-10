@@ -63,19 +63,21 @@ exports.createProductReviews = catchAsyncError(async (req, res, next) => {
 
 exports.getAllReviews = catchAsyncError(async (req, res, next) => {
   try {
-    //   const Product = await products.findById(req.query.id);
     const productReview = await reviewsSchema
       .find()
-      .populate([{ path: "user", model: "user" }]);
+      .populate([{ path: "user", model: "User" }]);
 
     if (!productReview) {
       return next(new ErrorHandler("Product review not found", 404));
     }
+  
+    
     res.status(200).json({
       success: true,
       productReview,
     });
   } catch (error) {
+    console.log(error);
     return next(new ErrorHandler("Product review internal server error:", 500));
   }
 });

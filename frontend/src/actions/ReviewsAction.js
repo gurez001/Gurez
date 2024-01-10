@@ -41,14 +41,14 @@ export const createReview = (rating, comment, productId) => async (dispatch) => 
   }
 };
 
-export const getAllReview = (id) => async (dispatch) => {
+export const getAllReview = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_REVIEW_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/review?id=${id}`);
+    const { data } = await axios.get(`/api/v1/review/product-review`);
     dispatch({
       type: ALL_REVIEW_SUCCESS,
-      payload: data.reviews,
+      payload: data,
     });
   } catch (error) {
     dispatch({
