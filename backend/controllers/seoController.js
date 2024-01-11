@@ -5,7 +5,7 @@ const seoModel = require("../models/seoModel");
 exports.createSeo = catchAsyncError(async (req, res, next) => {
   try {
     const { metatitle, keyword, metadec, metalink } = req.body;
-
+    console.log(req.body);
     const seo = await seoModel.create({
       metatitle,
       keyword,

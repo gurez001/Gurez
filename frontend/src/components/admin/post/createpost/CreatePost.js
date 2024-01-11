@@ -13,6 +13,7 @@ import { ClearError, CreateBlogPost } from "../../../../actions/BlogPostAction";
 import { useNavigate } from "react-router-dom";
 import { CREATE_BLOG_POST_RESET } from "../../../../constants/BlogPostConstants";
 import CreateSeo from "../../seo/create/CreateSeo";
+import { createSeoAction, seoClearError } from "../../../../actions/SeoAction";
 
 function CreatePost() {
   const dispatch = useDispatch();
@@ -21,6 +22,12 @@ function CreatePost() {
   const { loading, success, error } = useSelector(
     (state) => state.adminCreatePost
   );
+
+  const {
+    loading: seoLoading,
+    success: seoSuccess,
+    error: seoError,
+  } = useSelector((state) => state.adminCreatePost);
 
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [title, setTitle] = useState("");
@@ -32,15 +39,18 @@ function CreatePost() {
     metadec: "",
     metalink: "",
   });
-
+console.log(seoInputValue)
   const contentHeandle = (e) => {
     setSescription(e);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
+    console.log(seoInputValue)
+    if (!seoInputValue) {
+      return alert.error("seoInputValue is undefined or null");
+    }
     const { title: seotitle, keyword, metadec, metalink } = seoInputValue;
-
     if (
       selectedCategoryId.trim() === "" ||
       title.trim() === "" ||
@@ -54,6 +64,7 @@ function CreatePost() {
       return alert.error("Please fill out all required fields.");
     }
     dispatch(CreateBlogPost(selectedCategoryId, title, description, slug));
+    dispatch(createSeoAction(seotitle, keyword, metadec, metalink));
   };
 
   useEffect(() => {
@@ -61,7 +72,12 @@ function CreatePost() {
       alert.error(error);
       dispatch(ClearError());
     }
-    if (success) {
+
+    if (seoError) {
+      alert.error(error);
+      dispatch(seoClearError());
+    }
+    if (success && seoSuccess) {
       alert.success("Product successfully created");
       Navigate("/admin/post/all-post");
       dispatch({ type: CREATE_BLOG_POST_RESET });
@@ -73,7 +89,7 @@ function CreatePost() {
       setSeoInputValue({ metalink: slug });
     }
     dispatch(GetBlogCategory());
-  }, [dispatch, success, error, alert, title, slug]);
+  }, [dispatch, success, error, alert, title, slug, seoError, seoSuccess]);
 
   const seoHandler = (e) => {
     const { name, value } = e.target;

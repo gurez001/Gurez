@@ -22,13 +22,11 @@ const AllSeo = () => {
     dispatch(getAllSeo());
   }, [dispatch, alert, error]);
 
-
   const columns = [
     {
       field: "id",
       headerName: "Seo id",
       minWidth: 150,
-      
     },
     {
       field: "name",
@@ -40,34 +38,26 @@ const AllSeo = () => {
       field: "category",
       headerName: "Category",
       minWidth: 150,
-      
     },
     {
       field: "date",
       headerName: "Date",
       minWidth: 150,
-      
+
       renderCell: (params) => <TimeAgo time={params.value} />,
-    
     },
   ];
 
   const rows = [];
   seoData &&
-  seoData.forEach((item, i) => {
+    seoData.forEach((item, i) => {
       rows.push({
         id: item._id,
         name: item.metatitle,
-        category: 'd',
+        category: "d",
         date: item.creditAt,
       });
     });
-
-
-
-
-
-
 
   return (
     <>

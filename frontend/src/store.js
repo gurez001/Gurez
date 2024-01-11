@@ -52,7 +52,7 @@ import {
   singleBlogPost,
 } from "./reducers/BlogPostReducer";
 import { BlogCategoryReducer } from "./reducers/BlogCategoryReducer";
-import { seoReducer } from "./reducers/SeoReducer";
+import { createSeoReducer, seoReducer } from "./reducers/SeoReducer";
 
 const reducer = combineReducers({
   products: productReducer,
@@ -94,7 +94,8 @@ const reducer = combineReducers({
   singleBlogPage: singleBlogPost,
   allBlogCategore: BlogCategoryReducer,
   adminCreatePost: createBlogPostReducer,
-  adminAllSeo:seoReducer
+  adminAllSeo:seoReducer,
+  adminCreateSeo:createSeoReducer
 });
 
 let inialState = {

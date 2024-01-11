@@ -9,8 +9,8 @@ const CreateSeo = ({ seoHandler,seoInputValue ,submitHandler}) => {
             <label>Title</label>
             <input
               type="text"
-              onChange={(e) => seoHandler(e)}
               value={seoInputValue.title}
+              onChange={(e) => seoHandler(e)}
               placeholder="Title"
               name="title"
             />

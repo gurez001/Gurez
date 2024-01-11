@@ -13,9 +13,9 @@ router
   .post(isAuthenticatedUser, authorizeRols("admin"), createBlogCategore);
 
 router
-  .route(`/blog/create/categore/:id`)
-  .post(isAuthenticatedUser, authorizeRols("admin"), deleteBlogCategore)
-  .delete(isAuthenticatedUser, authorizeRols("admin"), updateBlogCategore);
+  .route("/blog/update/categore/:id")
+  .post(isAuthenticatedUser, authorizeRols("admin"), updateBlogCategore)
+  .delete(isAuthenticatedUser, authorizeRols("admin"), deleteBlogCategore);
 router.route("/blog/all-categore").get(getAllBlogCategores);
 
 module.exports = router;
