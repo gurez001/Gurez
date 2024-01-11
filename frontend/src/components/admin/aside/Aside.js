@@ -116,6 +116,18 @@ export const Aside = ({ status }) => {
                   </NavLink>
                 </TreeItem>
               </TreeView>
+              <TreeView>
+                <span>
+                  <FaArrowRightArrowLeft />
+                </span>
+                <TreeItem nodeId="1" label="Seo">
+                  <NavLink to={"/admin/all-seo"}>
+                    <TreeItem nodeId="2" label="All Seo" />
+                  </NavLink>
+                </TreeItem>
+              </TreeView>
+
+
 
               <p className="order-tab">
                 <span>

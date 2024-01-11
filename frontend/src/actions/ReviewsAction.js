@@ -42,14 +42,14 @@ export const createReview =
     }
   };
 
-export const getAllReview = () => async (dispatch) => {
+export const getAllProductReview = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_REVIEW_REQUEST });
 
     const { data } = await axios.get(`/api/v1/review/product-review`);
     dispatch({
       type: ALL_REVIEW_SUCCESS,
-      payload: data,
+      payload: data.productReview,
     });
   } catch (error) {
     dispatch({

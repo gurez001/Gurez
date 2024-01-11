@@ -5,27 +5,13 @@ const ErrorHandler = require("../utils/errorhandler");
 
 exports.createBlogCategore = catchAsyncError(async (req, res, next) => {
   try {
-    
     const { name, slug, title, description } = req.body;
     let metaLink = slug.split(" ").join("-").toLowerCase();
-    // const user = req.user.id;
-    // const user = 1;
+    const user = req.user._id;
+
     const existingSlug = await blogCategoreModel.findOne({ slug: metaLink });
 
-    if (!existingSlug) {
-      const newCategorie = await blogCategoreModel.create({
-        name,
-        slug: metaLink,
-        title,
-        description,
-        // user,
-      });
-      res.status(201).json({
-        success: true,
-        message: "Categore created successfully",
-        newCategorie,
-      });
-    } else {
+    if (existingSlug) {
       return next(
         new ErrorHandler(
           `Slug already exists. Please choose a different one.`,
@@ -33,6 +19,19 @@ exports.createBlogCategore = catchAsyncError(async (req, res, next) => {
         )
       );
     }
+
+    const newCategorie = await blogCategoreModel.create({
+      name,
+      slug: metaLink,
+      title,
+      description,
+      user,
+    });
+    res.status(201).json({
+      success: true,
+      message: "Categore created successfully",
+      newCategorie,
+    });
   } catch (err) {
     return next(new ErrorHandler(`Internal server error: ${err}`, 500));
   }
@@ -40,12 +39,68 @@ exports.createBlogCategore = catchAsyncError(async (req, res, next) => {
 
 exports.getAllBlogCategores = catchAsyncError(async (req, res, next) => {
   try {
-    const allCategores = await blogCategoreModel
-      .find()
-    //   .populate([{ path: "user", model: "User" }]);
+    const allCategores = await blogCategoreModel.find();
     res.status(200).json({
       success: true,
       allCategores,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(`Internal server error: ${err}`, 500));
+  }
+});
+
+exports.deleteBlogCategore = catchAsyncError(async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return next(new ErrorHandler("Invalid ID format", 400));
+    }
+
+    const existingPost = await blogPost.findOne(id);
+
+    if (!existingPost) {
+      return next(new ErrorHandler("Post not found", 404));
+    }
+
+    await existingPost.deleteOne();
+    res.status(200).json({
+      success: true,
+      message: "post has been deleted",
+    });
+  } catch (err) {
+    return next(new ErrorHandler(`Internal server error: ${err}`, 500));
+  }
+});
+
+exports.updateBlogCategore = catchAsyncError(async (req, res, next) => {
+  try {
+    const { name, slug, title, description } = req.body;
+    let metaLink = slug.split(" ").join("-").toLowerCase();
+    const user = req.user._id;
+    const { id } = req.params;
+
+    const data = {
+      name,
+      slug: metaLink,
+      title,
+      description,
+      user,
+    };
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return next(new ErrorHandler("Invalid ID format", 400));
+    }
+
+    const updatedCategory = await blogPost.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+
+    res.status(200).json({
+      success: true,
+      updatedCategory,
     });
   } catch (err) {
     return next(new ErrorHandler(`Internal server error: ${err}`, 500));

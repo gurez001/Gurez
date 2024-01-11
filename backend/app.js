@@ -31,6 +31,7 @@ const categoreRoute = require('./routes/categoreRoute');
 const blogPostRouter = require('./routes/blogPostRouter');
 const blogCategoreRouter = require('./routes/blogCategoreRouter');
 const reviewsRouter = require('./routes/reviewsRouter');
+const seoRouter = require('./routes/seoRouter');
 
 
 app.use('/api/v1/',productRouter);
@@ -41,7 +42,7 @@ app.use('/api/v1',imageRouter);
 app.use('/api/v1',categoreRoute);
 app.use('/api/v1',blogPostRouter);
 app.use('/api/v1',blogCategoreRouter);
-app.use('/api/v1',reviewsRouter);
+app.use('/api/v1',seoRouter);
 
 
 

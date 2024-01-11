@@ -59,7 +59,7 @@ export const productsReviewReducer = (state = { review: [] }, action) => {
     case ALL_REVIEW_SUCCESS:
       return {
         loding: false,
-        product: action.payload,
+        review: action.payload,
       };
     case ALL_REVIEW_FAIL:
       return {

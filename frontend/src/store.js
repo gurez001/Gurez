@@ -47,13 +47,12 @@ import {
 } from "./reducers/CategorieReducer";
 import {
   BlogPostReducer,
-  DeletePostReducer,
   SingleBlogPageReducer,
-  UpdateBlogPostReducer,
   createBlogPostReducer,
   singleBlogPost,
 } from "./reducers/BlogPostReducer";
 import { BlogCategoryReducer } from "./reducers/BlogCategoryReducer";
+import { seoReducer } from "./reducers/SeoReducer";
 
 const reducer = combineReducers({
   products: productReducer,
@@ -95,9 +94,9 @@ const reducer = combineReducers({
   singleBlogPage: singleBlogPost,
   allBlogCategore: BlogCategoryReducer,
   adminCreatePost: createBlogPostReducer,
-  adminDeletePost:DeletePostReducer,
-  adminUpdatePost:UpdateBlogPostReducer,
+  adminAllSeo:seoReducer
 });
+
 let inialState = {
   cart: {
     cartItem: localStorage.getItem("cartItems")

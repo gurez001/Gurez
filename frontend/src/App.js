@@ -56,6 +56,7 @@ import ImageUploader from "./components/admin/ImageGellery/uploadimage/ImageUplo
 import Blog from "./components/blog/allblog/Blog";
 import SingleBlog from "./components/blog/singleblog/SingleBlog";
 import UpdatePost from "./components/admin/post/update/UpdatePost";
+import AllSeo from "./components/admin/seo/allseo/AllSeo";
 
 function App() {
   const { loading } = useSelector((state) => state.user);
@@ -98,7 +99,6 @@ function App() {
                 />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:id" element={<SingleBlog />} />
-          
 
                 <Route
                   path="/product/:id"
@@ -172,11 +172,15 @@ function App() {
                     <ProtectedRoute isAdmin={true} Component={Dashboard} />
                   }
                 />
-                 <Route
+                <Route
                   path="/admin/post/update/:id"
                   element={
                     <ProtectedRoute isAdmin={true} Component={UpdatePost} />
                   }
+                />
+                <Route
+                  path="/admin/all-seo"
+                  element={<ProtectedRoute isAdmin={true} Component={AllSeo} />}
                 />
                 <Route
                   path="/admin/all-products"

@@ -21,6 +21,7 @@ import {
 } from "../../../../constants/ProductConstants";
 import Loader from "../../../layout/loader/Loader";
 import MetaData from "../../../layout/metaData/MetaData";
+import { getAllProductReview } from "../../../../actions/ReviewsAction";
 
 export const Reviews = () => {
   const dispatch = useDispatch();
@@ -39,38 +40,21 @@ export const Reviews = () => {
     loading: reviewLoading,
   } = useSelector((state) => state.productReviews);
 
-  const [singupValue, setsingupValue] = useState({
-    productId: "",
-  });
+
   const deletehandler = (reviewId) => {
-    dispatch(deleteReviews(reviewId, singupValue.productId));
+    // dispatch(deleteReviews(reviewId, singupValue.productId));
   };
 
-  const profileUpdateHeandle = (e) => {
-    const { name, value } = e.target;
-    setsingupValue({ ...singupValue, [name]: value });
-  };
 
-  const singupSubmit = (e) => {
-    e.preventDefault();
-
-    const { name, email, role } = singupValue;
-    // const data = {
-    //   name,
-    //   email,
-    //   role,
-    // };
-    // dispatch(updateUserDetails(id, data));
-  };
 
   useEffect(() => {
     // if (singupValue.productId.length === 24) {
     //   dispatch(getAllReview(singupValue.productId));
     // }
-    // if (error) {
-    //   alert.error(error);
-    //   dispatch(ClearError());
-    // }
+    if (error) {
+      alert.error(error);
+      dispatch(ClearError());
+    }
     // if (deletError) {
     //   alert.error(deletError);
     //   dispatch(ClearError());
@@ -83,8 +67,8 @@ export const Reviews = () => {
     //   });
     // }
     // dispatch(adminGetAllProducts());
-    dispatch(getAllReview());
-  }, [alert, dispatch, error, deletError, Navigate, isDeleted, singupValue]);
+    dispatch(getAllProductReview());
+  }, [alert, dispatch, error]);
 
   const columns = [
     {
@@ -148,8 +132,8 @@ export const Reviews = () => {
   product &&
     product.forEach((item, i) => {
       rows.push({
-        id: item._id,
-        user: item.name,
+        id: item.reviewid,
+        user: item.user.name,
         comment: item.comment,
         rating: item.rating,
       });
@@ -194,42 +178,6 @@ export const Reviews = () => {
                         </>
                       )}
                     </div>
-                  </div>
-                  <div>
-                    <form
-                      className="login-form"
-                      onSubmit={singupSubmit}
-                      encType="multipart/from-data"
-                    >
-                      <div className="input-list">
-                        <label htmlFor="name">Name</label>
-                        <input
-                          type="text"
-                          name="productId"
-                          placeholder="Please enter product id"
-                          autoComplete="on"
-                          id="name-input"
-                          value={singupValue.productId}
-                          onChange={profileUpdateHeandle}
-                        />
-                      </div>
-
-                      <div className="input-list">
-                        <Button
-                          disabled={
-                            reviewLoading
-                              ? true
-                              : false || singupValue.productId === ""
-                              ? true
-                              : false
-                          }
-                          type="submit"
-                          value="search"
-                        >
-                          Search
-                        </Button>
-                      </div>
-                    </form>
                   </div>
                 </div>
               </section>

@@ -21,6 +21,7 @@ const UpdatePost = () => {
   const Navigate = useNavigate();
   const [description, setDescription] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
+console.log(id)
   const [inputValue, setInputValue] = useState({
     title: "",
     slug: "",

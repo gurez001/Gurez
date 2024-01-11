@@ -12,16 +12,26 @@ import { useAlert } from "react-alert";
 import { ClearError, CreateBlogPost } from "../../../../actions/BlogPostAction";
 import { useNavigate } from "react-router-dom";
 import { CREATE_BLOG_POST_RESET } from "../../../../constants/BlogPostConstants";
+import CreateSeo from "../../seo/create/CreateSeo";
 
 function CreatePost() {
   const dispatch = useDispatch();
   const alert = useAlert();
   const Navigate = useNavigate();
-  const {loading,success,error} = useSelector(state=>state.adminCreatePost)
+  const { loading, success, error } = useSelector(
+    (state) => state.adminCreatePost
+  );
+
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [title, setTitle] = useState("");
   const [description, setSescription] = useState("");
   const [slug, setSlug] = useState("");
+  const [seoInputValue, setSeoInputValue] = useState({
+    title: "",
+    keyword: "",
+    metadec: "",
+    metalink: "",
+  });
 
   const contentHeandle = (e) => {
     setSescription(e);
@@ -29,12 +39,17 @@ function CreatePost() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    const { title: seotitle, keyword, metadec, metalink } = seoInputValue;
 
     if (
       selectedCategoryId.trim() === "" ||
       title.trim() === "" ||
       description.trim() === "" ||
-      slug.trim() === ""
+      slug.trim() === "" ||
+      seotitle.trim() === "" ||
+      keyword.trim() === "" ||
+      metadec.trim() === "" ||
+      metalink.trim() === ""
     ) {
       return alert.error("Please fill out all required fields.");
     }
@@ -42,17 +57,29 @@ function CreatePost() {
   };
 
   useEffect(() => {
-    if(error){
+    if (error) {
       alert.error(error);
       dispatch(ClearError());
     }
-    if(success){
-      alert.success('Product successfully created')
-      Navigate('/admin/post/all-post')
-      dispatch({type:CREATE_BLOG_POST_RESET});
+    if (success) {
+      alert.success("Product successfully created");
+      Navigate("/admin/post/all-post");
+      dispatch({ type: CREATE_BLOG_POST_RESET });
+    }
+    if (title) {
+      setSeoInputValue({ title: title });
+    }
+    if (slug) {
+      setSeoInputValue({ metalink: slug });
     }
     dispatch(GetBlogCategory());
-  }, [dispatch,success,error,alert]);
+  }, [dispatch, success, error, alert, title, slug]);
+
+  const seoHandler = (e) => {
+    const { name, value } = e.target;
+
+    setSeoInputValue({ ...seoInputValue, [name]: value });
+  };
 
   return (
     <>
@@ -69,7 +96,7 @@ function CreatePost() {
                       <input
                         type="text"
                         name="name"
-                        onBlur={(e) => setTitle(e.target.value)}
+                        onChange={(e) => setTitle(e.target.value)}
                         placeholder="Add Title"
                       />
                     </div>
@@ -85,7 +112,7 @@ function CreatePost() {
                       <input
                         type="text"
                         placeholder="slug"
-                        onBlur={(e) => setSlug(e.target.value)}
+                        onChange={(e) => setSlug(e.target.value)}
                       />
                     </div>
                     <div>
@@ -93,6 +120,11 @@ function CreatePost() {
                     </div>
                   </form>
                 </div>
+                <CreateSeo
+                  seoInputValue={seoInputValue}
+                  seoHandler={seoHandler}
+                  submitHandler={submitHandler}
+                />
               </section>
             </div>
 
