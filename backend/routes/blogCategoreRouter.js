@@ -3,6 +3,7 @@ const {
   createBlogCategore,
   getAllBlogCategores,
   deleteBlogCategore,
+  updateBlogCategore,
 } = require("../controllers/blogCategoreController");
 const router = express.Router();
 const { isAuthenticatedUser, authorizeRols } = require("../middleware/auth");
@@ -13,7 +14,8 @@ router
 
 router
   .route(`/blog/create/categore/:id`)
-  .post(isAuthenticatedUser, authorizeRols("admin"), deleteBlogCategore);
+  .post(isAuthenticatedUser, authorizeRols("admin"), deleteBlogCategore)
+  .delete(isAuthenticatedUser, authorizeRols("admin"), updateBlogCategore);
 router.route("/blog/all-categore").get(getAllBlogCategores);
 
 module.exports = router;
