@@ -47,11 +47,18 @@ import {
 } from "./reducers/CategorieReducer";
 import {
   BlogPostReducer,
+  DeletePostReducer,
   SingleBlogPageReducer,
+  UpdateBlogPostReducer,
   createBlogPostReducer,
   singleBlogPost,
 } from "./reducers/BlogPostReducer";
-import { BlogCategoryReducer } from "./reducers/BlogCategoryReducer";
+import {
+  BlogCategoryReducer,
+  CreateBlogCategoryReducer,
+  DeleteCategoryReducer,
+  UpdateBlogCategoryReducer,
+} from "./reducers/BlogCategoryReducer";
 import { createSeoReducer, seoReducer } from "./reducers/SeoReducer";
 
 const reducer = combineReducers({
@@ -94,8 +101,13 @@ const reducer = combineReducers({
   singleBlogPage: singleBlogPost,
   allBlogCategore: BlogCategoryReducer,
   adminCreatePost: createBlogPostReducer,
-  adminAllSeo:seoReducer,
-  adminCreateSeo:createSeoReducer
+  adminDeletePost: DeletePostReducer,
+  adminUpdatePost: UpdateBlogPostReducer,
+  adminCreateBlogCategory: CreateBlogCategoryReducer,
+  adminDeleteBlogCategory: DeleteCategoryReducer,
+  adminUpdateBlogCategory: UpdateBlogCategoryReducer,
+  adminAllSeo: seoReducer,
+  adminCreateSeo: createSeoReducer,
 });
 
 let inialState = {

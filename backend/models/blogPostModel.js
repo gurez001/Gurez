@@ -21,6 +21,10 @@ const blogPostSchema = new mongoose.Schema({
   featureimage: {
     type: String,
   },
+  seo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'SEO',
+  },
   user: {
     type: Number,
     ref: "User",

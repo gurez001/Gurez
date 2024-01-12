@@ -57,6 +57,7 @@ import Blog from "./components/blog/allblog/Blog";
 import SingleBlog from "./components/blog/singleblog/SingleBlog";
 import UpdatePost from "./components/admin/post/update/UpdatePost";
 import AllSeo from "./components/admin/seo/allseo/AllSeo";
+import PostCategory from "./components/admin/post/category/PostCategory";
 
 function App() {
   const { loading } = useSelector((state) => state.user);
@@ -188,6 +189,13 @@ function App() {
                     <ProtectedRoute isAdmin={true} Component={AllProducts} />
                   }
                 />
+                <Route
+                  path="/admin/post/post-category"
+                  element={
+                    <ProtectedRoute isAdmin={true} Component={PostCategory} />
+                  }
+                />
+
                 <Route
                   path="/admin/post/all-post"
                   element={

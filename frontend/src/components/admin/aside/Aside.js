@@ -95,6 +95,9 @@ export const Aside = ({ status }) => {
                   <NavLink to={"/admin/post/add-new-post"}>
                     <TreeItem nodeId="2" label="Add New Post" />
                   </NavLink>
+                  <NavLink to={"/admin/post/post-category"}>
+                    <TreeItem nodeId="2" label="Add New Category" />
+                  </NavLink>
                 </TreeItem>
               </TreeView>
               <TreeView>

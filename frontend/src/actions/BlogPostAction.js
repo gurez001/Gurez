@@ -59,7 +59,8 @@ export const singleBlogPost = (id) => async (dispatch) => {
 //-------------- create post
 
 export const CreateBlogPost =
-  (selectedCategoryId, title, description, slug) => async (dispatch) => {
+  (selectedCategoryId, title, description, slug) =>
+  async (dispatch) => {
     try {
       dispatch({ type: CREATE_BLOG_POST_REQUEST });
 
@@ -69,6 +70,7 @@ export const CreateBlogPost =
       formData.append("title", title);
       formData.append("description", description);
       formData.append("slug", slug);
+
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +84,7 @@ export const CreateBlogPost =
 
       dispatch({
         type: CREATE_BLOG_POST_SUCCESS,
-        payload: data,
+        payload: data.blog,
       });
     } catch (error) {
       dispatch({

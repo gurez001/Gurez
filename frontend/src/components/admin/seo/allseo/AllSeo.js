@@ -35,8 +35,13 @@ const AllSeo = () => {
       flex: 0.3,
     },
     {
-      field: "category",
-      headerName: "Category",
+      field: "type",
+      headerName: "Type",
+      minWidth: 150,
+    },
+    {
+      field: "typeid",
+      headerName: "Type Id",
       minWidth: 150,
     },
     {
@@ -54,7 +59,8 @@ const AllSeo = () => {
       rows.push({
         id: item._id,
         name: item.metatitle,
-        category: "d",
+        type:item.type,
+        typeid:item.postid,
         date: item.creditAt,
       });
     });

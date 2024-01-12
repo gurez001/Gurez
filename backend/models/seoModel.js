@@ -20,6 +20,11 @@ const seoSchema = new mongoose.Schema({
     maxlength: [60, "Link should be lower then 60 characters"],
     required: true,
   },
+  type: {
+    type: String,
+    required: true,
+  },
+
 });
 
 module.exports = mongoose.model("SEO", seoSchema);

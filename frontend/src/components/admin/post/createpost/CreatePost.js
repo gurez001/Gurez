@@ -14,12 +14,16 @@ import { useNavigate } from "react-router-dom";
 import { CREATE_BLOG_POST_RESET } from "../../../../constants/BlogPostConstants";
 import CreateSeo from "../../seo/create/CreateSeo";
 import { createSeoAction, seoClearError } from "../../../../actions/SeoAction";
+import {
+  CREATE_SEO_RESET,
+  SEO_CLEAR_SEO,
+} from "../../../../constants/SeoConstants";
 
 function CreatePost() {
   const dispatch = useDispatch();
   const alert = useAlert();
   const Navigate = useNavigate();
-  const { loading, success, error } = useSelector(
+  const { loading, success, blog, error } = useSelector(
     (state) => state.adminCreatePost
   );
 
@@ -34,23 +38,23 @@ function CreatePost() {
   const [description, setSescription] = useState("");
   const [slug, setSlug] = useState("");
   const [seoInputValue, setSeoInputValue] = useState({
-    title: "",
+    seotitle: "",
     keyword: "",
     metadec: "",
     metalink: "",
   });
-console.log(seoInputValue)
+  console.log(seoInputValue);
   const contentHeandle = (e) => {
     setSescription(e);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(seoInputValue)
+
     if (!seoInputValue) {
       return alert.error("seoInputValue is undefined or null");
     }
-    const { title: seotitle, keyword, metadec, metalink } = seoInputValue;
+    const { seotitle, keyword, metadec, metalink } = seoInputValue;
     if (
       selectedCategoryId.trim() === "" ||
       title.trim() === "" ||
@@ -63,10 +67,15 @@ console.log(seoInputValue)
     ) {
       return alert.error("Please fill out all required fields.");
     }
+
+    const type = 'post'
     dispatch(CreateBlogPost(selectedCategoryId, title, description, slug));
-    dispatch(createSeoAction(seotitle, keyword, metadec, metalink));
+    dispatch(
+      createSeoAction(seotitle, keyword, metadec, metalink, type)
+    )
   };
 
+  
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -81,13 +90,15 @@ console.log(seoInputValue)
       alert.success("Product successfully created");
       Navigate("/admin/post/all-post");
       dispatch({ type: CREATE_BLOG_POST_RESET });
+      dispatch({ type: CREATE_SEO_RESET });
     }
     if (title) {
-      setSeoInputValue({ title: title });
+      setSeoInputValue((prev) => ({ ...prev, seotitle: title }));
     }
     if (slug) {
-      setSeoInputValue({ metalink: slug });
+      setSeoInputValue((prev) => ({ ...prev, metalink: slug }));
     }
+
     dispatch(GetBlogCategory());
   }, [dispatch, success, error, alert, title, slug, seoError, seoSuccess]);
 

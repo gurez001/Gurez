@@ -10,6 +10,7 @@ exports.getAllBlogPost = catchAsyncError(async (req, res, next) => {
     const blog = await blogPost.find().populate([
       { path: "category", model: "blogCategore" },
       { path: "user", model: "User" },
+      { path: "seo", model: "SEO" },
     ]);
 
     const reverseBlog = blog.reverse();
@@ -27,7 +28,7 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
   try {
     const bloggCounter = await CountModel.findOne({ entityName: "User" });
     const { title, description, slug, category } = req.body;
-    console.log(req.body);
+
     const url = slug.split(" ").join("-").toLowerCase();
     const user = req.user._id;
 
@@ -47,7 +48,7 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
       blog,
     });
   } catch (error) {
-    console.log(error);
+
     return next(new ErrorHandler("Post - Internal Server Error" + error, 500));
   }
 });
@@ -124,7 +125,7 @@ exports.deleteBlogPost = catchAsyncError(async (req, res, next) => {
 exports.singleBlogPost = catchAsyncError(async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(id);
+   
     let blog;
     if (isNaN(req.params.id)) {
       blog = await blogPost.findOne({ slug: id });

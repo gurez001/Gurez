@@ -1,6 +1,6 @@
 const catchAsyncError = require("../middleware/catchAsyncError");
 const blogCategoreModel = require("../models/blogCategoreModel");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const ErrorHandler = require("../utils/errorhandler");
 
 exports.createBlogCategore = catchAsyncError(async (req, res, next) => {
@@ -52,7 +52,7 @@ exports.getAllBlogCategores = catchAsyncError(async (req, res, next) => {
 exports.deleteBlogCategore = catchAsyncError(async (req, res, next) => {
   try {
     const { id } = req.params;
-console.log(id)
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return next(new ErrorHandler("Invalid ID format", 400));
     }
@@ -92,11 +92,15 @@ exports.updateBlogCategore = catchAsyncError(async (req, res, next) => {
       return next(new ErrorHandler("Invalid ID format", 400));
     }
 
-    const updatedCategory = await blogCategoreModel.findByIdAndUpdate(id, data, {
-      new: true,
-      runValidators: true,
-      useFindAndModify: false,
-    });
+    const updatedCategory = await blogCategoreModel.findByIdAndUpdate(
+      id,
+      data,
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
+    );
 
     res.status(200).json({
       success: true,

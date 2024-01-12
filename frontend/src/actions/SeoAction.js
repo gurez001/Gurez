@@ -20,7 +20,7 @@ export const getAllSeo = () => async (dispatch) => {
 };
 
 export const createSeoAction =
-  (seotitle, keyword, metadec, metalink) => async (dispatch) => {
+  (seotitle, keyword, metadec, metalink, type, postid) => async (dispatch) => {
     try {
       dispatch({ type: CREATE_SEO_REQUEST });
 
@@ -29,6 +29,8 @@ export const createSeoAction =
       formData.append("keyword", keyword);
       formData.append("metadec", metadec);
       formData.append("metalink", metalink);
+      formData.append("type", type);
+      formData.append("postid", postid);
 
       const config = {
         headers: {
