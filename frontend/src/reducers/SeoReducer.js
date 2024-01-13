@@ -33,7 +33,7 @@ export const seoReducer = (state = { seo: [] }, action) => {
   }
 };
 
-export const createSeoReducer = (state = { seo: [] }, action) => {
+export const createSeoReducer = (state = { }, action) => {
   switch (action.type) {
     case CREATE_SEO_REQUEST:
       return {
@@ -43,25 +43,25 @@ export const createSeoReducer = (state = { seo: [] }, action) => {
     case CREATE_SEO_SUCCESS:
       return {
         loading: false,
-        success: true,
+        seoSuccess: true,
       };
     case CREATE_SEO_FAIL:
       return {
         ...state,
         loading: false,
-        error: action.payload,
+        seoError: action.payload,
       };
     case CREATE_SEO_RESET:
       return {
         ...state,
         loading: false,
-        success: null,
+        seoSuccess: null,
       };
     case SEO_CLEAR_SEO:
       return {
         ...state,
         loading: false,
-        error: null,
+        seoError: null,
       };
 
     default:

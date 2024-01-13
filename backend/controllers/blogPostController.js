@@ -32,6 +32,17 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
     const url = slug.split(" ").join("-").toLowerCase();
     const user = req.user._id;
 
+    const existingSlug = await blogPost.findOne({ slug: url });
+
+    if (existingSlug) {
+      return next(
+        new ErrorHandler(
+          `Slug already exists. Please choose a different one.`,
+          404
+        )
+      );
+    }
+
     const blog = await blogPost.create({
       postid:
         bloggCounter && bloggCounter.blogpost !== null
@@ -48,7 +59,6 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
       blog,
     });
   } catch (error) {
-
     return next(new ErrorHandler("Post - Internal Server Error" + error, 500));
   }
 });
@@ -57,14 +67,14 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
 
 exports.updateBlogPost = catchAsyncError(async (req, res, next) => {
   try {
-    const { title, description,category, slug } = req.body;
+    const { title, description, category, slug } = req.body;
     const { id } = req.params;
 
     const data = {
       title,
-      article:description,
+      article: description,
       slug,
-      category:category
+      category: category,
     };
 
     // if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -77,18 +87,21 @@ exports.updateBlogPost = catchAsyncError(async (req, res, next) => {
       return next(new ErrorHandler("Post not found", 404));
     }
 
-    const updatedPost = await blogPost.findByIdAndUpdate(existingPost._id, data, {
-      new: true,
-      runValidators: true,
-      useFindAndModify: false,
-    });
+    const updatedPost = await blogPost.findByIdAndUpdate(
+      existingPost._id,
+      data,
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
+    );
 
     res.status(200).json({
       success: true,
       blog: updatedPost,
     });
   } catch (error) {
-
     return next(new ErrorHandler("Post - Internal Server Error", 500));
   }
 });
@@ -125,7 +138,7 @@ exports.deleteBlogPost = catchAsyncError(async (req, res, next) => {
 exports.singleBlogPost = catchAsyncError(async (req, res, next) => {
   try {
     const { id } = req.params;
-   
+
     let blog;
     if (isNaN(req.params.id)) {
       blog = await blogPost.findOne({ slug: id });

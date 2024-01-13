@@ -3,11 +3,24 @@ const ErrorHandler = require("../utils/errorhandler");
 const seoModel = require("../models/seoModel");
 const blogPostModel = require("../models/blogPostModel");
 
+
 exports.createSeo = catchAsyncError(async (req, res, next) => {
   try {
-    const { seotitle, keyword, metadec, metalink, type, postid } = req.body;
+    const { seotitle, keyword, metadec, metalink, type } = req.body;
 
     const slug = metalink.split(" ").join("-");
+
+    const existingSlug = await seoModel.findOne({ metalink: slug });
+
+    if (existingSlug) {
+      return next(
+        new ErrorHandler(
+          `Slug already exists. Please choose a different one.`,
+          404
+        )
+      );
+    }
+
     const seo = await seoModel.create({
       metatitle: seotitle,
       keyword,
@@ -17,17 +30,21 @@ exports.createSeo = catchAsyncError(async (req, res, next) => {
     });
 
     if (type === "post") {
-      const blog = await blogPostModel.findOne({ slug });
+      const blog = await blogPostModel.findOne({ slug:seo.metalink });
+      if (!blog) {
+        return next(new ErrorHandler(`Blog not found for slug: ${slug}`, 404));
+      }
       blog.seo = seo._id;
       await blog.save({ validateBeforeSave: false });
-      console.log(blog);
+    
     }
 
     res.status(201).json({
       success: true,
       seo,
     });
-  } catch (error) {
+  } catch (err) {
+   
     return next(new ErrorHandler(`Internal server error: ${err}`, 500));
   }
 });

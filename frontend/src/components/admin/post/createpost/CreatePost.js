@@ -18,20 +18,17 @@ import {
   CREATE_SEO_RESET,
   SEO_CLEAR_SEO,
 } from "../../../../constants/SeoConstants";
+import Loader from "../../../layout/loader/Loader";
 
 function CreatePost() {
   const dispatch = useDispatch();
   const alert = useAlert();
   const Navigate = useNavigate();
-  const { loading, success, blog, error } = useSelector(
+  const { loading, success, error } = useSelector(
     (state) => state.adminCreatePost
   );
 
-  const {
-    loading: seoLoading,
-    success: seoSuccess,
-    error: seoError,
-  } = useSelector((state) => state.adminCreatePost);
+  const { seoSuccess, seoError } = useSelector((state) => state.adminCreateSeo);
 
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [title, setTitle] = useState("");
@@ -68,28 +65,26 @@ function CreatePost() {
       return alert.error("Please fill out all required fields.");
     }
 
-    const type = 'post'
+    const type = "post";
     dispatch(CreateBlogPost(selectedCategoryId, title, description, slug));
-    dispatch(
-      createSeoAction(seotitle, keyword, metadec, metalink, type)
-    )
+    dispatch(createSeoAction(seotitle, keyword, metadec, metalink, type));
   };
 
-  
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(ClearError());
     }
-
     if (seoError) {
-      alert.error(error);
       dispatch(seoClearError());
     }
-    if (success && seoSuccess) {
+
+    if (success) {
       alert.success("Product successfully created");
-      Navigate("/admin/post/all-post");
       dispatch({ type: CREATE_BLOG_POST_RESET });
+      Navigate("/admin/post/all-post");
+    }
+    if (seoSuccess) {
       dispatch({ type: CREATE_SEO_RESET });
     }
     if (title) {
@@ -118,40 +113,52 @@ function CreatePost() {
               <section className="ad-section">
                 <h2>Add New Post</h2>
                 <div className="post-tilte">
-                  <form onSubmit={submitHandler}>
-                    <div className="input-field-area">
-                      <input
-                        type="text"
-                        name="name"
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Add Title"
-                      />
-                    </div>
-                    <div className="input-field-area">
-                      <label htmlFor="description">description</label>
-                      <div>
-                        <MyEditor event={contentHeandle} />
-                      </div>
-                    </div>
+                  {loading ? (
+                    <Loader />
+                  ) : (
+                    <>
+                      <form onSubmit={submitHandler}>
+                        <div className="input-field-area">
+                          <input
+                            type="text"
+                            name="name"
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="Add Title"
+                          />
+                        </div>
+                        <div className="input-field-area">
+                          <label htmlFor="description">description</label>
+                          <div>
+                            <MyEditor event={contentHeandle} />
+                          </div>
+                        </div>
 
-                    <div className="input-field-area">
-                      <label htmlFor="slug">Slug</label>
-                      <input
-                        type="text"
-                        placeholder="slug"
-                        onChange={(e) => setSlug(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <input type="submit" value={"Create post"} />
-                    </div>
-                  </form>
+                        <div className="input-field-area">
+                          <label htmlFor="slug">Slug</label>
+                          <input
+                            type="text"
+                            placeholder="slug"
+                            onChange={(e) => setSlug(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <input type="submit" value={"Create post"} />
+                        </div>
+                      </form>
+                    </>
+                  )}
                 </div>
-                <CreateSeo
-                  seoInputValue={seoInputValue}
-                  seoHandler={seoHandler}
-                  submitHandler={submitHandler}
-                />
+                {loading ? (
+                  <Loader />
+                ) : (
+                  <>
+                    <CreateSeo
+                      seoInputValue={seoInputValue}
+                      seoHandler={seoHandler}
+                      submitHandler={submitHandler}
+                    />
+                  </>
+                )}
               </section>
             </div>
 

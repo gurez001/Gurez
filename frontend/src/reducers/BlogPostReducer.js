@@ -95,7 +95,6 @@ export const createBlogPostReducer = (state = {}, action) => {
       return {
         loading: false,
         success: true,
-        blog: action.payload,
       };
     case CREATE_BLOG_POST_FAILED:
       return {
@@ -103,12 +102,12 @@ export const createBlogPostReducer = (state = {}, action) => {
         loading: false,
         error: action.payload,
       };
-      case CREATE_BLOG_POST_RESET:
-        return {
-          ...state,
-          loding: false,
-          success: null,
-        };
+    case CREATE_BLOG_POST_RESET:
+      return {
+        ...state,
+        loading: false,
+        success: null,
+      };
     case ALL_BLOG_CLEAR_ERROR:
       return {
         ...state,
@@ -152,36 +151,33 @@ export const createBlogPostReducer = (state = {}, action) => {
 // Delete blog post
 
 export const DeletePostReducer = (state = {}, action) => {
-
   switch (action.type) {
     case DELETE_BLOG_POST_REQUEST:
       return {
         ...state,
         loading: true,
-      }
+      };
     case DELETE_BLOG_POST_SUCCESS:
       return {
-
         loading: false,
-        isDeleted: action.payload
-      }
+        isDeleted: action.payload,
+      };
     case DELETE_BLOG_POST_FAILED:
       return {
         ...state,
         loading: false,
-        error: action.payload
-      }
+        error: action.payload,
+      };
     case DELETE_BLOG_POST_RESET:
       return {
         ...state,
         loading: false,
-        isDeleted: null
-      }
+        isDeleted: null,
+      };
     default:
       return state;
   }
-}
-
+};
 
 // Update blog post reducer
 
@@ -190,26 +186,27 @@ export const UpdateBlogPostReducer = (state = {}, action) => {
     case UPDATE_BLOG_POST_REQUEST:
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case UPDATE_BLOG_POST_SUCCESS:
       return {
         ...state,
         loading: false,
-        isUpdate: true
-      }
+        isUpdate: true,
+      };
     case UPDATE_BLOG_POST_FAILED:
       return {
         ...state,
         loading: false,
-        error: action.payload
-      }
+        error: action.payload,
+      };
     case UPDATE_BLOG_POST_RESET:
       return {
         ...state,
         loading: false,
-        isUpdate: null
-      }
-    default: return state
+        isUpdate: null,
+      };
+    default:
+      return state;
   }
-}
+};
