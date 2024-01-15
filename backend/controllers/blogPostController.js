@@ -38,7 +38,7 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
       metadec,
       metalink,
     } = req.body;
-    console.log(req.body);
+   
     const url = slug.split(" ").join("-").toLowerCase();
     const user = req.user._id;
 
@@ -82,7 +82,7 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
       metadec,
       metalink: slug,
       type,
-      typeid: blog._id,
+      blogid: blog._id,
     });
 
     blog.seo = seo._id;

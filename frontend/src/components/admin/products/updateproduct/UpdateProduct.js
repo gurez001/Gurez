@@ -22,6 +22,7 @@ import {
   clearErrors,
   getAllImages,
 } from "../../../../actions/imageGelleryAction";
+import CreateSeo from "../../seo/create/CreateSeo";
 
 const UpdateProduct = () => {
   const dispatch = useDispatch();
@@ -71,6 +72,13 @@ const UpdateProduct = () => {
     metadec: "",
   });
 
+  const [seoInputValue, setSeoInputValue] = useState({
+    seotitle: "",
+    keyword: "",
+    metadec: "",
+    metalink: "",
+  });
+
   const getCurrentImage = () => {
     const imageIds = images && images.map((item) => item._id);
     const oldIds = oldImage && oldImage.map((item) => item._id);
@@ -88,6 +96,12 @@ const UpdateProduct = () => {
     setinputValue({ ...inputValue, [name]: value });
   };
 
+  const seoHandler = (e) => {
+    const { name, value } = e.target;
+
+    setSeoInputValue({ ...seoInputValue, [name]: value });
+  };
+
   const createProduct = (e) => {
     e.preventDefault();
 
@@ -103,6 +117,11 @@ const UpdateProduct = () => {
       metadec,
     } = inputValue;
     let metaUrl = metalink.split(" ").join("-").toLowerCase();
+
+    if (!seoInputValue) {
+      return alert.error("seoInputValue is undefined or null");
+    }
+    const { seotitle, keyword:seokeyword, metadec:seometadec, metalink:seometalink } = seoInputValue;
 
     // if (
     //   name.trim() === "" ||
@@ -135,6 +154,7 @@ const UpdateProduct = () => {
       metaUrl,
       metadec,
       currentImageArray,
+      seotitle,seokeyword,seometadec,seometalink
     };
 
     dispatch(updateAdminProduct(id, productData));
@@ -162,6 +182,13 @@ const UpdateProduct = () => {
       setOldImage(product && product.imageId);
       setArticle(product && product.article);
       setDescription(product && product.description);
+
+      setSeoInputValue({
+        seotitle: product && product.seoid && product.seoid.metatitle,
+        keyword: product && product.seoid && product.seoid.keyword,
+        metadec: product && product.seoid && product.seoid.metadec,
+        metalink: product && product.seoid && product.seoid.metalink,
+      });
     }
     if (updateError) {
       alert.error(updateError);
@@ -226,6 +253,11 @@ const UpdateProduct = () => {
                               description={description}
                               setDescription={setDescription}
                               createProduct={createProduct}
+                            />
+                            <CreateSeo
+                              seoInputValue={seoInputValue}
+                              seoHandler={seoHandler}
+                              submitHandler={createProduct}
                             />
                           </div>
                           <div className="product-sidebar-containor">

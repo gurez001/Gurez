@@ -228,7 +228,13 @@ export const createNewProduct =
     metatitle,
     keywords,
     metaUrl,
-    metadec
+    metadec,
+
+
+    seotitle,
+    seometadec,
+    seokeyword,
+    seometalink
   ) =>
   async (dispatch) => {
     try {
@@ -248,6 +254,12 @@ export const createNewProduct =
       formData.append("metalink", metaUrl);
       formData.append("keyword", keywords);
       formData.append("metadec", metadec);
+
+
+      formData.append("seotitle", seotitle);
+      formData.append("seometadec", seometadec);
+      formData.append("seokeyword", seokeyword);
+      formData.append("seometalink", seometalink);
       // formData.append("selectedImage", selectedImage);
       // formData.append("imageId", imageIds);
 
@@ -317,6 +329,8 @@ export const updateAdminProduct = (id, productData) => async (dispatch) => {
       metaUrl,
       metadec,
       currentImageArray,
+
+      seotitle,seokeyword,seometadec,seometalink
     } = productData;
 
     dispatch({
@@ -343,6 +357,11 @@ export const updateAdminProduct = (id, productData) => async (dispatch) => {
     formData.append("keyword", keyword);
     formData.append("metalink", metaUrl);
     formData.append("metadec", metadec);
+
+    formData.append("seotitle", seotitle);
+    formData.append("seokeyword", seokeyword);
+    formData.append("seometadec", seometadec);
+    formData.append("seometalink", seometalink);
 
     // Append each file individually
     for (let i = 0; i < currentImageArray.length; i++) {

@@ -11,6 +11,7 @@ const generateSitemap = require("../utils/sitemapUtils");
 const order = require("../models/orderModels");
 const subCategoreModel = require("../models/subCategoreModel");
 const categoreModel = require("../models/categoreModel");
+const seoModel = require("../models/seoModel");
 //------------ Feature Products
 
 exports.featureProduct = catchAsyncError(async (req, res, nex) => {
@@ -51,6 +52,7 @@ exports.featureProduct = catchAsyncError(async (req, res, nex) => {
 // create product -- Admin
 
 exports.createProducts = catchAsyncError(async (req, res, next) => {
+  console.log(req.body);
   try {
     const productCounter = await CountModel.findOne({ entityName: "User" });
 
@@ -68,6 +70,10 @@ exports.createProducts = catchAsyncError(async (req, res, next) => {
       metalink,
       imageId,
       metadec,
+      seotitle,
+      seometadec,
+      seokeyword,
+      seometalink,
     } = req.body;
 
     const checkSubCat = await subCategoreModel.findById(category);
@@ -119,6 +125,30 @@ exports.createProducts = catchAsyncError(async (req, res, next) => {
       await generateSitemap();
     }
 
+    const existingSeoUrl = await seoModel.findOne({ metalink: metalink });
+
+    if (existingSeoUrl) {
+      return next(
+        new ErrorHandler(
+          `Slug already exists. Please choose a different one.`,
+          404
+        )
+      );
+    }
+
+    const type = "product";
+    const seo = await seoModel.create({
+      metatitle: seotitle,
+      keyword: seokeyword,
+      metadec: seometadec,
+      metalink: seometalink,
+      type,
+      productid: Products._id,
+    });
+
+    Products.seoid = seo._id;
+    await Products.save({ validateBeforeSave: false });
+
     res.status(201).json({
       success: true,
       Products,
@@ -149,6 +179,7 @@ exports.getAllProducts = catchAsyncError(async (req, res, next) => {
         { path: "subcategory", model: "SubCategore" },
         { path: "imageId", model: "Images" },
         { path: "reviewsids", model: "reviewsSchema" },
+        { path: "seoid", model: "SEO" },
       ])
       .exec();
 
@@ -185,7 +216,9 @@ exports.getAllProducts = catchAsyncError(async (req, res, next) => {
 //----------get all produts --Admin
 exports.getAdminAllProducts = catchAsyncError(async (req, res, next) => {
   try {
-    let Products = await products.find();
+    let Products = await products
+      .find()
+      .populate([{ path: "seoid", model: "SEO" }]);
     Products.reverse();
     // if product not found
     if (!Products) {
@@ -220,6 +253,7 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
           { path: "category", model: "Categore" },
           { path: "subcategory", model: "SubCategore" },
           { path: "imageId", model: "Images" },
+          { path: "seoid", model: "SEO" },
           {
             path: "reviewsids",
             model: "reviewsSchema",
@@ -234,6 +268,7 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
         { path: "category", model: "Categore" },
         { path: "subcategory", model: "SubCategore" },
         { path: "imageId", model: "Images" },
+        { path: "seoid", model: "SEO" },
         {
           path: "reviewsids",
           model: "reviewsSchema",
@@ -265,6 +300,7 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
 exports.updateProducts = catchAsyncError(async (req, res, next) => {
   try {
     const productId = req.params.id;
+
     const {
       name,
       price,
@@ -278,6 +314,10 @@ exports.updateProducts = catchAsyncError(async (req, res, next) => {
       metalink,
       imageIds,
       metadec,
+      seotitle,
+      seokeyword,
+      seometadec,
+      seometalink
     } = req.body;
 
     const user = req.user.id;
@@ -309,6 +349,13 @@ exports.updateProducts = catchAsyncError(async (req, res, next) => {
       },
     };
 
+    const seoData = {
+      metatitle: seotitle,
+      keyword: seokeyword,
+      metadec: seometadec,
+      metalink: seometalink,
+    }
+
     Product = await products
       .findByIdAndUpdate(req.params.id, data, {
         new: true,
@@ -317,6 +364,24 @@ exports.updateProducts = catchAsyncError(async (req, res, next) => {
         overwrite: true, // Replace the entire document with the new data
       })
       .populate("imageId");
+
+
+      const seo = await seoModel.findOne({productid:productId})
+
+    if (!seo) {
+      return next(new ErrorHandler("product seo not found", 404));
+    }
+
+    const updatedPostSeo = await seoModel.findOneAndUpdate(
+      { _id: seo._id },
+      seoData,
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
+    );
+
 
     res.status(200).json({
       success: true,
@@ -333,17 +398,21 @@ exports.updateProducts = catchAsyncError(async (req, res, next) => {
 exports.deleteProduct = catchAsyncError(async (req, res, next) => {
   try {
     let Product = await products.findById(req.params.id);
-
+    const existingProductSeo = await seoModel.findOne({ productid: Product._id });
     if (!Product) {
       return next(new ErrorHandler("Product not found", 404));
     }
-
+    if (!existingProductSeo) {
+      return next(new ErrorHandler("Product seo not found", 404));
+    }
+    await existingProductSeo.deleteOne();
     await Product.deleteOne();
     res.status(200).json({
       success: true,
       message: "Product Deleted",
     });
   } catch (error) {
+    console.log(error)
     return next(new ErrorHandler(" Internal Error deleting product:", 500));
   }
 });
@@ -352,7 +421,9 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
 
 exports.singleProduct = catchAsyncError(async (req, res, next) => {
   try {
-    let Product = await products.findById(req.params.id);
+    let Product = await products
+      .findById(req.params.id)
+      .populate([{ path: "seoid", model: "SEO" }]);
     if (!Product) {
       return next(new ErrorHandler("Product not found", 404));
     }

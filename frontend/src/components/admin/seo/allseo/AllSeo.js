@@ -60,7 +60,7 @@ const AllSeo = () => {
         id: item._id,
         name: item.metatitle,
         type: item.type,
-        typeid: item.typeid,
+        typeid: item.blogid ? item.blogid : item.productid,
         date: item.creditAt,
       });
     });

@@ -48,6 +48,10 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  seoid:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "SEO",
+  },
   seo: [
     {
       metatitle: {

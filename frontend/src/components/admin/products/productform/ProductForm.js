@@ -12,6 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { NEW_PRODUCT_RESET } from "../../../../constants/ProductConstants";
 import Loader from "../../../layout/loader/Loader";
+import CreateSeo from "../../seo/create/CreateSeo";
 
 const ProductForm = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,13 @@ const ProductForm = () => {
 
   const [inputValue, setinputValue] = useState({
     parent: "",
+  });
+
+  const [seoInputValue, setSeoInputValue] = useState({
+    seotitle: "",
+    keyword: "",
+    metadec: "",
+    metalink: "",
   });
 
   //----------editor event
@@ -44,6 +52,12 @@ const ProductForm = () => {
     });
   };
 
+  const seoHandler = (e) => {
+    const { name, value } = e.target;
+
+    setSeoInputValue({ ...seoInputValue, [name]: value });
+  };
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
@@ -59,6 +73,16 @@ const ProductForm = () => {
   const createProduct = (e) => {
     e.preventDefault();
     const imageIds = images && images.map((item) => item._id);
+    if (!seoInputValue) {
+      return alert.error("seoInputValue is undefined or null");
+    }
+    const {
+      seotitle,
+      keyword: seokeyword,
+      metadec: seometadec,
+      metalink: seometalink,
+    } = seoInputValue;
+
     if (
       name.trim() === "" ||
       price.trim() === "" ||
@@ -92,7 +116,11 @@ const ProductForm = () => {
         metatitle,
         keywords,
         metaUrl,
-        metadec
+        metadec,
+        seotitle,
+        seometadec,
+        seokeyword,
+        seometalink
       )
     );
   };
@@ -107,7 +135,13 @@ const ProductForm = () => {
       alert.success("product created");
       Navigate("/admin/all-products");
     }
-  }, [alert, error, dispatch, success, Navigate]);
+    if (name) {
+      setSeoInputValue((prev) => ({ ...prev, seotitle: name }));
+    }
+    if (metalink) {
+      setSeoInputValue((prev) => ({ ...prev, metalink: metalink }));
+    }
+  }, [alert, error, dispatch, success, Navigate, name, metalink]);
   return (
     <>
       {loding ? (
@@ -240,6 +274,12 @@ const ProductForm = () => {
           </form>
         </>
       )}
+
+      <CreateSeo
+        seoInputValue={seoInputValue}
+        seoHandler={seoHandler}
+        submitHandler={createProduct}
+      />
     </>
   );
 };

@@ -24,9 +24,14 @@ const seoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  typeid: {
+  blogid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "blogPost",
+    // require: true,
+  },
+  productid: {
+    type: Number,
+    ref: "Product",
     // require: true,
   },
 });
