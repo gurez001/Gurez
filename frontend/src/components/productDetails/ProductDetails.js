@@ -217,8 +217,11 @@ const ProductDetails = () => {
 
                   <div className="rev-col">
                     {product.reviews && product.reviewsids[0] ? (
+                       <p className="noReview">NO Reviews yest</p>
+                    ) : (
                       <>
                         <div className="review-row">
+                         
                           {product.reviewsids.map((review, i) => {
                             return (
                               <ReviewCard
@@ -234,8 +237,8 @@ const ProductDetails = () => {
                           })}
                         </div>
                       </>
-                    ) : (
-                      <p className="noReview">NO Reviews yest</p>
+                      
+                     
                     )}
                   </div>
                 </div>

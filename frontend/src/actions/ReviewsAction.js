@@ -11,6 +11,8 @@ import {
 
 export const createReview =
   (rating, comment, productId) => async (dispatch) => {
+
+    console.log(rating, comment, productId)
     try {
       dispatch({ type: NEW_REVIEW_REQUEST });
 

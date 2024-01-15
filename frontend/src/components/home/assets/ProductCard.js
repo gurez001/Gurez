@@ -79,7 +79,7 @@ const ProductCard = ({ product }) => {
             <h3>
               <Link
                 className="product-card space-set font-size-cont"
-                to={`/product/${product.seo[0].metalink}`}
+                to={`/product/${product.slug}`}
               >
                 {product.name.substr(0, 50)}...
               </Link>

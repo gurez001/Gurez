@@ -7,7 +7,7 @@ export const wishListAction = (id) => async (dispatch, getState) => {
     type: ADD_TO_WISHLIST,
     payload: {
       productId: data.Product._id,
-      link: data.Product.seo[0].metalink,
+      link: data.Product.slug,
       name: data.Product.name,
       price: data.Product.price,
       path: data.Product.imageId[0].path,

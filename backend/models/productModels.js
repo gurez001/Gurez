@@ -9,6 +9,10 @@ const productSchema = new mongoose.Schema({
     required: [true, "Please enter product name"],
     trim: true,
   },
+  slug: {
+    type: String,
+    required: [true, "Please enter product name"],
+  },
   description: {
     type: String,
     required: [true, "Please enter product description"],
@@ -48,62 +52,12 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  seoid:{
+  seoid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "SEO",
   },
-  seo: [
-    {
-      metatitle: {
-        type: String,
-        maxlength: [60, "Title should be lower then 60 characters"],
-        required: true,
-      },
-      keyword: {
-        type: String,
-      },
-      metadec: {
-        type: String,
-        maxlength: [160, "Description should be lower then 160 characters"],
-        required: true,
-      },
-      metalink: {
-        type: String,
-        unique: true,
-        maxlength: [60, "Link should be lower then 60 characters"],
-        required: true,
-      },
-    },
-  ],
   reviewsids: [{ type: mongoose.Schema.Types.ObjectId, ref: "reviewsSchema" }],
-  reviews: [
-    {
-      user: {
-        type: Number,
-        ref: "user",
-        require: true,
-      },
-      image: {
-        type: String,
-      },
-      name: {
-        type: String,
-        require: true,
-      },
-      rating: {
-        type: Number,
-        require: true,
-      },
-      comment: {
-        type: String,
-        require: true,
-      },
-      createdate: {
-        type: Date,
-        default: Date.now,
-      },
-    },
-  ],
+
   user: {
     type: Number,
     ref: "User",

@@ -202,41 +202,24 @@ export const adminGetAllProducts = () => async (dispatch) => {
 
 export const createNewProduct =
   (
-    // name,
-    // price,
-    // maxprice,
-    // description,
-    // article,
-    // parent,
-    // avatar,
-    // stock,
-    // metatitle,
-    // keyword,
-    // metalink,
-    // metadec,
-    // imageIds,
-    // selectedImage
+ 
 
     name,
-    price,
-    maxPrice,
-    content,
-    article,
-    parent,
-    imageIds,
-    stock,
-    metatitle,
-    keywords,
-    metaUrl,
-    metadec,
-
-
-    seotitle,
-    seometadec,
-    seokeyword,
-    seometalink
+        slug,
+        price,
+        maxPrice,
+        content,
+        article,
+        parent,
+        imageIds,
+        stock,
+        seotitle,
+        seometadec,
+        seokeyword,
+        seometalink
   ) =>
   async (dispatch) => {
+
     try {
       dispatch({ type: NEW_PRODUCT_FAIL });
 
@@ -244,26 +227,18 @@ export const createNewProduct =
 
       // Append other fields
       formData.append("name", name);
+      formData.append("slug", slug);
       formData.append("price", price);
       formData.append("maxprice", maxPrice);
       formData.append("description", content);
       formData.append("article", article);
       formData.append("category", parent);
       formData.append("stock", stock);
-      formData.append("metatitle", metatitle);
-      formData.append("metalink", metaUrl);
-      formData.append("keyword", keywords);
-      formData.append("metadec", metadec);
-
-
       formData.append("seotitle", seotitle);
       formData.append("seometadec", seometadec);
       formData.append("seokeyword", seokeyword);
       formData.append("seometalink", seometalink);
-      // formData.append("selectedImage", selectedImage);
-      // formData.append("imageId", imageIds);
 
-      // Append each file individually
       for (let i = 0; i < imageIds.length; i++) {
         formData.append("imageId", String(imageIds[i]));
       }
@@ -318,20 +293,19 @@ export const updateAdminProduct = (id, productData) => async (dispatch) => {
   try {
     const {
       name,
+      slug,
       price,
       maxprice,
       description,
       article,
       parent,
       stock,
-      metatitle,
-      keyword,
-      metaUrl,
-      metadec,
       currentImageArray,
+      seotitle,
+      seokeyword,
+      seometadec,
+      seometalink, }= productData;
 
-      seotitle,seokeyword,seometadec,seometalink
-    } = productData;
 
     dispatch({
       type: UPDATE_PRODUCT_REQUEST,
@@ -347,17 +321,13 @@ export const updateAdminProduct = (id, productData) => async (dispatch) => {
 
     // Append other fields
     formData.append("name", name);
+    formData.append("slug", slug);
     formData.append("price", price);
     formData.append("maxprice", maxprice);
     formData.append("description", description);
     formData.append("article", article);
     formData.append("category", parent);
     formData.append("stock", stock);
-    formData.append("metatitle", metatitle);
-    formData.append("keyword", keyword);
-    formData.append("metalink", metaUrl);
-    formData.append("metadec", metadec);
-
     formData.append("seotitle", seotitle);
     formData.append("seokeyword", seokeyword);
     formData.append("seometadec", seometadec);

@@ -25,7 +25,6 @@ const ProductForm = () => {
   const [inputValue, setinputValue] = useState({
     parent: "",
   });
-
   const [seoInputValue, setSeoInputValue] = useState({
     seotitle: "",
     keyword: "",
@@ -63,10 +62,7 @@ const ProductForm = () => {
   const [stock, setStock] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const parent = inputValue.parent;
-  const [metalink, setMetalink] = useState("");
-  const [metadec, setMetadec] = useState("");
-  const [keywords, setKeywords] = useState([]);
-  const [metatitle, setMetatitle] = useState("");
+  const [slug, setSlug] = useState("");
   const [article, setArticle] = useState("");
   const [content, setContent] = useState("");
 
@@ -85,27 +81,28 @@ const ProductForm = () => {
 
     if (
       name.trim() === "" ||
+      slug.trim() === "" ||
       price.trim() === "" ||
       maxPrice.trim() === "" ||
       parent.trim() === "" ||
       stock.trim() === "" ||
-      metatitle.trim() === "" ||
-      keywords.trim() === "" ||
-      metalink.trim() === "" ||
-      metadec.trim() === "" ||
       article.trim() === "" ||
       content.trim() === "" ||
+      seotitle.trim() === "" ||
+      seokeyword.trim() === "" ||
+      seometadec.trim() === "" ||
+      seometalink.trim() === "" ||
       (imageIds ?? []).length === 0
     ) {
       return alert.error(
         "Please fill out all required fields and upload at least one image. "
       );
     }
-    let metaUrl = metalink.split(" ").join("-").toLowerCase();
 
     dispatch(
       createNewProduct(
         name,
+        slug,
         price,
         maxPrice,
         content,
@@ -113,10 +110,6 @@ const ProductForm = () => {
         parent,
         imageIds,
         stock,
-        metatitle,
-        keywords,
-        metaUrl,
-        metadec,
         seotitle,
         seometadec,
         seokeyword,
@@ -138,10 +131,11 @@ const ProductForm = () => {
     if (name) {
       setSeoInputValue((prev) => ({ ...prev, seotitle: name }));
     }
-    if (metalink) {
-      setSeoInputValue((prev) => ({ ...prev, metalink: metalink }));
+    if (slug) {
+      setSeoInputValue((prev) => ({ ...prev, metalink: slug }));
     }
-  }, [alert, error, dispatch, success, Navigate, name, metalink]);
+  }, [alert, error, dispatch, success, Navigate, name, slug]);
+
   return (
     <>
       {loding ? (
@@ -160,6 +154,14 @@ const ProductForm = () => {
                 name="name"
                 id="name-input"
                 onBlur={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="input-field-area">
+              <label htmlFor="slug">Slug</label>
+              <input
+                type="text"
+                name="slug"
+                onBlur={(e) => setSlug(e.target.value)}
               />
             </div>
             <div className="input-field-area input-field-width-cont">
@@ -217,51 +219,7 @@ const ProductForm = () => {
                 />
               </div>
             </div>
-            <h2>SEO</h2>
-            <div className="input-field-area">
-              <label htmlFor="keyword">Keyword</label>
-              <input
-                type="text"
-                name="keywords"
-                autoComplete="off"
-                id="keywords"
-                // onKeyDown={handleInputKeyDown}
-                onBlur={(e) => setKeywords(e.target.value)}
-              />
-            </div>
-            <div className="input-field-area">
-              <label htmlFor="metatitle">Meta Title</label>
-              <input
-                type="metatitle"
-                name="metatitle"
-                autoComplete="off"
-                id="metatitle"
-                onBlur={(e) => setMetatitle(e.target.value)}
-              />
-              <CharCount char={metatitle} limit={60} />
-            </div>
-            <div className="input-field-area">
-              <label htmlFor="metalink">Meta link</label>
-              <input
-                type="metalink"
-                name="metalink"
-                autoComplete="off"
-                id="metalink"
-                onBlur={(e) => setMetalink(e.target.value)}
-              />
-              <CharCount char={metalink} limit={60} />
-            </div>
-            <div className="input-field-area">
-              <label htmlFor="metadec">Meta description</label>
-              <textarea
-                type="metadec"
-                name="metadec"
-                autoComplete="off"
-                id="metadec"
-                onBlur={(e) => setMetadec(e.target.value)}
-              ></textarea>
-              <CharCount char={metadec} limit={160} />
-            </div>
+
             <div>
               <Button
                 // disabled={loding || btndisable ? true : false}

@@ -31,7 +31,6 @@ const ProductUpdateForm = ({
   setDescription,
   createProduct
 }) => {
-  console.log(inputValue.parent)
   return (
     
         <>
@@ -47,6 +46,16 @@ const ProductUpdateForm = ({
                 name="name"
                 id="name-input"
                 value={inputValue.name || ""}
+                onChange={changeInputHandel}
+              />
+            </div>
+            <div className="input-field-area">
+              <label htmlFor="slug">slug</label>
+              <input
+                type="text"
+                name="slug"
+                id="name-input"
+                value={inputValue.slug || ""}
                 onChange={changeInputHandel}
               />
             </div>
@@ -102,54 +111,7 @@ const ProductUpdateForm = ({
                 <MyEditor valuedata={article} getData={setArticle} />
               </div>
             </div>
-            <h2>SEO</h2>
-            <div className="input-field-area">
-              <label htmlFor="keyword">Keyword</label>
-              <input
-                type="text"
-                name="keywords"
-                autoComplete="off"
-                id="keywords"
-                value={inputValue.keyword || ""}
-                onChange={changeInputHandel}
-              />
-            </div>
-            <div className="input-field-area">
-              <label htmlFor="metatitle">Meta Title</label>
-              <input
-                type="metatitle"
-                name="metatitle"
-                autoComplete="off"
-                id="metatitle"
-                value={inputValue.metatitle || ""}
-                onChange={changeInputHandel}
-              />
-              {/* <CharCount char={metatitle} limit={60} /> */}
-            </div>
-            <div className="input-field-area">
-              <label htmlFor="metalink">Meta link</label>
-              <input
-                type="metalink"
-                name="metalink"
-                autoComplete="off"
-                id="metalink"
-                value={inputValue.metalink || ""}
-                onChange={changeInputHandel}
-              />
-              {/* <CharCount char={metalink} limit={60} /> */}
-            </div>
-            <div className="input-field-area">
-              <label htmlFor="metadec">Meta description</label>
-              <textarea
-                type="metadec"
-                name="metadec"
-                autoComplete="off"
-                id="metadec"
-                value={inputValue.metadec || ""}
-                onChange={changeInputHandel}
-              ></textarea>
-              {/* <CharCount char={metadec} limit={160} /> */}
-            </div>
+            
             <div>
               <Button
                 // disabled={loding || btndisable ? true : false}

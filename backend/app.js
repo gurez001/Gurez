@@ -43,6 +43,7 @@ app.use('/api/v1',categoreRoute);
 app.use('/api/v1',blogPostRouter);
 app.use('/api/v1',blogCategoreRouter);
 app.use('/api/v1',seoRouter);
+app.use('/api/v1',reviewsRouter);
 
 
 

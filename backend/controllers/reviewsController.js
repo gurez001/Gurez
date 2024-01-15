@@ -14,6 +14,8 @@ const productModels = require("../models/productModels");
 exports.createProductReviews = catchAsyncError(async (req, res, next) => {
   try {
     const { rating, comment, productId, imageid } = req.body;
+
+    console.log(req.body)
     const user = req.user;
 
     const reviews = {

@@ -59,17 +59,13 @@ const UpdateProduct = () => {
   //-------------usestate
   const [article, setArticle] = useState("");
   const [description, setDescription] = useState("");
-  const [currentImageData, setCurrentImageData] = useState("");
   const [inputValue, setinputValue] = useState({
     name: "",
+    slug: "",
     price: "",
     maxprice: "",
     parent: "",
     stock: "",
-    metatitle: "",
-    keyword: "",
-    metalink: "",
-    metadec: "",
   });
 
   const [seoInputValue, setSeoInputValue] = useState({
@@ -88,7 +84,6 @@ const UpdateProduct = () => {
       return oldIds;
     }
   };
-
   const currentImageArray = getCurrentImage();
 
   const changeInputHandel = (e) => {
@@ -105,23 +100,17 @@ const UpdateProduct = () => {
   const createProduct = (e) => {
     e.preventDefault();
 
-    const {
-      name,
-      price,
-      maxprice,
-      parent,
-      stock,
-      metatitle,
-      keyword,
-      metalink,
-      metadec,
-    } = inputValue;
-    let metaUrl = metalink.split(" ").join("-").toLowerCase();
+    const { name, slug, price, maxprice, parent, stock } = inputValue;
 
     if (!seoInputValue) {
       return alert.error("seoInputValue is undefined or null");
     }
-    const { seotitle, keyword:seokeyword, metadec:seometadec, metalink:seometalink } = seoInputValue;
+    const {
+      seotitle,
+      keyword: seokeyword,
+      metadec: seometadec,
+      metalink: seometalink,
+    } = seoInputValue;
 
     // if (
     //   name.trim() === "" ||
@@ -143,18 +132,18 @@ const UpdateProduct = () => {
 
     const productData = {
       name,
+      slug,
       price,
       maxprice,
       description,
       article,
       parent,
       stock,
-      metatitle,
-      keyword,
-      metaUrl,
-      metadec,
       currentImageArray,
-      seotitle,seokeyword,seometadec,seometalink
+      seotitle,
+      seokeyword,
+      seometadec,
+      seometalink,
     };
 
     dispatch(updateAdminProduct(id, productData));
@@ -170,14 +159,11 @@ const UpdateProduct = () => {
     if (product) {
       setinputValue({
         name: product && product.name,
+        slug: product && product.slug,
         price: product && product.price,
         maxprice: product && product.maxprice,
         stock: product && product.stock,
         parent: product && product.category && product.category._id,
-        metatitle: product.seo && product.seo[0].metatitle,
-        keyword: product.seo && product.seo[0].keyword,
-        metalink: product.seo && product.seo[0].metalink,
-        metadec: product.seo && product.seo[0].metadec,
       });
       setOldImage(product && product.imageId);
       setArticle(product && product.article);
