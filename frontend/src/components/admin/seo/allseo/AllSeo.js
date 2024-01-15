@@ -59,8 +59,8 @@ const AllSeo = () => {
       rows.push({
         id: item._id,
         name: item.metatitle,
-        type:item.type,
-        typeid:item.postid,
+        type: item.type,
+        typeid: item.typeid,
         date: item.creditAt,
       });
     });

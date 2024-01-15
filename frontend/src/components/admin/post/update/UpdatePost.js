@@ -13,6 +13,7 @@ import MyEditor from "../../products/productUpdateform/classiceditor/MyEditor";
 import Categore from "./assets/Categore";
 import { UPDATE_BLOG_POST_RESET } from "../../../../constants/BlogPostConstants";
 import { Button } from "@material-ui/core";
+import CreateSeo from "../../seo/create/CreateSeo";
 
 const UpdatePost = () => {
   const dispatch = useDispatch();
@@ -21,25 +22,50 @@ const UpdatePost = () => {
   const Navigate = useNavigate();
   const [description, setDescription] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
-console.log(id)
   const [inputValue, setInputValue] = useState({
     title: "",
     slug: "",
+  });
+
+  const [seoInputValue, setSeoInputValue] = useState({
+    seotitle: "",
+    keyword: "",
+    metadec: "",
+    metalink: "",
   });
 
   const submitHandler = (e) => {
     e.preventDefault();
     const { title, slug } = inputValue;
 
+    if (!seoInputValue) {
+      return alert.error("seoInputValue is undefined or null");
+    }
+    const { seotitle, keyword, metadec, metalink } = seoInputValue;
     if (
       selectedCategoryId.trim() === "" ||
       title.trim() === "" ||
       description.trim() === "" ||
-      slug.trim() === ""
+      slug.trim() === "" ||
+      seotitle.trim() === "" ||
+      metadec.trim() === "" ||
+      metalink.trim() === ""
     ) {
       return alert.error("Please fill out all required fields.");
     }
-    dispatch(UpdateBlogPost(title, selectedCategoryId, description, slug, id));
+    dispatch(
+      UpdateBlogPost(
+        title,
+        selectedCategoryId,
+        description,
+        slug,
+        id,
+        seotitle,
+        keyword,
+        metadec,
+        metalink
+      )
+    );
   };
 
   const { loading, isUpdate, error } = useSelector(
@@ -67,21 +93,34 @@ console.log(id)
     if (blog) {
       setInputValue({
         title: blog && blog.title,
-
         selectedCategoryId: blog && blog.selectedCategoryId,
         slug: blog && blog.slug,
       });
       setDescription(blog && blog.article);
-      setSelectedCategoryId(blog && blog.category);
+      setSelectedCategoryId(blog && blog.category && blog.category._id);
+      setSeoInputValue({
+        seotitle: blog && blog.seo && blog.seo.metatitle,
+        keyword: blog && blog.seo && blog.seo.keyword,
+        metadec: blog && blog.seo && blog.seo.metadec,
+        metalink: blog && blog.seo && blog.seo.metalink,
+      });
     }
     dispatch(UpdateBlogPost(id));
     dispatch(GetBlogCategory());
   }, [dispatch, error, blog, alert, isUpdate]);
 
+
+  console.log(seoInputValue)
   const inputHandler = (e) => {
     const { name, value } = e.target;
 
     setInputValue({ ...inputValue, [name]: value });
+  };
+
+  const seoHandler = (e) => {
+    const { name, value } = e.target;
+
+    setSeoInputValue({ ...seoInputValue, [name]: value });
   };
 
   return (
@@ -126,6 +165,13 @@ console.log(id)
                     <Button type="submit">Update post</Button>
                   </div>
                 </form>
+              </section>
+              <section>
+                <CreateSeo
+                  seoInputValue={seoInputValue}
+                  seoHandler={seoHandler}
+                  submitHandler={submitHandler}
+                />
               </section>
               <div>
                 <Categore

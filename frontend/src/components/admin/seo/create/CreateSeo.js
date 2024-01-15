@@ -1,6 +1,6 @@
 import React from "react";
 
-const CreateSeo = ({ seoHandler,seoInputValue ,submitHandler}) => {
+const CreateSeo = ({ seoHandler, seoInputValue, submitHandler }) => {
   return (
     <>
       <div>

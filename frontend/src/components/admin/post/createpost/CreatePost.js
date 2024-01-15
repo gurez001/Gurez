@@ -13,11 +13,6 @@ import { ClearError, CreateBlogPost } from "../../../../actions/BlogPostAction";
 import { useNavigate } from "react-router-dom";
 import { CREATE_BLOG_POST_RESET } from "../../../../constants/BlogPostConstants";
 import CreateSeo from "../../seo/create/CreateSeo";
-import { createSeoAction, seoClearError } from "../../../../actions/SeoAction";
-import {
-  CREATE_SEO_RESET,
-  SEO_CLEAR_SEO,
-} from "../../../../constants/SeoConstants";
 import Loader from "../../../layout/loader/Loader";
 
 function CreatePost() {
@@ -27,8 +22,6 @@ function CreatePost() {
   const { loading, success, error } = useSelector(
     (state) => state.adminCreatePost
   );
-
-  const { seoSuccess, seoError } = useSelector((state) => state.adminCreateSeo);
 
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [title, setTitle] = useState("");
@@ -40,7 +33,7 @@ function CreatePost() {
     metadec: "",
     metalink: "",
   });
-  console.log(seoInputValue);
+
   const contentHeandle = (e) => {
     setSescription(e);
   };
@@ -65,9 +58,18 @@ function CreatePost() {
       return alert.error("Please fill out all required fields.");
     }
 
-    const type = "post";
-    dispatch(CreateBlogPost(selectedCategoryId, title, description, slug));
-    dispatch(createSeoAction(seotitle, keyword, metadec, metalink, type));
+    dispatch(
+      CreateBlogPost(
+        selectedCategoryId,
+        title,
+        description,
+        slug,
+        seotitle,
+        keyword,
+        metadec,
+        metalink
+      )
+    );
   };
 
   useEffect(() => {
@@ -75,18 +77,13 @@ function CreatePost() {
       alert.error(error);
       dispatch(ClearError());
     }
-    if (seoError) {
-      dispatch(seoClearError());
-    }
 
     if (success) {
       alert.success("Product successfully created");
       dispatch({ type: CREATE_BLOG_POST_RESET });
       Navigate("/admin/post/all-post");
     }
-    if (seoSuccess) {
-      dispatch({ type: CREATE_SEO_RESET });
-    }
+
     if (title) {
       setSeoInputValue((prev) => ({ ...prev, seotitle: title }));
     }
@@ -95,7 +92,7 @@ function CreatePost() {
     }
 
     dispatch(GetBlogCategory());
-  }, [dispatch, success, error, alert, title, slug, seoError, seoSuccess]);
+  }, [dispatch, success, error, alert, title, slug]);
 
   const seoHandler = (e) => {
     const { name, value } = e.target;

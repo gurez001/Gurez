@@ -5,28 +5,39 @@ import "./AllPost.css";
 import CreatePost from "../createpost/CreatePost";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
-import { ClearError, GetBlogPost } from "../../../../actions/BlogPostAction";
+import { ClearError, DeleteBlogPost, GetBlogPost } from "../../../../actions/BlogPostAction";
 import { DataGrid } from "@material-ui/data-grid";
 import Loader from "../../../layout/loader/Loader";
 import { FaUpRightFromSquare, FaTrash } from "react-icons/fa6";
 import { TimeAgo } from "../../../layout/time/TimeAgo";
+import { DELETE_BLOG_POST_RESET } from "../../../../constants/BlogPostConstants";
 
 function AllPost() {
   const dispatch = useDispatch();
   const alert = useAlert();
   const Navigate = useNavigate();
   const { loading, blog, error } = useSelector((state) => state.allBlog);
+  const { loading:deleteLoading, isDeleted, error:deleteError } = useSelector((state) => state.adminDeletePost);
 
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(ClearError());
     }
+    if(deleteError){
+      alert.error(deleteError);
+      dispatch(ClearError());
+    }
+    if(isDeleted){
+      alert.success('Post has been deleted');
+      dispatch({type:DELETE_BLOG_POST_RESET});
+    }
+
     dispatch(GetBlogPost());
-  }, [alert, dispatch, error, Navigate]);
+  }, [alert, dispatch, error, Navigate,deleteError,isDeleted]);
 
   const deletehandler = (id) => {
-    // dispatch(deleteAdminProduct(id));
+    dispatch(DeleteBlogPost(id));
   };
 
   const columns = [
@@ -115,7 +126,7 @@ function AllPost() {
                         <h1>All post</h1>
                       </div>
                       <div className="productdata">
-                        {loading ? (
+                        {deleteLoading ? (
                           <Loader />
                         ) : (
                           <>

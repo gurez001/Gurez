@@ -59,7 +59,16 @@ export const singleBlogPost = (id) => async (dispatch) => {
 //-------------- create post
 
 export const CreateBlogPost =
-  (selectedCategoryId, title, description, slug) =>
+  (
+    selectedCategoryId,
+    title,
+    description,
+    slug,
+    seotitle,
+    keyword,
+    metadec,
+    metalink
+  ) =>
   async (dispatch) => {
     try {
       dispatch({ type: CREATE_BLOG_POST_REQUEST });
@@ -70,6 +79,10 @@ export const CreateBlogPost =
       formData.append("title", title);
       formData.append("description", description);
       formData.append("slug", slug);
+      formData.append("seotitle", seotitle);
+      formData.append("keyword", keyword);
+      formData.append("metadec", metadec);
+      formData.append("metalink", metalink);
 
       const config = {
         headers: {
@@ -115,7 +128,12 @@ export const DeleteBlogPost = (id) => async (dispatch) => {
 // UPDATE blog post
 
 export const UpdateBlogPost =
-  (title, selectedCategoryId, description, slug, id) => async (dispatch) => {
+  (title, selectedCategoryId, description, slug, id,
+    seotitle,
+    keyword,
+    metadec,
+    metalink
+    ) => async (dispatch) => {
     try {
       dispatch({ type: UPDATE_BLOG_POST_REQUEST });
 
@@ -125,6 +143,10 @@ export const UpdateBlogPost =
       formData.append("title", title);
       formData.append("description", description);
       formData.append("slug", slug);
+      formData.append("seotitle", seotitle);
+      formData.append("keyword", keyword);
+      formData.append("metadec", metadec);
+      formData.append("metalink", metalink);
       const config = {
         headers: {
           "Content-Type": "application/json",

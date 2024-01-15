@@ -19,32 +19,32 @@ export const getAllSeo = () => async (dispatch) => {
   }
 };
 
-export const createSeoAction =
-  (seotitle, keyword, metadec, metalink, type, postid) => async (dispatch) => {
-    try {
-      dispatch({ type: CREATE_SEO_REQUEST });
+// export const createSeoAction =
+//   (seotitle, keyword, metadec, metalink, type, postid) => async (dispatch) => {
+//     try {
+//       dispatch({ type: CREATE_SEO_REQUEST });
 
-      const formData = new FormData();
-      formData.append("seotitle", seotitle);
-      formData.append("keyword", keyword);
-      formData.append("metadec", metadec);
-      formData.append("metalink", metalink);
-      formData.append("type", type);
-      formData.append("postid", postid);
+//       const formData = new FormData();
+//       formData.append("seotitle", seotitle);
+//       formData.append("keyword", keyword);
+//       formData.append("metadec", metadec);
+//       formData.append("metalink", metalink);
+//       formData.append("type", type);
+//       formData.append("postid", postid);
 
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+//       const config = {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       };
 
-      const { data } = await axios.post(`/api/v1/create/seo`, formData, config);
+//       const { data } = await axios.post(`/api/v1/create/seo`, formData, config);
 
-      dispatch({ type: CREATE_SEO_SUCCESS, payload: data });
-    } catch (error) {
-      dispatch({ type: CREATE_SEO_FAIL, payload: error.response.data.message });
-    }
-  };
+//       dispatch({ type: CREATE_SEO_SUCCESS, payload: data });
+//     } catch (error) {
+//       dispatch({ type: CREATE_SEO_FAIL, payload: error.response.data.message });
+//     }
+//   };
 
 
   export const seoClearError = () => async (dispatch) => {

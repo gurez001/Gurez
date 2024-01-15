@@ -24,7 +24,11 @@ const seoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
+  typeid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "blogPost",
+    // require: true,
+  },
 });
 
 module.exports = mongoose.model("SEO", seoSchema);
