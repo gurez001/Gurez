@@ -231,6 +231,13 @@ const UpdateProduct = () => {
                       ) : (
                         <>
                           <div>
+                            <h2>SEO</h2>
+                          <CreateSeo
+                              seoInputValue={seoInputValue}
+                              seoHandler={seoHandler}
+                              submitHandler={createProduct}
+                            />
+                            <h2>Product</h2>
                             <ProductUpdateForm
                               inputValue={inputValue}
                               changeInputHandel={changeInputHandel}
@@ -240,11 +247,7 @@ const UpdateProduct = () => {
                               setDescription={setDescription}
                               createProduct={createProduct}
                             />
-                            <CreateSeo
-                              seoInputValue={seoInputValue}
-                              seoHandler={seoHandler}
-                              submitHandler={createProduct}
-                            />
+                          
                           </div>
                           <div className="product-sidebar-containor">
                             <Button

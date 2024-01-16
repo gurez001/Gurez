@@ -135,6 +135,13 @@ export const AllProducts = () => {
             <div className="ad-cont">
               <section className="ad-section">
                 <div className="all-products-cont">
+                <div className="all-post-heading">
+                  <h2>
+                    Products
+                    <span>
+                      <NavLink to="/admin/create-product">Add New Product</NavLink>
+                    </span>
+                  </h2></div>
                   <div className="all-products-content-area">
                     <div className="all-products-title">
                       <h1>All products</h1>

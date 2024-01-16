@@ -132,6 +132,8 @@ const UpdatePost = () => {
             <div className="ad-cont">
               <section className="ad-section">
                 <form onSubmit={submitHandler}>
+                  <div className="from-main-div">
+                    <div className="form-main-left">
                   <div className="input-field-area">
                     <input
                       type="text"
@@ -161,24 +163,32 @@ const UpdatePost = () => {
                       onChange={inputHandler}
                     />
                   </div>
-                  <div>
-                    <Button type="submit">Update post</Button>
-                  </div>
-                </form>
-              </section>
-              <section>
-                <CreateSeo
+                  <h2>SEO</h2>
+                  <CreateSeo
                   seoInputValue={seoInputValue}
                   seoHandler={seoHandler}
                   submitHandler={submitHandler}
                 />
-              </section>
-              <div>
+
+                  <div>
+                    <Button type="submit">Update post</Button>
+                  </div></div>
+<div className="form-main-right">
+<div>
                 <Categore
                   selectedCategoryId={selectedCategoryId}
                   setSelectedCategoryId={setSelectedCategoryId}
                 />
               </div>
+</div>
+
+                  </div>
+                </form>
+              </section>
+              <section>
+              
+              </section>
+             
             </div>
           </div>
         </div>

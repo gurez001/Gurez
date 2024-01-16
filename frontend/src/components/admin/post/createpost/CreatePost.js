@@ -115,6 +115,8 @@ function CreatePost() {
                   ) : (
                     <>
                       <form onSubmit={submitHandler}>
+                        <div className="from-main-div">
+                          <div className="form-main-left">
                         <div className="input-field-area">
                           <input
                             type="text"
@@ -138,30 +140,38 @@ function CreatePost() {
                             onChange={(e) => setSlug(e.target.value)}
                           />
                         </div>
+                        <h2>Post SEO</h2>
+                        <CreateSeo
+                      seoInputValue={seoInputValue}
+                      seoHandler={seoHandler}
+                      submitHandler={submitHandler}
+                    />
                         <div>
-                          <input type="submit" value={"Create post"} />
+                          <input type="submit" value={"Create post"} id="button"/>
+                        </div>
+                        </div>
+                        <div className="form-main-right">
+                        <div>
+              <Categore setSelectedCategoryId={setSelectedCategoryId} />
+            </div>
+                        </div>
+                        
                         </div>
                       </form>
                     </>
                   )}
                 </div>
-                {loading ? (
+                {/* {loading ? (
                   <Loader />
                 ) : (
                   <>
-                    <CreateSeo
-                      seoInputValue={seoInputValue}
-                      seoHandler={seoHandler}
-                      submitHandler={submitHandler}
-                    />
+                  
                   </>
-                )}
+                )} */}
               </section>
             </div>
 
-            <div>
-              <Categore setSelectedCategoryId={setSelectedCategoryId} />
-            </div>
+          
           </div>
         </div>
       </div>

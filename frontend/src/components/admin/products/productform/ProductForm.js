@@ -219,7 +219,12 @@ const ProductForm = () => {
                 />
               </div>
             </div>
-
+            <h2>Product SEO</h2>
+            <CreateSeo
+        seoInputValue={seoInputValue}
+        seoHandler={seoHandler}
+        submitHandler={createProduct}
+      />
             <div>
               <Button
                 // disabled={loding || btndisable ? true : false}
@@ -233,11 +238,7 @@ const ProductForm = () => {
         </>
       )}
 
-      <CreateSeo
-        seoInputValue={seoInputValue}
-        seoHandler={seoHandler}
-        submitHandler={createProduct}
-      />
+    
     </>
   );
 };
