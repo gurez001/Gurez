@@ -6,6 +6,9 @@ import {
   NEW_CATEGORIE_FAIL,
   NEW_CATEGORIE_REQUEST,
   NEW_CATEGORIE_SUCCESS,
+  STATUS_CATEGORIE_FAIL,
+  STATUS_CATEGORIE_REQUEST,
+  STATUS_CATEGORIE_SUCCESS,
 } from "../constants/CategoreConstants";
 
 export const CreateNewCategore =
@@ -101,6 +104,34 @@ export const CreateNewSubCategore =
       });
     }
   };
+
+// ------STATUS--------------
+
+export const StausCategory = (id, status) => async (dispatch) => {
+  try {
+    console.log(id, status)
+    dispatch({ type: STATUS_CATEGORIE_REQUEST });
+
+    const formdata = new FormData();
+    formdata.append("status", status);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = axios.put(
+      `/api/v1/update/category-status/${id}`,
+      formdata,
+      config
+    );
+    dispatch({ type: STATUS_CATEGORIE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: STATUS_CATEGORIE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: ALL_CATEGORIE_ERRORS });

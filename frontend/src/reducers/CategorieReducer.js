@@ -7,6 +7,10 @@ import {
   NEW_CATEGORIE_REQUEST,
   NEW_CATEGORIE_RESET,
   NEW_CATEGORIE_SUCCESS,
+  STATUS_CATEGORIE_FAIL,
+  STATUS_CATEGORIE_REQUEST,
+  STATUS_CATEGORIE_RESET,
+  STATUS_CATEGORIE_SUCCESS,
 } from "../constants/CategoreConstants";
 
 export const newCategoreReducer = (state = {}, action) => {
@@ -45,7 +49,10 @@ export const newCategoreReducer = (state = {}, action) => {
   }
 };
 
-export const getAllCategoriesReducer = (state = { allcategroes: [] }, action) => {
+export const getAllCategoriesReducer = (
+  state = { allcategroes: [] },
+  action
+) => {
   switch (action.type) {
     case ALL_CATEGORIE_REQUEST:
       return {
@@ -73,5 +80,40 @@ export const getAllCategoriesReducer = (state = { allcategroes: [] }, action) =>
 
     default:
       return state;
+  }
+};
+
+export const StatusCategoryReducer = (state = {}, action) => {
+  switch (action.type) {
+    case STATUS_CATEGORIE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case STATUS_CATEGORIE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdate: true,
+      };
+    case STATUS_CATEGORIE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case STATUS_CATEGORIE_RESET:
+      return {
+        ...state,
+        loading: false,
+        isUpdate: null,
+      };
+    case ALL_CATEGORIE_ERRORS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      }
+      default : return state
   }
 };

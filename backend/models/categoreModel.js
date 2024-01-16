@@ -14,10 +14,12 @@ const categoreSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  childs:[{
-    type: mongoose.Schema.Types.ObjectId,
-    ref:'SubCategore'
-  }],
+  childs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SubCategore",
+    },
+  ],
   description: {
     type: String,
     require: true,
@@ -29,7 +31,11 @@ const categoreSchema = new mongoose.Schema({
   },
   seo: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:'SEO'
+    ref: "SEO",
+  },
+  categorystatus: {
+    type: Boolean,
+    default: true,
   },
   creditAt: {
     type: Date,

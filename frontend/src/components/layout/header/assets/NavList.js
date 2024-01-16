@@ -17,13 +17,11 @@ export const NavList = ({ toggleContentRemove }) => {
     error: caterror,
   } = useSelector((state) => state.allCategroe);
 
-  
-
   useEffect(() => {
     dispatch(getAllCategories());
   }, []);
-const icons=[<FaWineBottle />,<GiBeerBottle />,]
-  return (  
+  const icons = [<FaWineBottle />, <GiBeerBottle />];
+  return (
     <>
       <div className="nav-col nav-li-list">
         <ul className="nav-list parent-navlist">
@@ -33,24 +31,26 @@ const icons=[<FaWineBottle />,<GiBeerBottle />,]
             </NavLink>
           </li>
           {allcategroes &&
-            allcategroes.map((item, i) => (
-              <li key={i}>
-                <NavLink to={`/product-category/${item.slug}`} >
-                  {item.name}
-                </NavLink>
-                <ul className="child-navlist">
-                  {item.childs.map((subItem, i) => (
-                    <li key={i}>
-                      <NavLink 
-                        to={`/product-category/${item.slug}/${subItem.slug}`}
-                      >
-                        {subItem.name}
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
+            allcategroes
+              .filter((item) => item.categorystatus === true)
+              .map((item, i) => (
+                <li key={i}>
+                  <NavLink to={`/product-category/${item.slug}`}>
+                    {item.name}
+                  </NavLink>
+                  <ul className="child-navlist">
+                    {item.childs.map((subItem, i) => (
+                      <li key={i}>
+                        <NavLink
+                          to={`/product-category/${item.slug}/${subItem.slug}`}
+                        >
+                          {subItem.name}
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
 
           <li>
             <NavLink to={"/contact-us"}>Contact Us</NavLink>

@@ -9,22 +9,49 @@ import { Helmet } from "react-helmet";
 import Loader from "../../../layout/loader/Loader";
 import MetaData from "../../../layout/metaData/MetaData";
 import CategoreForm from "./assets/CategoreForm";
-import { getAllCategories } from "../../../../actions/CategoreAction";
+import {
+  StausCategory,
+  getAllCategories,
+} from "../../../../actions/CategoreAction";
+import { Switch } from "@material-ui/core";
+import { STATUS_CATEGORIE_RESET } from "../../../../constants/CategoreConstants";
 
 const AllCategory = () => {
   const dispatch = useDispatch();
-  // const alert = useAlert();
+  const alert = useAlert();
   // const Navigate = useNavigate();
 
+  const [checked, setChecked] = useState({});
   const {
     loading: catLoading,
     allcategroes,
     error: caterror,
   } = useSelector((state) => state.allCategroe);
 
+  const {
+    loading: updatecatStatusLoading,
+    isUpdate,
+    error: updatecatStatuserror,
+  } = useSelector((state) => state.adminCategoryStatusUpdate);
+
   useEffect(() => {
+    if (updatecatStatuserror) {
+      alert.error(updatecatStatuserror);
+    }
+    if (isUpdate) {
+      dispatch({ type: STATUS_CATEGORIE_RESET });
+    }
     dispatch(getAllCategories());
-  }, [dispatch]);
+  }, [dispatch, updatecatStatuserror, isUpdate]);
+
+  const handleChange = (id) => {
+    const newCheckedState = !checked[id];
+    setChecked((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+    dispatch(StausCategory(id, newCheckedState));
+  };
 
   const columns = [
     {
@@ -54,6 +81,7 @@ const AllCategory = () => {
       width: 10,
       shortable: false,
       renderCell: (params) => {
+        const rowStatus = params.getValue(params.id, "status");
         return (
           <>
             <MetaData
@@ -66,7 +94,12 @@ const AllCategory = () => {
             >
               <FaUpRightFromSquare />
             </NavLink>
-
+            <Switch
+              className={rowStatus ? "toggle-chekbox-active" : ""}
+              checked={checked[params.id] || false}
+              onChange={() => handleChange(params.id)}
+              inputProps={{ "aria-label": "controlled" }}
+            />
             <span
             // onClick={() =>
             //   deletehandler(params.getValue(params._id, "id"))
@@ -87,6 +120,7 @@ const AllCategory = () => {
         id: item._id,
         name: item.name,
         description: item.description,
+        status: item.categorystatus,
       });
     });
   return (
@@ -114,7 +148,7 @@ const AllCategory = () => {
                       </div>
                       <div className="categore-coll">
                         <div className="productdata">
-                          {catLoading ? (
+                          {catLoading && updatecatStatusLoading ? (
                             <Loader />
                           ) : (
                             <>

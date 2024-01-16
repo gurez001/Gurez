@@ -165,3 +165,22 @@ exports.createSubCategore = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler(`Internal server error: ${err}`, 500));
   }
 });
+
+// ----------delete-----------------
+
+exports.StatusCategory = catchAsyncError(async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    console.log(req.body)
+    const isexist = await categoreModel.findById(id);
+
+    if (!isexist) {
+      return next(new ErrorHandler("id not found", 400));
+    }
+    isexist.categorystatus = status;
+    await isexist.save({ validateBeforeSave: false });
+    res.status(200).json({status:true,
+    category:isexist})
+  } catch (error) {}
+});
