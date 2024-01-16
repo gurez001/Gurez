@@ -18,6 +18,10 @@ import {
   IMAGE_ID_REQUEST,
   IMAGE_ID_SUCCESS,
   IMAGE_ID_FAIL,
+  UPDATE_IMAGE_SEO_REQUEST,
+  UPDATE_IMAGE_SEO_SUCCESS,
+  UPDATE_IMAGE_SEO_FAIL,
+  UPDATE_IMAGE_SEO_RESET,
 } from "../constants/imageGelleryCartConstants";
 
 export const getAllImageReducer = (state = { images: [] }, action) => {
@@ -126,6 +130,42 @@ export const imageUpdateReducer = (state = {}, action) => {
   }
 };
 
+export const updateImageSeoReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_IMAGE_SEO_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_IMAGE_SEO_SUCCESS:
+      return {
+        loading: false,
+        isUpdate: action.payload,
+      };
+    case UPDATE_IMAGE_SEO_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case UPDATE_IMAGE_SEO_RESET:
+      return {
+        ...state,
+        loading: false,
+        isUpdate: false,
+      };
+
+    case IMAGE_CLEAR:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export const imageTextUpdateReducer = (state = {}, action) => {
   switch (action.type) {
     case UPDATE_TEXT_REQUEST:
@@ -167,18 +207,18 @@ export const selectImageeReducer = (state = {}, action) => {
     case IMAGE_ID_REQUEST:
       return {
         ...state,
-        loading:true
+        loading: true,
       };
     case IMAGE_ID_SUCCESS:
       return {
         ...state,
-        loading:false,
+        loading: false,
         images: action.payload,
       };
     case IMAGE_ID_FAIL:
       return {
         ...state,
-        loading:false,
+        loading: false,
         error: action.payload,
       };
 
@@ -186,5 +226,3 @@ export const selectImageeReducer = (state = {}, action) => {
       return state;
   }
 };
-
-

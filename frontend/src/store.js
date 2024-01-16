@@ -39,6 +39,7 @@ import {
   imageUpdateReducer,
   imageUploadReducer,
   selectImageeReducer,
+  updateImageSeoReducer,
 } from "./reducers/imageGelleryReducer";
 import { WishListReducer } from "./reducers/WiahListReducer";
 import {
@@ -107,6 +108,7 @@ const reducer = combineReducers({
   adminDeleteBlogCategory: DeleteCategoryReducer,
   adminUpdateBlogCategory: UpdateBlogCategoryReducer,
   adminAllSeo: seoReducer,
+  adminimageseo:updateImageSeoReducer,
 
 });
 

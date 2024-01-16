@@ -66,8 +66,26 @@ exports.createImageGellery = catchAsyncError(async (req, res, next) => {
   }
 });
 
-//--------update gellery image
+//update --image seo
 
+exports.updateImageSeo = catchAsyncError(async (req, res, next) => {
+
+  try {
+    console.log(req.body)
+
+    res.status(201).json({
+      success: true,
+      // imagesGellery,
+    });
+
+  } catch (error) {
+    return next(
+      new ErrorHandler("image seo internal server error" + error, 500)
+    );
+  }
+});
+
+//--------update gellery image
 exports.updateImageGellery = catchAsyncError(async (req, res, next) => {
   try {
     const { altText, title, caption } = req.body;
@@ -88,7 +106,6 @@ exports.updateImageGellery = catchAsyncError(async (req, res, next) => {
       success: true,
       message: "Image updated successfully",
     });
-    
   } catch (error) {
     return next(
       new ErrorHandler("Product - Internal Server Error" + error, 500)

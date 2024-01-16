@@ -100,5 +100,5 @@ export const UpdateBlogCategory=(id)=>  async(dispatch)=>{
 
 
 export const ClearError = () => async (dispatch) => {
-  dispatch({ type: DELETE_CATEGORY_RESET });
+  dispatch({ type: CATEGORY_CLEAR_ERROR });
 };

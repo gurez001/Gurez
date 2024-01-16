@@ -43,6 +43,7 @@ const CreateSeo = ({ seoHandler, seoInputValue, submitHandler }) => {
               placeholder="metalink"
               value={seoInputValue.metalink}
               name="metalink"
+              readOnly
             />
           </div>
         </form>

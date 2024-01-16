@@ -110,6 +110,12 @@ export const DeleteCategoryReducer = (state = {}, action) => {
         loading: false,
         isDelete: null,
       };
+    case CATEGORY_CLEAR_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
     default:
       return state;
   }
@@ -141,6 +147,12 @@ export const UpdateBlogCategoryReducer = (state = {}, action) => {
         ...state,
         loading: false,
         isUpdate: null,
+      };
+    case CATEGORY_CLEAR_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: null,
       };
     default:
       return state;

@@ -17,10 +17,13 @@ import "./allImage.css";
 import { NavLink } from "react-router-dom";
 import Loader from "../../../layout/loader/Loader";
 import ImageGallery from "./ImageGallery";
+import ImageAside from "./ImageAside";
 
 const AllImages = () => {
   const dispatch = useDispatch();
-
+  const { loading, images, error } = useSelector(
+    (state) => state.selectedImages
+  );
 
   useEffect(() => {
     dispatch(getAllImages());
@@ -59,6 +62,9 @@ const AllImages = () => {
                     </div>
                   </div>
                 </section>
+                {images && images.length > 0 ? <ImageAside
+                images={images}
+                /> : null}
               </div>
             </div>
           </div>

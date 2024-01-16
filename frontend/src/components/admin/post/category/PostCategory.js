@@ -14,7 +14,10 @@ import Loader from "../../../layout/loader/Loader";
 import { DataGrid } from "@material-ui/data-grid";
 import { NavLink } from "react-router-dom";
 import { FaTrash, FaUpRightFromSquare } from "react-icons/fa6";
-import { CREATE_CATEGORY_RESET, DELETE_CATEGORY_RESET } from "../../../../constants/BlogCategoryConstant";
+import {
+  CREATE_CATEGORY_RESET,
+  DELETE_CATEGORY_RESET,
+} from "../../../../constants/BlogCategoryConstant";
 
 function PostCategory() {
   const dispatch = useDispatch();
@@ -75,16 +78,15 @@ function PostCategory() {
         title: "",
         description: "",
       });
-      if (isDelete) {
-        alert.success("Category Delete Successfully");
-        dispatch({type:DELETE_CATEGORY_RESET})
-      }
+    }
+    if (isDelete) {
+      alert.success("Category Delete Successfully");
+      dispatch({ type: DELETE_CATEGORY_RESET });
     }
     dispatch(GetBlogCategory());
   }, [dispatch, alert, error, success, formError, isDelete, DeleteError]);
 
   const deletehandler = (id) => {
-
     dispatch(DeletePostCategory(id));
   };
   const columns = [

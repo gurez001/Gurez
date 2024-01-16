@@ -10,6 +10,9 @@ import {
   SET_SELECTED_IMAGE,
   UPDATE_IMAGE_FAIL,
   UPDATE_IMAGE_REQUEST,
+  UPDATE_IMAGE_SEO_FAIL,
+  UPDATE_IMAGE_SEO_REQUEST,
+  UPDATE_IMAGE_SEO_SUCCESS,
   UPDATE_IMAGE_SUCCESS,
   UPDATE_TEXT_FAIL,
   UPDATE_TEXT_REQUEST,
@@ -46,7 +49,6 @@ export const uploadImage = (avatar, user) => async (dispatch) => {
     // Append each file individually
     for (let i = 0; i < avatar.length; i++) {
       formData.append("avatar", avatar[i].file);
-
     }
 
     const config = {
@@ -64,6 +66,41 @@ export const uploadImage = (avatar, user) => async (dispatch) => {
     dispatch({
       type: UPLOAD_IMAGE_FAIL,
       payload: err.response.data.message,
+    });
+  }
+};
+
+//------- update image seo
+
+export const updateImageSeo = (id) => async (dispatch) => {
+  console.log(id)
+  try {
+    dispatch({ type: UPDATE_IMAGE_SEO_REQUEST });
+    const formData = new FormData();
+
+    // formData.append("userid", user);
+
+    // for (let i = 0; i < avatar.length; i++) {
+    //   formData.append("avatar", avatar[i].file);
+
+    // }
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const data = 'dddd'
+    // const { data } = await axios.post(
+    //   `/api/v1/admin/images/update/${id}`,
+    //   formData,
+    //   config
+    // );
+    dispatch({ type: UPDATE_IMAGE_SEO_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_IMAGE_SEO_FAIL,
+      payload: error.response.data.message,
     });
   }
 };
@@ -126,12 +163,11 @@ export const setSelectedImage = (imageData) => ({
 });
 
 export const getImageId = (ids) => async (dispatch) => {
-
   try {
     dispatch({ type: IMAGE_ID_REQUEST });
-    if(ids.length>0){
+    if (ids.length > 0) {
       const { data } = await axios.post("/api/v1/admin/images/ids", { ids });
-      dispatch({ type: IMAGE_ID_SUCCESS,payload:data.image    });
+      dispatch({ type: IMAGE_ID_SUCCESS, payload: data.image });
     }
   } catch (err) {
     dispatch({ type: IMAGE_ID_FAIL });
@@ -140,7 +176,7 @@ export const getImageId = (ids) => async (dispatch) => {
 
 // export const getSelectedImage = () => async (dispatch) => {
 //   try {
-  
+
 //     dispatch({ type: SET_SELECTED_IMAGE, payload: id });
 //   } catch (err) {
 //     dispatch({ type: SET_SELECTED_FAIL });
