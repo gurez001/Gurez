@@ -32,6 +32,11 @@ const subCategoreSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  seo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "SEO",
+
+  },
   creditAt: {
     type: Date,
     default: Date.now(),

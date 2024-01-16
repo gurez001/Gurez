@@ -10,6 +10,7 @@ import { useAlert } from "react-alert";
 import Loader from "../../../../layout/loader/Loader";
 import { NEW_CATEGORIE_RESET } from "../../../../../constants/CategoreConstants";
 import SelectCategore from "./SelectCategore";
+import CreateSeo from "../../../seo/create/CreateSeo";
 const CategoreForm = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -21,6 +22,14 @@ const CategoreForm = () => {
     allcategroes,
     error: caterror,
   } = useSelector((state) => state.allCategroe);
+
+  const [seoInputValue, setSeoInputValue] = useState({
+    seotitle: "",
+    keyword: "",
+    metadec: "",
+    metalink: "",
+  });
+
   const [inputValue, setInputValue] = useState({
     name: "",
     slug: "",
@@ -33,12 +42,24 @@ const CategoreForm = () => {
     const { name, value } = e.target;
     setInputValue({ ...inputValue, [name]: value });
   };
+
+  const seoHandler = (e) => {
+    const { name, value } = e.target;
+
+    setSeoInputValue({ ...seoInputValue, [name]: value });
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
-
+    const {seotitle,
+    keyword,
+    metadec,
+    metalink } = seoInputValue;
     const { name, slug, title, description, parent } = inputValue;
-    dispatch(CreateNewCategore(name, slug, title, parent, description));
-    // checkParent();
+    dispatch(CreateNewCategore(name, slug, title, parent, description,seotitle,
+      keyword,
+      metadec,));
+  
   };
 
   useEffect(() => {
@@ -57,7 +78,14 @@ const CategoreForm = () => {
       alert.success("Categore successfuly created");
       dispatch({ type: NEW_CATEGORIE_RESET });
     }
-  }, [alert, error, dispatch, message, success]);
+
+    if (inputValue.title) {
+      setSeoInputValue((prev) => ({ ...prev, seotitle: inputValue.title }));
+    }
+    if (inputValue.slug) {
+      setSeoInputValue((prev) => ({ ...prev, metalink: inputValue.slug }));
+    }
+  }, [alert, error, dispatch, message, success, inputValue]);
 
   return (
     <>
@@ -113,6 +141,12 @@ const CategoreForm = () => {
               <Button type="submit">Submit</Button>
             </div>
           </form>
+
+          <CreateSeo
+            seoInputValue={seoInputValue}
+            seoHandler={seoHandler}
+            submitHandler={submitHandler}
+          />
         </>
       )}
     </>

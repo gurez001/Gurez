@@ -9,10 +9,9 @@ import {
 } from "../constants/CategoreConstants";
 
 export const CreateNewCategore =
-  (name, slug, title,parent, description) => async (dispatch) => {
-  
+  (name, slug, title, parent, description, seotitle, keyword, metadec) =>
+  async (dispatch) => {
     try {
-    
       dispatch({ type: NEW_CATEGORIE_REQUEST });
 
       const formData = new FormData();
@@ -21,31 +20,32 @@ export const CreateNewCategore =
       formData.append("title", title);
       formData.append("parent", parent);
       formData.append("description", description);
+      formData.append("seotitle", seotitle);
+      formData.append("keyword", keyword);
+      formData.append("metadec", metadec);
 
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
       };
-if(parent===''){
+      if (parent === "") {
+        const { data } = await axios.post(
+          "/api/v1/create/categore",
+          formData,
+          config
+        );
 
-  const { data } = await axios.post(
-    "/api/v1/create/categore",
-    formData,
-    config
-  );
+        dispatch({ type: NEW_CATEGORIE_SUCCESS, payload: data });
+      } else {
+        const { data } = await axios.post(
+          "/api/v1/create/sub-categore",
+          formData,
+          config
+        );
 
-  dispatch({ type: NEW_CATEGORIE_SUCCESS, payload: data });
-}
-else{
-  const { data } = await axios.post(
-    "/api/v1/create/sub-categore",
-    formData,
-    config
-  );
-
-  dispatch({ type: NEW_CATEGORIE_SUCCESS, payload: data });
-}
+        dispatch({ type: NEW_CATEGORIE_SUCCESS, payload: data });
+      }
     } catch (error) {
       dispatch({
         type: NEW_CATEGORIE_FAIL,
@@ -67,14 +67,11 @@ export const getAllCategories = () => async (dispatch) => {
   }
 };
 
-
 //--------------------------- sub cat
 
 export const CreateNewSubCategore =
-  (name, slug, title,parent, description) => async (dispatch) => {
-    
+  (name, slug, title, parent, description) => async (dispatch) => {
     try {
-  
       dispatch({ type: NEW_CATEGORIE_REQUEST });
 
       const formData = new FormData();
@@ -104,7 +101,6 @@ export const CreateNewSubCategore =
       });
     }
   };
-
 
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: ALL_CATEGORIE_ERRORS });

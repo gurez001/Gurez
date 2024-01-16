@@ -34,6 +34,16 @@ const seoSchema = new mongoose.Schema({
     ref: "Product",
     // require: true,
   },
+  productcatid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Categore",
+    // require: true,
+  },
+  productsubcatid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Categore",
+    // require: true,
+  },
 });
 
 module.exports = mongoose.model("SEO", seoSchema);

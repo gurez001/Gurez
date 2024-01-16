@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Aside } from "../../aside/Aside";
 import { Button } from "@material-ui/core";
-
 import ImgUploader from "../../ImageGellery/uploadimage/ImageTabToggle";
 import { ProductSidebar } from "./ProductSidebar";
 import MetaData from "../../../layout/metaData/MetaData";
 import ProductForm from "../productform/ProductForm";
 import {useDispatch} from'react-redux';
 import { getAllImages } from "../../../../actions/imageGelleryAction";
+
 export const CreateProduct = () => {
+  
   const [open, setOpen] = useState(false);
 const dispatch = useDispatch();
   //--------------handleImageClickOpen
