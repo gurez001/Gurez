@@ -172,7 +172,7 @@ exports.StatusCategory = catchAsyncError(async (req, res, next) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    console.log(req.body)
+
     const isexist = await categoreModel.findById(id);
 
     if (!isexist) {
@@ -182,5 +182,27 @@ exports.StatusCategory = catchAsyncError(async (req, res, next) => {
     await isexist.save({ validateBeforeSave: false });
     res.status(200).json({status:true,
     category:isexist})
-  } catch (error) {}
+  } catch (error) {
+    return next(new ErrorHandler(`Internal server error: ${error}`, 500));
+  }
 });
+
+exports.subStatusCategory = catchAsyncError(async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    console.log(req.body)
+    const isexist = await subCategoreModel.findById(id);
+    if (!isexist) {
+      return next(new ErrorHandler("id not found", 400));
+    }
+    isexist.subcategorystatus = status;
+    await isexist.save({ validateBeforeSave: false });
+    console.log(isexist)
+    res.status(200).json({status:true,
+    category:isexist})
+  } catch (error) {
+    return next(new ErrorHandler(`Internal server error: ${error}`, 500));
+  }
+});
+

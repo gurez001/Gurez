@@ -11,6 +11,10 @@ import {
   STATUS_CATEGORIE_REQUEST,
   STATUS_CATEGORIE_RESET,
   STATUS_CATEGORIE_SUCCESS,
+  STATUS_SUB_CATEGORIE_FAIL,
+  STATUS_SUB_CATEGORIE_REQUEST,
+  STATUS_SUB_CATEGORIE_RESET,
+  STATUS_SUB_CATEGORIE_SUCCESS,
 } from "../constants/CategoreConstants";
 
 export const newCategoreReducer = (state = {}, action) => {
@@ -86,6 +90,7 @@ export const getAllCategoriesReducer = (
 export const StatusCategoryReducer = (state = {}, action) => {
   switch (action.type) {
     case STATUS_CATEGORIE_REQUEST:
+    case STATUS_SUB_CATEGORIE_REQUEST:
       return {
         ...state,
         loading: true,
@@ -96,13 +101,21 @@ export const StatusCategoryReducer = (state = {}, action) => {
         loading: false,
         isUpdate: true,
       };
+    case STATUS_SUB_CATEGORIE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdate: true,
+      };
     case STATUS_CATEGORIE_FAIL:
+    case STATUS_SUB_CATEGORIE_FAIL:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     case STATUS_CATEGORIE_RESET:
+    case STATUS_SUB_CATEGORIE_RESET:
       return {
         ...state,
         loading: false,
@@ -113,7 +126,8 @@ export const StatusCategoryReducer = (state = {}, action) => {
         ...state,
         loading: false,
         error: null,
-      }
-      default : return state
+      };
+    default:
+      return state;
   }
 };

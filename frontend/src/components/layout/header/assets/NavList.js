@@ -39,15 +39,17 @@ export const NavList = ({ toggleContentRemove }) => {
                     {item.name}
                   </NavLink>
                   <ul className="child-navlist">
-                    {item.childs.map((subItem, i) => (
-                      <li key={i}>
-                        <NavLink
-                          to={`/product-category/${item.slug}/${subItem.slug}`}
-                        >
-                          {subItem.name}
-                        </NavLink>
-                      </li>
-                    ))}
+                    {item.childs
+                      .filter((item) => item.subcategorystatus === true)
+                      .map((subItem, i) => (
+                        <li key={i}>
+                          <NavLink
+                            to={`/product-category/${item.slug}/${subItem.slug}`}
+                          >
+                            {subItem.name}
+                          </NavLink>
+                        </li>
+                      ))}
                   </ul>
                 </li>
               ))}

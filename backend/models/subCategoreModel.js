@@ -37,6 +37,10 @@ const subCategoreSchema = new mongoose.Schema({
     ref: "SEO",
 
   },
+  subcategorystatus: {
+    type: Boolean,
+    default: true,
+  },
   creditAt: {
     type: Date,
     default: Date.now(),

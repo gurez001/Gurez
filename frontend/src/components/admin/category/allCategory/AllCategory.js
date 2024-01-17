@@ -11,6 +11,7 @@ import MetaData from "../../../layout/metaData/MetaData";
 import CategoreForm from "./assets/CategoreForm";
 import {
   StausCategory,
+  StausSubCategory,
   getAllCategories,
 } from "../../../../actions/CategoreAction";
 import { Switch } from "@material-ui/core";
@@ -22,6 +23,8 @@ const AllCategory = () => {
   // const Navigate = useNavigate();
 
   const [checked, setChecked] = useState({});
+  const [subChecked, setSubChecked] = useState({});
+
   const {
     loading: catLoading,
     allcategroes,
@@ -53,6 +56,18 @@ const AllCategory = () => {
     dispatch(StausCategory(id, newCheckedState));
   };
 
+
+  const handleChangeSubCat = (id) =>{
+    const newCheckedState = !subChecked[id];
+    setSubChecked((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+
+    dispatch(StausSubCategory(id, newCheckedState));
+  }
+
+
   const columns = [
     {
       field: "id",
@@ -81,7 +96,8 @@ const AllCategory = () => {
       width: 10,
       shortable: false,
       renderCell: (params) => {
-        const rowStatus = params.getValue(params.id, "status");
+        
+        const rowStatus = params.row.status;
         return (
           <>
             <MetaData
@@ -90,14 +106,82 @@ const AllCategory = () => {
               keywords={"Admin all product list"}
             />
             <NavLink
-              to={`/admin/upsate-categorie/${params.getValue(params.id, "id")}`}
+              to={`/admin/upsate-categorie/${params.row.parentid}`}
             >
               <FaUpRightFromSquare />
             </NavLink>
             <Switch
               className={rowStatus ? "toggle-chekbox-active" : ""}
-              checked={checked[params.id] || false}
-              onChange={() => handleChange(params.id)}
+              checked={checked[params.row.parentid] || false}
+              onChange={() => handleChange(params.row.parentid)}
+              inputProps={{ "aria-label": "controlled" }}
+            />
+            <span
+            // onClick={() =>
+            //   deletehandler(params.getValue(params._id, "id"))
+            // }
+            >
+              <FaTrash />
+            </span>
+          </>
+        );
+      },
+    },
+  ];
+
+  const subColumns = [
+    {
+      field: "id",
+      headerName: "Product id",
+      minWidth: 100,
+      width: 10,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      minWidth: 100,
+      width: 10,
+    },
+    ,
+    {
+      field: "parent",
+      headerName: "Parent",
+      minWidth: 100,
+      width: 10,
+    },
+
+    {
+      field: "description",
+      headerName: "description",
+      minWidth: 200,
+      width: 10,
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      type: "number",
+      minWidth: 200,
+      width: 10,
+      shortable: false,
+      renderCell: (params) => {
+
+        const rowStatus = params.row.substatus;
+        return (
+          <>
+            <MetaData
+              title={"Admin all product list"}
+              content={"Admin all product list"}
+              keywords={"Admin all product list"}
+            />
+            <NavLink
+              to={`/admin/upsate-categorie/${params.row.subid}`}
+            >
+              <FaUpRightFromSquare />
+            </NavLink>
+            <Switch
+              className={rowStatus ? "toggle-chekbox-active" : ""}
+              checked={subChecked[params.row.subid] || false}
+              onChange={() => handleChangeSubCat(params.row.subid)}
               inputProps={{ "aria-label": "controlled" }}
             />
             <span
@@ -114,13 +198,26 @@ const AllCategory = () => {
   ];
 
   const rows = [];
+  const rowsSub = [];
   allcategroes &&
     allcategroes.forEach((item, i) => {
       rows.push({
-        id: item._id,
+        id: i+1,
+        parentid: item._id,
         name: item.name,
         description: item.description,
         status: item.categorystatus,
+      });
+      item.childs.forEach((subItem,j) => {
+    
+        rowsSub.push({
+          id: j+1,
+          subid: subItem._id,
+          name: subItem.name,
+          parent: item.name,
+          description: subItem.description,
+          substatus: subItem.subcategorystatus,
+        });
       });
     });
   return (
@@ -140,13 +237,14 @@ const AllCategory = () => {
                 <div className="all-products-cont">
                   <div className="all-products-content-area">
                     <div className="all-products-title">
-                      <h1>All products</h1>
+                      <h1>products category </h1>
                     </div>
                     <div className="categore-row">
                       <div className="categore-coll">
                         <CategoreForm />
                       </div>
                       <div className="categore-coll">
+                        <h2>Parent category</h2>
                         <div className="productdata">
                           {catLoading && updatecatStatusLoading ? (
                             <Loader />
@@ -157,6 +255,32 @@ const AllCategory = () => {
                                   <DataGrid
                                     rows={rows}
                                     columns={columns}
+                                    // page={10}
+                                    disableSelectionOnClick
+                                    className="product-list-table"
+                                    autoHeight
+                                  />
+                                </>
+                              ) : (
+                                <p>no data found</p>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="categore-coll">
+                        <h2>Sub category</h2>
+                        <div className="productdata">
+                        {catLoading && updatecatStatusLoading ? (
+                            <Loader />
+                          ) : (
+                            <>
+                              {allcategroes && allcategroes.length > 0 ? (
+                                <>
+                                  <DataGrid
+                                    rows={rowsSub}
+                                    columns={subColumns}
                                     // page={10}
                                     disableSelectionOnClick
                                     className="product-list-table"

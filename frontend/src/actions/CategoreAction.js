@@ -9,6 +9,9 @@ import {
   STATUS_CATEGORIE_FAIL,
   STATUS_CATEGORIE_REQUEST,
   STATUS_CATEGORIE_SUCCESS,
+  STATUS_SUB_CATEGORIE_FAIL,
+  STATUS_SUB_CATEGORIE_REQUEST,
+  STATUS_SUB_CATEGORIE_SUCCESS,
 } from "../constants/CategoreConstants";
 
 export const CreateNewCategore =
@@ -109,7 +112,7 @@ export const CreateNewSubCategore =
 
 export const StausCategory = (id, status) => async (dispatch) => {
   try {
-    console.log(id, status)
+    console.log(id, status);
     dispatch({ type: STATUS_CATEGORIE_REQUEST });
 
     const formdata = new FormData();
@@ -128,6 +131,33 @@ export const StausCategory = (id, status) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: STATUS_CATEGORIE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const StausSubCategory = (id, status) => async (dispatch) => {
+  try {
+    console.log(id, status);
+    dispatch({ type: STATUS_SUB_CATEGORIE_REQUEST });
+
+    const formdata = new FormData();
+    formdata.append("status", status);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+ //   const data = 'dddd'
+    const { data } = axios.put(
+      `/api/v1/update/sub-category-status/${id}`,
+      formdata,
+      config
+    );
+    dispatch({ type: STATUS_SUB_CATEGORIE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: STATUS_SUB_CATEGORIE_FAIL,
       payload: error.response.data.message,
     });
   }
