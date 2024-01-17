@@ -3,7 +3,7 @@ const categoreModel = require("../models/categoreModel");
 const seoModel = require("../models/seoModel");
 const subCategoreModel = require("../models/subCategoreModel");
 const ErrorHandler = require("../utils/errorhandler");
-
+const mongoose = require("mongoose");
 exports.createCategore = catchAsyncError(async (req, res, next) => {
   try {
     const {
@@ -180,8 +180,7 @@ exports.StatusCategory = catchAsyncError(async (req, res, next) => {
     }
     isexist.categorystatus = status;
     await isexist.save({ validateBeforeSave: false });
-    res.status(200).json({status:true,
-    category:isexist})
+    res.status(200).json({ status: true, category: isexist });
   } catch (error) {
     return next(new ErrorHandler(`Internal server error: ${error}`, 500));
   }
@@ -191,18 +190,105 @@ exports.subStatusCategory = catchAsyncError(async (req, res, next) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    console.log(req.body)
+
     const isexist = await subCategoreModel.findById(id);
     if (!isexist) {
       return next(new ErrorHandler("id not found", 400));
     }
     isexist.subcategorystatus = status;
     await isexist.save({ validateBeforeSave: false });
-    console.log(isexist)
-    res.status(200).json({status:true,
-    category:isexist})
+
+    res.status(200).json({ status: true, category: isexist });
   } catch (error) {
     return next(new ErrorHandler(`Internal server error: ${error}`, 500));
   }
 });
 
+exports.singleParentCategory = catchAsyncError(async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return next(new ErrorHandler("Invalid ID format", 400));
+    }
+    const isexist = await categoreModel
+      .findById(id)
+      .populate([{ path: "seo", model: "SEO" }]);
+
+    if (!isexist) {
+      return next(new ErrorHandler("id not found", 400));
+    }
+
+    res.status(200).json({ status: true, parentcategory: isexist });
+  } catch (error) {
+    return next(new ErrorHandler(`Internal server error: ${error}`, 500));
+  }
+});
+
+exports.updateParentCategore = catchAsyncError(async (req, res, next) => {
+  try {
+    const {
+      name,
+      slug,
+      title,
+      description,
+      parent,
+      seotitle,
+      keyword,
+      metadec,
+    } = req.body;
+
+    const { id } = req.params;
+
+    let metalink = slug.split(" ").join("-").toLowerCase();
+    const data = {
+      name,
+      slug: metalink,
+      title,
+      description,
+    };
+
+    const existingSlug = await categoreModel.findById(id);
+    if (!existingSlug) {
+      return next(new ErrorHandler(`Category not found.`, 400));
+    }
+
+    const update = await categoreModel.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+
+    const existingSeoUrl = await seoModel.findOne({ _id: update.seo });
+
+    if (!existingSeoUrl) {
+      return next(new ErrorHandler(`Category not found.`, 404));
+    }
+
+    const seoData = {
+      metatitle: seotitle,
+      keyword: keyword,
+      metadec: metadec,
+      metalink: metalink,
+    };
+
+    const updatSeo = await seoModel.findOneAndUpdate(
+      existingSeoUrl._id,
+      seoData,
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Categore updated successfully",
+
+    });
+  } catch (err) {
+    console.log(err);
+    return next(new ErrorHandler(`Internal server error: ${err}`, 500));
+  }
+});

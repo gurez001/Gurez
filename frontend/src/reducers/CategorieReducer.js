@@ -3,6 +3,9 @@ import {
   ALL_CATEGORIE_FAIL,
   ALL_CATEGORIE_REQUEST,
   ALL_CATEGORIE_SUCCESS,
+  GET_SINGLE_PRODUCT_CAT_FAIL,
+  GET_SINGLE_PRODUCT_CAT_REQUEST,
+  GET_SINGLE_PRODUCT_CAT_SUCCESS,
   NEW_CATEGORIE_FAIL,
   NEW_CATEGORIE_REQUEST,
   NEW_CATEGORIE_RESET,
@@ -15,6 +18,10 @@ import {
   STATUS_SUB_CATEGORIE_REQUEST,
   STATUS_SUB_CATEGORIE_RESET,
   STATUS_SUB_CATEGORIE_SUCCESS,
+  UPDATE_PARENT_CATEGORIE_FAIL,
+  UPDATE_PARENT_CATEGORIE_REQUEST,
+  UPDATE_PARENT_CATEGORIE_RESET,
+  UPDATE_PARENT_CATEGORIE_SUCCESS,
 } from "../constants/CategoreConstants";
 
 export const newCategoreReducer = (state = {}, action) => {
@@ -116,6 +123,73 @@ export const StatusCategoryReducer = (state = {}, action) => {
       };
     case STATUS_CATEGORIE_RESET:
     case STATUS_SUB_CATEGORIE_RESET:
+      return {
+        ...state,
+        loading: false,
+        isUpdate: null,
+      };
+    case ALL_CATEGORIE_ERRORS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const singleCatReducer = (state = { parent: {} }, action) => {
+  switch (action.type) {
+    case GET_SINGLE_PRODUCT_CAT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_SINGLE_PRODUCT_CAT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        parent: action.payload,
+      };
+    case GET_SINGLE_PRODUCT_CAT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case ALL_CATEGORIE_ERRORS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const updateParentCategoryReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_PARENT_CATEGORIE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_PARENT_CATEGORIE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdate: true,
+      };
+    case UPDATE_PARENT_CATEGORIE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case UPDATE_PARENT_CATEGORIE_RESET:
       return {
         ...state,
         loading: false,

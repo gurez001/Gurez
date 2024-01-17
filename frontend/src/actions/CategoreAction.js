@@ -3,6 +3,9 @@ import {
   ALL_CATEGORIE_ERRORS,
   ALL_CATEGORIE_REQUEST,
   ALL_CATEGORIE_SUCCESS,
+  GET_SINGLE_PRODUCT_CAT_FAIL,
+  GET_SINGLE_PRODUCT_CAT_REQUEST,
+  GET_SINGLE_PRODUCT_CAT_SUCCESS,
   NEW_CATEGORIE_FAIL,
   NEW_CATEGORIE_REQUEST,
   NEW_CATEGORIE_SUCCESS,
@@ -12,6 +15,9 @@ import {
   STATUS_SUB_CATEGORIE_FAIL,
   STATUS_SUB_CATEGORIE_REQUEST,
   STATUS_SUB_CATEGORIE_SUCCESS,
+  UPDATE_PARENT_CATEGORIE_FAIL,
+  UPDATE_PARENT_CATEGORIE_REQUEST,
+  UPDATE_PARENT_CATEGORIE_SUCCESS,
 } from "../constants/CategoreConstants";
 
 export const CreateNewCategore =
@@ -148,7 +154,7 @@ export const StausSubCategory = (id, status) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     };
- //   const data = 'dddd'
+    //   const data = 'dddd'
     const { data } = axios.put(
       `/api/v1/update/sub-category-status/${id}`,
       formdata,
@@ -163,6 +169,74 @@ export const StausSubCategory = (id, status) => async (dispatch) => {
   }
 };
 
+export const getSingleParentCat = (id) => async (dispatch) => {
+  try {
+    console.log(id);
+    dispatch({ type: GET_SINGLE_PRODUCT_CAT_REQUEST });
+
+    const { data } = await axios.get(
+      `/api/v1/product/all-parent-category/${id}`
+    );
+
+    dispatch({
+      type: GET_SINGLE_PRODUCT_CAT_SUCCESS,
+      payload: data.parentcategory,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_SINGLE_PRODUCT_CAT_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: ALL_CATEGORIE_ERRORS });
 };
+
+export const updateParentCategory =
+  (
+    id,
+    name,
+    slug,
+    title,
+    description,
+    parent,
+    seotitle,
+    keyword,
+    metadec,
+    metalink
+  ) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_PARENT_CATEGORIE_REQUEST });
+
+      const formdata = new FormData();
+      formdata.append("name", name);
+      formdata.append("slug", slug);
+      formdata.append("title", title);
+      formdata.append("description", description);
+      formdata.append("parent", parent);
+      formdata.append("seotitle", seotitle);
+      formdata.append("keyword", keyword);
+      formdata.append("metadec", metadec);
+      formdata.append("metalink", metalink);
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = axios.put(
+        `/api/v1/update/parent-category/${id}`,
+        formdata,
+        config
+      );
+      dispatch({ type: UPDATE_PARENT_CATEGORIE_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_PARENT_CATEGORIE_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };

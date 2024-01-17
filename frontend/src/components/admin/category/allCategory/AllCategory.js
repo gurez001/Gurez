@@ -106,7 +106,7 @@ const AllCategory = () => {
               keywords={"Admin all product list"}
             />
             <NavLink
-              to={`/admin/upsate-categorie/${params.row.parentid}`}
+              to={`/admin/product/update-categorie/${params.row.parentid}`}
             >
               <FaUpRightFromSquare />
             </NavLink>
@@ -243,7 +243,7 @@ const AllCategory = () => {
                       <div className="categore-coll">
                         <CategoreForm />
                       </div>
-                      <div className="categore-coll">
+                      <div id="parent-category" className="categore-coll">
                         <h2>Parent category</h2>
                         <div className="productdata">
                           {catLoading && updatecatStatusLoading ? (

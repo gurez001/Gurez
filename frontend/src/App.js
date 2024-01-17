@@ -222,7 +222,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/admin/upsate-categorie/:id"
+                  path="/admin/product/update-categorie/:id"
                   element={
                     <ProtectedRoute isAdmin={true} Component={UpdateCategory} />
                   }

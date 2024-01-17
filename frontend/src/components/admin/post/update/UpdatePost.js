@@ -109,8 +109,7 @@ const UpdatePost = () => {
     dispatch(GetBlogCategory());
   }, [dispatch, error, blog, alert, isUpdate]);
 
-
-  console.log(seoInputValue)
+  console.log(seoInputValue);
   const inputHandler = (e) => {
     const { name, value } = e.target;
 
@@ -134,61 +133,58 @@ const UpdatePost = () => {
                 <form onSubmit={submitHandler}>
                   <div className="from-main-div">
                     <div className="form-main-left">
-                  <div className="input-field-area">
-                    <input
-                      type="text"
-                      name="title"
-                      value={inputValue.title}
-                      onChange={inputHandler}
-                      placeholder="Add Title"
-                    />
-                  </div>
-                  <div className="input-field-area">
-                    <label htmlFor="description">description</label>
-                    <div>
-                      <MyEditor
-                        valuedata={description}
-                        getData={setDescription}
+                      <div className="input-field-area">
+                        <input
+                          type="text"
+                          name="title"
+                          value={inputValue.title}
+                          onChange={inputHandler}
+                          placeholder="Add Title"
+                        />
+                      </div>
+                      <div className="input-field-area">
+                        <label htmlFor="description">description</label>
+                        <div>
+                          <MyEditor
+                            valuedata={description}
+                            getData={setDescription}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="input-field-area">
+                        <label htmlFor="slug">Slug</label>
+                        <input
+                          type="text"
+                          placeholder="slug"
+                          name="slug"
+                          value={inputValue.slug}
+                          onChange={inputHandler}
+                        />
+                      </div>
+                      <h2>SEO</h2>
+                      <CreateSeo
+                        seoInputValue={seoInputValue}
+                        seoHandler={seoHandler}
+                        submitHandler={submitHandler}
                       />
+
+                      <div>
+                        <Button type="submit">Update post</Button>
+                      </div>
                     </div>
-                  </div>
-
-                  <div className="input-field-area">
-                    <label htmlFor="slug">Slug</label>
-                    <input
-                      type="text"
-                      placeholder="slug"
-                      name="slug"
-                      value={inputValue.slug}
-                      onChange={inputHandler}
-                    />
-                  </div>
-                  <h2>SEO</h2>
-                  <CreateSeo
-                  seoInputValue={seoInputValue}
-                  seoHandler={seoHandler}
-                  submitHandler={submitHandler}
-                />
-
-                  <div>
-                    <Button type="submit">Update post</Button>
-                  </div></div>
-<div className="form-main-right">
-<div>
-                <Categore
-                  selectedCategoryId={selectedCategoryId}
-                  setSelectedCategoryId={setSelectedCategoryId}
-                />
-              </div>
-</div>
-
+                    <div className="form-main-right">
+                      <div>
+                        <Categore
+                          selectedCategoryId={selectedCategoryId}
+                          setSelectedCategoryId={setSelectedCategoryId}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </form>
               </section>
-              <section>
-              
-              </section>
-             
+       
             </div>
           </div>
         </div>

@@ -46,6 +46,8 @@ import {
   StatusCategoryReducer,
   getAllCategoriesReducer,
   newCategoreReducer,
+  singleCatReducer,
+  updateParentCategoryReducer,
 } from "./reducers/CategorieReducer";
 import {
   BlogPostReducer,
@@ -109,9 +111,10 @@ const reducer = combineReducers({
   adminDeleteBlogCategory: DeleteCategoryReducer,
   adminUpdateBlogCategory: UpdateBlogCategoryReducer,
   adminAllSeo: seoReducer,
-  adminimageseo:updateImageSeoReducer,
-  adminCategoryStatusUpdate:StatusCategoryReducer,
-
+  adminimageseo: updateImageSeoReducer,
+  adminCategoryStatusUpdate: StatusCategoryReducer,
+  adminSingleCategory: singleCatReducer,
+  adminUpdateParentCategory: updateParentCategoryReducer,
 });
 
 let inialState = {
