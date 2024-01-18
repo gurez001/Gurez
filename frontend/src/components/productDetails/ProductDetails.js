@@ -216,7 +216,7 @@ const ProductDetails = () => {
                   <ReviewStar product={product} />
 
                   <div className="rev-col">
-                    {product.reviews && product.reviewsids[0] ? (
+                    {product && product.reviewsids && product.reviewsids.length > 0 ? (
                       <>
                         <div className="review-row">
                           {product.reviewsids.map((review, i) => {

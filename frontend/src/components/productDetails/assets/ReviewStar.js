@@ -18,13 +18,13 @@ export const ReviewStar = ({ product }) => {
       ? product.reviewsids.reduce((acc, review) => acc + review.rating, 0)
       : 0;
 
-  // if (product.reviewsids.length > 0) {
-  //   product.reviewsids.forEach((review) => {
-  //     const rating = review.rating;
-  //     starValue[rating - 1] += rating;
-  //     starInPercentage[rating - 1] += 100 / reviewLength;
-  //   });
-  // }
+  if (product && product.reviewsids && product.reviewsids.length > 0) {
+    product.reviewsids.forEach((review) => {
+      const rating = review.rating;
+      starValue[rating - 1] += rating;
+      starInPercentage[rating - 1] += 100 / reviewLength;
+    });
+  }
 
   return (
     <div className="rating-col">
