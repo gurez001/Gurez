@@ -144,7 +144,7 @@ exports.createProducts = catchAsyncError(async (req, res, next) => {
       type,
       productid: Products._id,
     });
-console.log(seo)
+
     Products.seoid = seo._id;
     await Products.save({ validateBeforeSave: false });
 
@@ -162,6 +162,7 @@ console.log(seo)
 //----------get all produts
 exports.getAllProducts = catchAsyncError(async (req, res, next) => {
   try {
+
     const resultPerpage = 12;
     const productCount = await products.countDocuments();
     // const filterProduct = await toggleModel.find();

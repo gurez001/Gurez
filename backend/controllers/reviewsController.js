@@ -38,7 +38,14 @@ exports.createProductReviews = catchAsyncError(async (req, res, next) => {
         product.reviewsids.push(newReview._id);
         await product.save();
       }
-
+      let revilength = await reviewsSchema.find({
+        productid: isExistReview.productid,
+      });
+      const length = revilength.length;
+      const sum = revilength.reduce((acc, review) => acc + review.rating, 0);
+      const average = sum / length;
+      product.ratings = average;
+      await product.save();
       res.status(201).json({
         message: "Review created successfully",
         newReview,

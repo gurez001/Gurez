@@ -88,7 +88,7 @@ const ProductCard = ({ product }) => {
               <Rating {...options} />
               <span className="rev-tot">
                 (
-                {product.numOfReviews < 1 ? "No reviews" : product.numOfReviews}
+                {product.reviewsids && product.reviewsids.length < 1 ? "No reviews" : product.reviewsids && product.reviewsids.length}
                 )
               </span>
             </div>

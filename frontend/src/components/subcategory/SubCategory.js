@@ -105,9 +105,9 @@ const SubCategory = () => {
         getProduct(
           currentPage,
           price,
+          ratings,
           cat && cat._id,
           subcat && subcat._id,
-          ratings
         )
       );
     }
@@ -117,9 +117,9 @@ const SubCategory = () => {
       getProduct(
         currentPage,
         price,
+        ratings,
         cat && cat._id,
         subcat && subcat._id,
-        ratings
       )
     );
     const handleResize = () => {

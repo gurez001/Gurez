@@ -42,9 +42,9 @@ export const getProduct =
   (
     currentPage = 1,
     price = [0, 1000],
+    ratings,
     categorie,
     subcategory,
-    ratings,
     discount = 0
   ) =>
   async (dispatch) => {
