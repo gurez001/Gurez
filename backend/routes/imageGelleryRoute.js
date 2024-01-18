@@ -12,7 +12,6 @@ const router = express.Router();
 
 router.route("/admin/images").get(isAuthenticatedUser, getAllImages);
 router.route("/admin/images/ids").post(isAuthenticatedUser, getImageFromIds);
-// router.route("/admin/images/update/:id").put(isAuthenticatedUser, updateImageGellery);
 router.route("/admin/images/update/:id").put(isAuthenticatedUser, updateImageSeo);
 router
   .route("/admin/images/upload")

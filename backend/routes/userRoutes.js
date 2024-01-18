@@ -2,8 +2,6 @@ const express = require('express');
 const { singupUser,
     loginUser,
     logOut,
-    // forgotPassword,
-    resetPassword,
     getUserDetails,
     updateUserPassword,
     updateUserProfile,
@@ -33,7 +31,6 @@ router.route('/password/reset/:token').put(changePassword)
 router.route('/profie').get(isAuthenticatedUser, getUserDetails)
 
 router.route('/password/forgot').post(forgotPassword)
-// router.route('/password/forgot/:token').put(changePassword)
 
 
 

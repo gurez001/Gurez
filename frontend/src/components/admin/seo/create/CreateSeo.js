@@ -9,41 +9,41 @@ const CreateSeo = ({ seoHandler, seoInputValue, submitHandler }) => {
             <label>Title</label>
             <input
               type="text"
-              value={seoInputValue.seotitle}
-              onChange={(e) => seoHandler(e)}
-              placeholder="Title"
               name="seotitle"
-            />
+              value={seoInputValue.seotitle}
+              placeholder="Title"
+              onChange={(e) => seoHandler(e)}
+              />
           </div>
           <div className="input-field-area">
             <label>Keyword</label>
             <input
               type="text"
-              onChange={(e) => seoHandler(e)}
               placeholder="keyword"
-              value={seoInputValue.keyword}
               name="keyword"
+              value={seoInputValue.keyword}
+              onChange={(e) => seoHandler(e)}
             />
           </div>
           <div className="input-field-area">
             <label>Descrription</label>
             <input
               type="text"
-              onChange={(e) => seoHandler(e)}
               placeholder="metadec"
-              value={seoInputValue.metadec}
               name="metadec"
+              value={seoInputValue.metadec}
+              onChange={(e) => seoHandler(e)}
             />
           </div>
           <div className="input-field-area">
             <label>Meta link</label>
             <input
               type="text"
-              onChange={(e) => seoHandler(e)}
               placeholder="metalink"
-              value={seoInputValue.metalink}
               name="metalink"
               readOnly
+              value={seoInputValue.metalink}
+              onChange={(e) => seoHandler(e)}
             />
           </div>
         </form>

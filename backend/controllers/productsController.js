@@ -45,7 +45,7 @@ exports.featureProduct = catchAsyncError(async (req, res, nex) => {
       product: sortedProductFrequencyArray,
     });
   } catch (err) {
-    console.log(err);
+    return next(new ErrorHandler("Internal server error" + error, 500));
   }
 });
 
@@ -140,11 +140,11 @@ exports.createProducts = catchAsyncError(async (req, res, next) => {
       metatitle: seotitle,
       keyword: seokeyword,
       metadec: seometadec,
-      metalink: seometalink,
+      metalink: slug,
       type,
       productid: Products._id,
     });
-
+console.log(seo)
     Products.seoid = seo._id;
     await Products.save({ validateBeforeSave: false });
 
@@ -153,7 +153,6 @@ exports.createProducts = catchAsyncError(async (req, res, next) => {
       Products,
     });
   } catch (error) {
-    console.log(error);
     return next(
       new ErrorHandler("Product - Internal Server Error" + error, 500)
     );
@@ -202,7 +201,6 @@ exports.getAllProducts = catchAsyncError(async (req, res, next) => {
       resultPerpage,
     });
   } catch (error) {
-    console.log(error);
     return next(
       new ErrorHandler(
         "Error getting all products - Internal Server Error",
@@ -241,8 +239,8 @@ exports.getAdminAllProducts = catchAsyncError(async (req, res, next) => {
 
 //------ get single products
 exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
-  console.log(req.params.metalink);
   try {
+    console.log( req.params.metalink)
     let Product;
     if (isNaN(req.params.metalink)) {
       Product = await products
@@ -280,7 +278,7 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
       ]);
       //  Product = await Product.findById(req.params.metalink).populate('imageId');
     }
-    console.log(Product);
+
     if (!Product) {
       return next(new ErrorHandler("Product not found", 404));
     }
@@ -289,7 +287,6 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
       Product,
     });
   } catch (error) {
-    console.log(error);
     return next(
       new ErrorHandler("Internal Server Error in single product page", 500)
     );
@@ -378,7 +375,6 @@ exports.updateProducts = catchAsyncError(async (req, res, next) => {
       Product,
     });
   } catch (error) {
-    console.log(error);
     return next(new ErrorHandler(" Internal Error updating product:", 404));
   }
 });
@@ -404,7 +400,6 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
       message: "Product Deleted",
     });
   } catch (error) {
-    console.log(error);
     return next(new ErrorHandler(" Internal Error deleting product:", 500));
   }
 });
@@ -427,115 +422,3 @@ exports.singleProduct = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler(" Internal Error Product not found:", 500));
   }
 });
-
-//--------create new review and update the reviews
-
-// exports.createProductReviews = catchAsyncError(async (req, res, next) => {
-//   try {
-//     const { rating, comment, productId } = req.body;
-//     const reviews = {
-//       user: req.user._id,
-//       name: req.user.name,
-//       image: req.user.avatar.url,
-//       rating: Number(rating),
-//       comment,
-//     };
-
-//     let Product = await products.findById(productId);
-//     const isReviewed = Product.reviews.find((rev) => {
-//       return rev.user.toString() === req.user._id.toString();
-//     });
-
-//     if (isReviewed) {
-//       Product.reviews.forEach((rev) => {
-//         if (rev.user.toString() === req.user._id.toString()) {
-//           (rev.rating = rating),
-//             (rev.comment = comment),
-//             (rev.image = req.user.avatar.url);
-//         }
-//       });
-//     } else {
-//       Product.reviews.push(reviews);
-//       Product.numOfReviews = Product.reviews.length;
-//     }
-
-//     let review_avg = 0;
-//     Product.reviews.forEach((rev) => {
-//       review_avg += rev.rating;
-//     });
-
-//     Product.ratings = review_avg / Product.reviews.length;
-
-//     await Product.save({ validateBeforeSave: false });
-//     res.status(200).json({
-//       success: true,
-//       Product: Product.reviews,
-//     });
-//   } catch (error) {
-//     return next(new ErrorHandler(" Internal Error review not found:", 500));
-//   }
-// });
-
-// //--------get All reviews
-
-// exports.getAllProductReviews = catchAsyncError(async (req, res, next) => {
-//   try {
-//     const Product = await products.findById(req.query.id);
-
-//     if (!Product) {
-//       return next(new ErrorHandler("Product not found", 404));
-//     }
-//     res.status(200).json({
-//       success: true,
-//       reviews: Product.reviews,
-//     });
-//   } catch (error) {
-//     return next(new ErrorHandler("Product not found:", 404));
-//   }
-// });
-
-// //--------Delete reviews
-
-// exports.DeleteProductReviews = catchAsyncError(async (req, res, next) => {
-//   try {
-//     let Product = await products.findById(req.query.productId);
-//     if (!Product) {
-//       return next(new ErrorHandler("Product not found", 404));
-//     }
-//     const reviews = Product.reviews.filter((rev) => {
-//       return rev._id.toString() !== req.query.id.toString();
-//     });
-
-//     let review_avg = 0;
-
-//     reviews.forEach((rev) => {
-//       review_avg += rev.rating;
-//     });
-
-//     const ratings = reviews.length > 0 ? review_avg / reviews.length : 0; // Check if reviews array is empty
-
-//     const numOfReviews = reviews.length;
-
-//     await products.findByIdAndUpdate(
-//       req.query.productId,
-//       {
-//         reviews,
-//         ratings,
-//         numOfReviews,
-//       },
-//       {
-//         new: true,
-//         runValidators: true,
-//         useFindAndModify: false,
-//       }
-//     );
-
-//     res.status(200).json({
-//       success: true,
-//       reviews: reviews,
-//       message: "Review removed",
-//     });
-//   } catch (error) {
-//     return next(new ErrorHandler(" Internal Error prodduct not delete", 500));
-//   }
-// });

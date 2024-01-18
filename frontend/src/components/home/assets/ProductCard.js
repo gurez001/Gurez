@@ -112,7 +112,7 @@ const ProductCard = ({ product }) => {
             </div>
           </div>
           <div className="product-card_btn space-set">
-            <button onClick={() => buyNow(product.seo[0].metalink, 1)}>
+            <button onClick={() => buyNow(product.slug, 1)}>
               Buy Now
             </button>
           </div>

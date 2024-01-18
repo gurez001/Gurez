@@ -4,6 +4,7 @@ const seoModel = require("../models/seoModel");
 const subCategoreModel = require("../models/subCategoreModel");
 const ErrorHandler = require("../utils/errorhandler");
 const mongoose = require("mongoose");
+
 exports.createCategore = catchAsyncError(async (req, res, next) => {
   try {
     const {
@@ -65,10 +66,8 @@ exports.createCategore = catchAsyncError(async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: "Categore created successfully",
-      //  newCategorie,
     });
   } catch (err) {
-    console.log(err);
     return next(new ErrorHandler(`Internal server error: ${err}`, 500));
   }
 });
@@ -287,7 +286,6 @@ exports.updateParentCategore = catchAsyncError(async (req, res, next) => {
       message: "Categore updated successfully",
     });
   } catch (err) {
-    console.log(err);
     return next(new ErrorHandler(`Internal server error: ${err}`, 500));
   }
 });
@@ -354,7 +352,6 @@ exports.updateSubCategore = catchAsyncError(async (req, res, next) => {
       message: "Sub Categore updated successfully",
     });
   } catch (err) {
-    console.log(err);
     return next(new ErrorHandler(`Internal server error: ${err}`, 500));
   }
 });

@@ -6,14 +6,20 @@
       </url>
     
       <url>
-        <loc>undefined/shop/dolls/demo1111111-demo1111111</loc>
-        <lastmod>2024-01-15T10:37:52.481Z</lastmod>
+        <loc>undefined/shop/dolls/bicycle</loc>
+        <lastmod>2024-01-18T09:05:55.929Z</lastmod>
         <priority>0.5</priority>
       </url>
     
       <url>
-        <loc>undefined/shop/dolls/asdasd</loc>
-        <lastmod>2024-01-15T10:57:29.599Z</lastmod>
+        <loc>undefined/shop/dolls/demo2</loc>
+        <lastmod>2024-01-18T09:29:19.197Z</lastmod>
+        <priority>0.5</priority>
+      </url>
+    
+      <url>
+        <loc>undefined/shop/dolls/asdasd-asdasd</loc>
+        <lastmod>2024-01-18T09:34:01.193Z</lastmod>
         <priority>0.5</priority>
       </url>
     </urlset>

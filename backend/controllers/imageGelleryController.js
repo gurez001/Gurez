@@ -50,7 +50,6 @@ exports.createImageGellery = catchAsyncError(async (req, res, next) => {
         size: item.size,
         productId: userid,
       });
-      //imagesPath.push(item.path);
     });
 
     const imagesGellery = await imageGelleryModel.create(images);
@@ -69,46 +68,15 @@ exports.createImageGellery = catchAsyncError(async (req, res, next) => {
 //update --image seo
 
 exports.updateImageSeo = catchAsyncError(async (req, res, next) => {
-
   try {
-    console.log(req.body)
+    console.log(req.body);
 
     res.status(201).json({
       success: true,
-      // imagesGellery,
     });
-
   } catch (error) {
     return next(
       new ErrorHandler("image seo internal server error" + error, 500)
-    );
-  }
-});
-
-//--------update gellery image
-exports.updateImageGellery = catchAsyncError(async (req, res, next) => {
-  try {
-    const { altText, title, caption } = req.body;
-    const updatedImage = await imageGelleryModel.findOneAndUpdate(
-      { _id: id },
-      {
-        filename: title,
-        altText,
-        title,
-        caption,
-      }
-    );
-    if (!updatedImage) {
-      return next(new ErrorHandler("Image not found", 404));
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Image updated successfully",
-    });
-  } catch (error) {
-    return next(
-      new ErrorHandler("Product - Internal Server Error" + error, 500)
     );
   }
 });

@@ -20,7 +20,7 @@ exports.getAllBlogPost = catchAsyncError(async (req, res, next) => {
       blog: reverseBlog,
     });
   } catch (err) {
-    console.log(err);
+    return next(new ErrorHandler("Post - Internal Server Error" + err, 500));
   }
 });
 //------ create blog post -- admin
@@ -38,7 +38,7 @@ exports.createBlogPost = catchAsyncError(async (req, res, next) => {
       metadec,
       metalink,
     } = req.body;
-   
+
     const url = slug.split(" ").join("-").toLowerCase();
     const user = req.user._id;
 
@@ -127,10 +127,6 @@ exports.updateBlogPost = catchAsyncError(async (req, res, next) => {
       metalink: metalink,
     };
 
-    // if (!mongoose.Types.ObjectId.isValid(id)) {
-    //   return next(new ErrorHandler("Invalid ID format", 400));
-    // }
-
     const existingPost = await blogPost.findOne({ postid: id });
 
     if (!existingPost) {
@@ -184,8 +180,8 @@ exports.deleteBlogPost = catchAsyncError(async (req, res, next) => {
     // }
 
     const existingPost = await blogPost.findOne({ postid: id });
-    const existingPostSeo = await seoModel.findOne({ _id:existingPost.seo });
-    
+    const existingPostSeo = await seoModel.findOne({ _id: existingPost.seo });
+
     if (!existingPost) {
       return next(new ErrorHandler("Post not found", 404));
     }
@@ -200,7 +196,6 @@ exports.deleteBlogPost = catchAsyncError(async (req, res, next) => {
       message: "post has been deleted",
     });
   } catch (error) {
-    console.error(error);
     return next(new ErrorHandler("Post - Internal Server Error", 500));
   }
 });
@@ -224,12 +219,7 @@ exports.singleBlogPost = catchAsyncError(async (req, res, next) => {
         { path: "user", model: "User" },
         { path: "seo", model: "SEO" },
       ]);
-      //  Product = await Product.findById(req.params.metalink).populate('imageId');
     }
-
-    // if (!mongoose.Types.ObjectId.isValid(id)) {
-    //   return next(new ErrorHandler("Invalid ID format", 400));
-    // }
 
     if (!blog) {
       return next(new ErrorHandler("Post not found", 404));
@@ -240,7 +230,6 @@ exports.singleBlogPost = catchAsyncError(async (req, res, next) => {
       blog,
     });
   } catch (error) {
-    console.error(error);
     return next(new ErrorHandler("Post - Internal Server Error", 500));
   }
 });
