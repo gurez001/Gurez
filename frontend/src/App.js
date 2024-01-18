@@ -58,6 +58,7 @@ import SingleBlog from "./components/blog/singleblog/SingleBlog";
 import UpdatePost from "./components/admin/post/update/UpdatePost";
 import AllSeo from "./components/admin/seo/allseo/AllSeo";
 import PostCategory from "./components/admin/post/category/PostCategory";
+import UpdateSubCategory from "./components/admin/category/updateCtegory/UpdateSubCategory";
 
 function App() {
   const { loading } = useSelector((state) => state.user);
@@ -225,6 +226,16 @@ function App() {
                   path="/admin/product/update-categorie/:id"
                   element={
                     <ProtectedRoute isAdmin={true} Component={UpdateCategory} />
+                  }
+                />
+
+                <Route
+                  path="/admin/update-sub-categorie/:id"
+                  element={
+                    <ProtectedRoute
+                      isAdmin={true}
+                      Component={UpdateSubCategory}
+                    />
                   }
                 />
 

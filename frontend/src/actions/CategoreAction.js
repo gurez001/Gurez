@@ -240,3 +240,51 @@ export const updateParentCategory =
       });
     }
   };
+
+
+  export const updateSubCategory =
+  (
+    id,
+    name,
+    slug,
+    title,
+    description,
+    parent,
+    seotitle,
+    keyword,
+    metadec,
+    metalink
+  ) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_PARENT_CATEGORIE_REQUEST });
+
+      const formdata = new FormData();
+      formdata.append("name", name);
+      formdata.append("slug", slug);
+      formdata.append("title", title);
+      formdata.append("description", description);
+      formdata.append("parent", parent);
+      formdata.append("seotitle", seotitle);
+      formdata.append("keyword", keyword);
+      formdata.append("metadec", metadec);
+      formdata.append("metalink", metalink);
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = axios.put(
+        `/api/v1/update/parent-category/${id}`,
+        formdata,
+        config
+      );
+      dispatch({ type: UPDATE_PARENT_CATEGORIE_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_PARENT_CATEGORIE_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };

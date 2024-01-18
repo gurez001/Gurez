@@ -285,7 +285,73 @@ exports.updateParentCategore = catchAsyncError(async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: "Categore updated successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    return next(new ErrorHandler(`Internal server error: ${err}`, 500));
+  }
+});
 
+exports.updateSubCategore = catchAsyncError(async (req, res, next) => {
+  try {
+    const {
+      name,
+      slug,
+      title,
+      description,
+      parent,
+      seotitle,
+      keyword,
+      metadec,
+    } = req.body;
+
+    const { id } = req.params;
+
+    let metalink = slug.split(" ").join("-").toLowerCase();
+    const data = {
+      name,
+      slug: metalink,
+      title,
+      description,
+    };
+
+    const existingSlug = await subCategoreModel.findById(id);
+    if (!existingSlug) {
+      return next(new ErrorHandler(`sub Category not found.`, 400));
+    }
+
+    const update = await subCategoreModel.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+
+    const existingSeoUrl = await seoModel.findOne({ _id: update.seo });
+
+    if (!existingSeoUrl) {
+      return next(new ErrorHandler(`Sub category not found.`, 404));
+    }
+
+    const seoData = {
+      metatitle: seotitle,
+      keyword: keyword,
+      metadec: metadec,
+      metalink: metalink,
+    };
+
+    const updatSeo = await seoModel.findOneAndUpdate(
+      existingSeoUrl._id,
+      seoData,
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Sub Categore updated successfully",
     });
   } catch (err) {
     console.log(err);

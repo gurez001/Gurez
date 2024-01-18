@@ -174,7 +174,7 @@ const AllCategory = () => {
               keywords={"Admin all product list"}
             />
             <NavLink
-              to={`/admin/upsate-categorie/${params.row.subid}`}
+              to={`/admin/update-sub-categorie/${params.row.subid}`}
             >
               <FaUpRightFromSquare />
             </NavLink>

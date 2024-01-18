@@ -1,4 +1,4 @@
-const { createCategore, getAllCategores, createSubCategore, StatusCategory, subStatusCategory, singleParentCategory, updateParentCategore } = require("../controllers/categoreController");
+const { createCategore, getAllCategores, createSubCategore, StatusCategory, subStatusCategory, singleParentCategory, updateParentCategore, updateSubCategore } = require("../controllers/categoreController");
 const { authorizeRols, isAuthenticatedUser } = require("../middleware/auth");
 
 const express = require("express");
@@ -35,6 +35,10 @@ router
   router
   .route("/update/parent-category/:id")
   .put(isAuthenticatedUser, authorizeRols("admin"), updateParentCategore);
+
+  router
+  .route("/update/sub-category/:id")
+  .put(isAuthenticatedUser, authorizeRols("admin"), updateSubCategore);
 
   
   

@@ -20,7 +20,11 @@ const UpdateCategory = () => {
   const { id } = useParams();
   const alert = useAlert();
   const Navigate = useNavigate();
-  const {loading:updateLoading,isUpdate,error:UpdateError } = useSelector(state=>state.adminUpdateParentCategory)
+  const {
+    loading: updateLoading,
+    isUpdate,
+    error: UpdateError,
+  } = useSelector((state) => state.adminUpdateParentCategory);
   const { loading, parent, error } = useSelector(
     (state) => state.adminSingleCategory
   );
@@ -58,7 +62,8 @@ const UpdateCategory = () => {
     const { seotitle, keyword, metadec, metalink } = seoInputValue;
     const { name, slug, title, description, parent } = inputValue;
     dispatch(
-      updateParentCategory(id,
+      updateParentCategory(
+        id,
         name,
         slug,
         title,
@@ -86,13 +91,14 @@ const UpdateCategory = () => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    if(UpdateError){
+    if (UpdateError) {
       alert.error(error);
       dispatch(clearErrors());
-    }if(isUpdate){
-      alert.success('Parent category successfully updated');
-      dispatch({type:UPDATE_PARENT_CATEGORIE_RESET});
-      Navigate('/admin/categorie/')
+    }
+    if (isUpdate) {
+      alert.success("Parent category successfully updated");
+      dispatch({ type: UPDATE_PARENT_CATEGORIE_RESET });
+      Navigate("/admin/categorie/");
     }
 
     if (inputValue.title) {
@@ -126,7 +132,7 @@ const UpdateCategory = () => {
     alert,
     dispatch,
     UpdateError,
-    isUpdate
+    isUpdate,
   ]);
 
   return (
