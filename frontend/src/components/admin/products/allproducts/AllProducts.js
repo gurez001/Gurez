@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DataGrid } from "@material-ui/data-grid";
 
 import { useAlert } from "react-alert";
-import {  Switch } from "@material-ui/core";
+import { Switch } from "@material-ui/core";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Aside } from "../../aside/Aside";
 import { FaUpRightFromSquare, FaTrash } from "react-icons/fa6";
@@ -11,8 +11,9 @@ import {
   ClearError,
   adminGetAllProducts,
   deleteAdminProduct,
+  updateProductStatus,
 } from "../../../../actions/ProductAction";
-import { DELETE_PRODUCT_RESET } from "../../../../constants/ProductConstants";
+import { DELETE_PRODUCT_RESET, PRODUCT_STATUS_RESET } from "../../../../constants/ProductConstants";
 import { Helmet } from "react-helmet";
 import Loader from "../../../layout/loader/Loader";
 import MetaData from "../../../layout/metaData/MetaData";
@@ -21,8 +22,13 @@ export const AllProducts = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const Navigate = useNavigate();
-  
+
   const [checked, setChecked] = useState({});
+  const {
+    loading: updateStatusLoading,
+    isUpdate,
+    error: updateStatusError,
+  } = useSelector((state) => state.adminupdateproductstatus);
   const { error, products, loding } = useSelector((state) => state.products);
   const {
     error: deletError,
@@ -40,15 +46,20 @@ export const AllProducts = () => {
       ...prev,
       [id]: !prev[id],
     }));
-    // dispatch(StausCategory(id, newCheckedState));
+    dispatch(updateProductStatus(id, newCheckedState));
   };
-
-
 
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(ClearError());
+    }
+    if(updateStatusError){
+      alert.error(updateStatusError);
+      dispatch(ClearError());
+    }
+    if(isUpdate){
+      dispatch({type:PRODUCT_STATUS_RESET});
     }
     if (deletError) {
       alert.error(deletError);
@@ -62,7 +73,7 @@ export const AllProducts = () => {
       });
     }
     dispatch(adminGetAllProducts());
-  }, [alert, dispatch, error, deletError, Navigate, isDeleted]);
+  }, [alert, dispatch, error, deletError, Navigate, isDeleted,isUpdate]);
 
   const columns = [
     {
@@ -106,12 +117,12 @@ export const AllProducts = () => {
               content={"Admin all product list"}
               keywords={"Admin all product list"}
             />
-              <Switch
+            <Switch
               className={rowStatus ? "toggle-chekbox-active" : ""}
               checked={checked[params.row.id] || false}
               onChange={() => handleChange(params.row.id)}
               inputProps={{ "aria-label": "controlled" }}
-            /> 
+            />
             <NavLink
               to={`/admin/update-product/${params.getValue(params.id, "id")}`}
             >
@@ -135,6 +146,7 @@ export const AllProducts = () => {
       rows.push({
         id: item._id,
         stock: item.stock,
+        status:item.productstatus,
         price: item.price,
         name: item.name,
       });
@@ -155,13 +167,16 @@ export const AllProducts = () => {
             <div className="ad-cont">
               <section className="ad-section">
                 <div className="all-products-cont">
-                <div className="all-post-heading">
-                  <h2>
-                    Products
-                    <span>
-                      <NavLink to="/admin/create-product">Add New Product</NavLink>
-                    </span>
-                  </h2></div>
+                  <div className="all-post-heading">
+                    <h2>
+                      Products
+                      <span>
+                        <NavLink to="/admin/create-product">
+                          Add New Product
+                        </NavLink>
+                      </span>
+                    </h2>
+                  </div>
                   <div className="all-products-content-area">
                     <div className="all-products-title">
                       <h1>All products</h1>

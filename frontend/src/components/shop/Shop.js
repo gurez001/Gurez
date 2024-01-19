@@ -154,7 +154,7 @@ const Shop = () => {
                 ) : (
                   <>
                     {products &&
-                      products.map((product, i) => (
+                      products.filter(item=>item.productstatus===true).map((product, i) => (
                         <ProductCard key={product._id} product={product} />
                       ))}
                   </>

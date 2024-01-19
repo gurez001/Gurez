@@ -7,6 +7,7 @@ const {
   getSingleProduct,
   getAdminAllProducts,
   featureProduct,
+  productStatus,
 } = require("../controllers/productsController");
 const router = express.Router();
 const { isAuthenticatedUser, authorizeRols } = require("../middleware/auth");
@@ -36,6 +37,7 @@ router
   .delete(isAuthenticatedUser, authorizeRols("admin"), deleteProduct);
 
 router.route("/product/:metalink").get(getSingleProduct);
+router.route("/product/status/:id").put(productStatus);
 
 
 

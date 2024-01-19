@@ -36,6 +36,9 @@ import {
   ALL_FEATURE_PRODUCT_REQUEST,
   ALL_FEATURE_PRODUCT_SUCCESS,
   ALL_FEATURE_PRODUCT_FAIL,
+  PRODUCT_STATUS_REQUEST,
+  PRODUCT_STATUS_SUCCESS,
+  PRODUCT_STATUS_FAIL,
 } from "../constants/ProductConstants";
 
 export const getProduct =
@@ -384,6 +387,34 @@ export const deleteReviews = (reviewId, productId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: DELETE_REVIEW_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+
+export const updateProductStatus = (id, status) => async (dispatch) => {
+  try {
+ 
+    dispatch({ type: PRODUCT_STATUS_REQUEST });
+
+    const formdata = new FormData();
+    formdata.append("status", status);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    //   const data = 'dddd'
+    const { data } = axios.put(
+      `/api/v1/product/status/${id}`,
+      formdata,
+      config
+    );
+    dispatch({ type: PRODUCT_STATUS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_STATUS_FAIL,
       payload: error.response.data.message,
     });
   }

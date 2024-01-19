@@ -193,7 +193,7 @@ exports.getAllProducts = catchAsyncError(async (req, res, next) => {
         newProducts.push(item);
       }
     });
-
+   
     res.status(200).json({
       success: true,
       Products,
@@ -421,5 +421,26 @@ exports.singleProduct = catchAsyncError(async (req, res, next) => {
     });
   } catch (error) {
     return next(new ErrorHandler(" Internal Error Product not found:", 500));
+  }
+});
+
+
+
+
+exports.productStatus = catchAsyncError(async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const isexist = await products.findById(id);
+
+    if (!isexist) {
+      return next(new ErrorHandler("id not found", 400));
+    }
+    isexist.productstatus = status;
+    await isexist.save({ validateBeforeSave: false });
+    res.status(200).json({ status: true, productId: isexist });
+  } catch (error) {
+    return next(new ErrorHandler(`Internal server error: ${error}`, 500));
   }
 });

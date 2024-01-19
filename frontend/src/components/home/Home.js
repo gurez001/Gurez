@@ -53,7 +53,7 @@ export const Home = () => {
             <div id="prod-cont" className="prod-cont cont-area-h">
               <div className="prod-cont-row grid-container">
                 {products &&
-                  products.slice(0, 4).map((product, i) => (
+                  products.slice(0, 4).filter(item=>item.productstatus===true).map((product, i) => (
                     <div className="coll prod-collem" key={i}>
                       <Product key={product._id} product={product} />
                     </div>

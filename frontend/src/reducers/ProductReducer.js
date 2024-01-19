@@ -40,6 +40,10 @@ import {
   ALL_FEATURE_PRODUCT_REQUEST,
   ALL_FEATURE_PRODUCT_SUCCESS,
   ALL_FEATURE_PRODUCT_FAIL,
+  PRODUCT_STATUS_REQUEST,
+  PRODUCT_STATUS_SUCCESS,
+  PRODUCT_STATUS_FAIL,
+  PRODUCT_STATUS_RESET,
 } from "../constants/ProductConstants";
 
 // export const productReducer = (state = { Products: [] }, action) => {
@@ -418,6 +422,42 @@ export const productSearchReducer = (state = { Products: [] }, action) => {
     case ALL_PRODUCT_ERRORS:
       return {
         ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const updateProductStatus = (state = {}, action) => {
+  switch (action.type) {
+    case PRODUCT_STATUS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case PRODUCT_STATUS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdate: true,
+      };
+    case PRODUCT_STATUS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case PRODUCT_STATUS_RESET:
+      return {
+        ...state,
+        loading: false,
+        isUpdate: null,
+      };
+    case ALL_PRODUCT_ERRORS:
+      return {
+        ...state,
+        loading: false,
         error: null,
       };
     default:

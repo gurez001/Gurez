@@ -12,6 +12,7 @@ import {
   productSearchReducer,
   productsReviewReducer,
   reviewsReducer,
+  updateProductStatus,
 } from "./reducers/ProductReducer";
 import {
   adminProfileReducer,
@@ -119,6 +120,7 @@ const reducer = combineReducers({
   adminUpdateParentCategory: updateParentCategoryReducer,
   adminsingleSubCategory: SingleSubCategoryReducer,
   adminUpdateSubCategory: UpdateSubCategoryReducer,
+  adminupdateproductstatus:updateProductStatus,
 });
 
 let inialState = {

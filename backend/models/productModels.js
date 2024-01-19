@@ -56,6 +56,10 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "SEO",
   },
+  productstatus: {
+    type: Boolean,
+    default:true
+  },
   reviewsids: [{ type: mongoose.Schema.Types.ObjectId, ref: "reviewsSchema" }],
 
   user: {
