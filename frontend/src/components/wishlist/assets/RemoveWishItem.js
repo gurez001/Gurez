@@ -7,8 +7,7 @@ const RemoveWishItem = ({ item }) => {
   const dispatch = useDispatch();
 
   const removeEventListener = (id) => {
-     dispatch(removeWishItem(id));
-
+    dispatch(removeWishItem(id));
   };
   return (
     <>

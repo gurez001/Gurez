@@ -1,10 +1,9 @@
 import React from "react";
 import "./Heroslider.css";
-import { NavLink } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { FaAngleRight,FaAngleLeft } from "react-icons/fa6";
+import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 const HeroSlider = () => {
   const settings = {
     // dots: true,
@@ -72,13 +71,13 @@ const HeroSlider = () => {
 };
 const CustomPrevArrow = (props) => (
   <div className="custom-prev-arrow custom-arrow" onClick={props.onClick}>
-    <FaAngleLeft/>
+    <FaAngleLeft />
   </div>
 );
 
 const CustomNextArrow = (props) => (
   <div className="custom-next-arrow custom-arrow" onClick={props.onClick}>
-    <FaAngleRight/>
+    <FaAngleRight />
   </div>
 );
 export default HeroSlider;

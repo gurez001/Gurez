@@ -9,6 +9,9 @@ import {
   NEW_CATEGORIE_FAIL,
   NEW_CATEGORIE_REQUEST,
   NEW_CATEGORIE_SUCCESS,
+  SINGLE_SUB_CATEGORIE_FAIL,
+  SINGLE_SUB_CATEGORIE_REQUEST,
+  SINGLE_SUB_CATEGORIE_SUCCESS,
   STATUS_CATEGORIE_FAIL,
   STATUS_CATEGORIE_REQUEST,
   STATUS_CATEGORIE_SUCCESS,
@@ -18,6 +21,9 @@ import {
   UPDATE_PARENT_CATEGORIE_FAIL,
   UPDATE_PARENT_CATEGORIE_REQUEST,
   UPDATE_PARENT_CATEGORIE_SUCCESS,
+  UPDATE_SUB_CATEGORIE_FAIL,
+  UPDATE_SUB_CATEGORIE_REQUEST,
+  UPDATE_SUB_CATEGORIE_SUCCESS,
 } from "../constants/CategoreConstants";
 
 export const CreateNewCategore =
@@ -241,50 +247,65 @@ export const updateParentCategory =
     }
   };
 
+//----------------single Sub Categoryp---------------------------
 
-  export const updateSubCategory =
-  (
-    id,
-    name,
-    slug,
-    title,
-    description,
-    parent,
-    seotitle,
-    keyword,
-    metadec,
-    metalink
-  ) =>
-  async (dispatch) => {
-    try {
-      dispatch({ type: UPDATE_PARENT_CATEGORIE_REQUEST });
+export const SingleSubCategoryAction = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: SINGLE_SUB_CATEGORIE_REQUEST });
+    const { data } = await axios.get(`/api/v1/product/all-sub-category/${id}`);
+    
+    dispatch({ type: SINGLE_SUB_CATEGORIE_SUCCESS, payload: data.subcategory });
+  } catch (error) {
+    dispatch({
+      type: SINGLE_SUB_CATEGORIE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
-      const formdata = new FormData();
-      formdata.append("name", name);
-      formdata.append("slug", slug);
-      formdata.append("title", title);
-      formdata.append("description", description);
-      formdata.append("parent", parent);
-      formdata.append("seotitle", seotitle);
-      formdata.append("keyword", keyword);
-      formdata.append("metadec", metadec);
-      formdata.append("metalink", metalink);
+//-----------UPDATE SUB CATEGORY------------------
 
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const { data } = axios.put(
-        `/api/v1/update/parent-category/${id}`,
-        formdata,
-        config
-      );
-      dispatch({ type: UPDATE_PARENT_CATEGORIE_SUCCESS, payload: data });
-    } catch (error) {
-      dispatch({
-        type: UPDATE_PARENT_CATEGORIE_FAIL,
-        payload: error.response.data.message,
-      });
-    }
-  };
+export const UpdateSubCategoryAction = (
+  id,
+  name,
+  slug,
+  title,
+  description,
+  parent,
+  seotitle,
+  keyword,
+  metadec,
+  metalink,
+  productsubcatid,
+) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_SUB_CATEGORIE_REQUEST });
+
+    const formdata=new FormData();
+    formdata.append("name",name);
+    formdata.append("slug",slug);
+    formdata.append("title",title);
+    formdata.append("description",description);
+    formdata.append("parent",parent);
+    formdata.append("seotitle",seotitle);
+    formdata.append("keyword",keyword);
+    formdata.append("metadec",metadec);
+    formdata.append("metalink",metalink);
+    formdata.append("productsubcatid",productsubcatid);
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.put(`/api/v1//update/sub-category/${id}`,formdata,config);
+
+    dispatch({ type: UPDATE_SUB_CATEGORIE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_SUB_CATEGORIE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};

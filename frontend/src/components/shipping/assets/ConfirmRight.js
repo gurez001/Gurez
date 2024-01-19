@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ApplyCoupen from "./ApplyCoupen";
 export const ConfirmRight = ({ cartItem, shippingInfo }) => {
-
   const [coupon, setCoupon] = useState("");
   const [couponValid, setCouponValid] = useState("");
   const [discounted, setDiscounted] = useState("");

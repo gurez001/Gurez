@@ -19,11 +19,6 @@ export const UpdateProfile = () => {
   const { user } = useSelector((state) => state.user);
   const { loading, isUpdated, error } = useSelector((state) => state.profile);
 
-  // const [singupValue, setsingupValue] = useState({
-  //   name: "",
-  //   email: "",
-  // });
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [avatarPreview, setAvatarPreview] = useState("./favicon.ico");
@@ -35,21 +30,17 @@ export const UpdateProfile = () => {
       reader.onload = () => {
         if (reader.readyState === 2) {
           setAvatarPreview(reader.result);
-          // const originalFileName = e.target.files[0].name;
+        
         }
       };
       setAvatar(e.target.files[0]);
       reader.readAsDataURL(e.target.files[0]);
     }
-    // else {
-    //   const { name, value } = e.target;
-    //   setsingupValue({ ...singupValue, [name]: value });
-    // }
+ 
   };
 
   const updateProfileBtn = (e) => {
     e.preventDefault();
-   
 
     dispatch(updateUserProfile(name, email, avatar?avatar:avatarPreview));
   };
@@ -58,7 +49,7 @@ export const UpdateProfile = () => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
-      setAvatarPreview(user&& user.avatar && user.avatar.url || "/icon.png");
+      setAvatarPreview(user && user.avatar ? user.avatar.url : "/icon.png");
     }
     if (error) {
       alert.error(error);

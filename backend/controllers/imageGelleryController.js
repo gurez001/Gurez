@@ -32,7 +32,7 @@ exports.getAllImages = catchAsyncError(async (req, res, next) => {
 exports.createImageGellery = catchAsyncError(async (req, res, next) => {
   try {
     const { userid } = req.body;
-    console.log(req.body, req.files);
+
 
     const productCounter = await countModel.findOne({ entityName: "User" });
     const images = [];
@@ -69,7 +69,7 @@ exports.createImageGellery = catchAsyncError(async (req, res, next) => {
 
 exports.updateImageSeo = catchAsyncError(async (req, res, next) => {
   try {
-    console.log(req.body);
+
 
     res.status(201).json({
       success: true,

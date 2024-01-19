@@ -1,46 +1,8 @@
-import React, { useEffect, useState } from "react";
-import {useSelector,useDispatch} from 'react-redux';
-export const Confirmleft = ({ user }) => {
+import React from "react";
+import { useSelector} from "react-redux";
+export const Confirmleft = () => {
 
-const disptch = useDispatch();
-const {shippinginfo} = useSelector(state=>state.cart);
-
-//   const [info, setInfo] = useState({
-//     fullName: "",
-//     email: "",
-//     address: "",
-//     city: "",
-//     pinCode: "",
-//     state: "",
-//     country: "",
-//     phoneNo: "",
-//   });
-// console.log(info)
-//   useEffect(() => {
-//     if (shippinginfo) {
-//      // console.log(shippinginfo)
-//       const {
-//        fullName,
-//         email,
-//         address,
-//         city,
-//         pinCode,
-//         state,
-//         country,
-//         phoneNo,
-//       } = shippinginfo;
-//       setInfo({
-//         fullName:shippinginfo.fullName,
-//         email,
-//         address,
-//         city,
-//         pinCode,
-//         state,
-//         country,
-//         phoneNo
-//       });
-//     }
-//   }, [shippinginfo]);
+  const { shippinginfo } = useSelector((state) => state.cart);
 
   return (
     <>

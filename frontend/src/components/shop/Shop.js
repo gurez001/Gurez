@@ -85,7 +85,7 @@ const Shop = () => {
     dispatch(getAllCategories());
 
     dispatch(getProduct(currentPage, price, ratings));
-  
+
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };

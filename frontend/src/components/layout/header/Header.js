@@ -76,8 +76,8 @@ export const Header = () => {
             </div>
           </div>
         </div>
-        
-        <BottomHeader  />
+
+        <BottomHeader />
         {windowWidth < 767 && (
           <MobNav
             toggleContentRemove={toggleContentRemove}

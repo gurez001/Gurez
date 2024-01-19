@@ -5,7 +5,6 @@ import RatingsFilter from "./RatingsFilter";
 import "./style.css";
 import { FaGripLines } from "react-icons/fa6";
 import ClearFilter from "./ClearFilter";
-import FilterDiscount from "./FilterDiscount";
 
 const Asidebar = ({
   //------------props
@@ -17,8 +16,6 @@ const Asidebar = ({
   ratings,
   clearFilterHeandler,
   clearFilter,
-  discount,
-  discountHeandler
 }) => {
   return (
     <>
@@ -39,9 +36,6 @@ const Asidebar = ({
             clearFilter={clearFilter}
           />
         </div>
-        {/* <div className="aside-price-filter">
-          <FilterDiscount discount={discount} discountHeandler={discountHeandler} />
-        </div> */}
         <div className="aside-price-filter">
           <FilterPrice price={price} inputevent={inputevent} />
         </div>

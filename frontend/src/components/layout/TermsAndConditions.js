@@ -4,16 +4,20 @@ import MetaData from "./metaData/MetaData";
 const TermsAndConditions = () => {
   return (
     <>
-    <MetaData title={'Terms and Conditions'} content={'Terms and Conditions'} keywords={'Terms and Conditions'} />
+      <MetaData
+        title={"Terms and Conditions"}
+        content={"Terms and Conditions"}
+        keywords={"Terms and Conditions"}
+      />
       <section>
         <div className="product-cont privacy-policy">
           <h1>Terms and Conditions</h1>
           <p>
-            These terms and conditions Gurez govern your use of the website
-            [ ] operated by Shri Ram Packaging. hri Ram Packaging
-            By accessing or using the Website, you agree to be bound by these
-            Terms. If you do not agree with any part of these Terms, please do
-            not use the Website.
+            These terms and conditions Gurez govern your use of the website [ ]
+            operated by Shri Ram Packaging. hri Ram Packaging By accessing or
+            using the Website, you agree to be bound by these Terms. If you do
+            not agree with any part of these Terms, please do not use the
+            Website.
           </p>
           <h2>Intellectual Property Rights</h2>
           <ol>

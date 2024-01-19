@@ -63,7 +63,6 @@ const HeroSection = () => {
               alt="d"
             />
           </div>
-          
         </Slider>
       </div>
     </section>

@@ -10,6 +10,10 @@ import {
   NEW_CATEGORIE_REQUEST,
   NEW_CATEGORIE_RESET,
   NEW_CATEGORIE_SUCCESS,
+  SINGLE_SUB_CATEGORIE_FAIL,
+  SINGLE_SUB_CATEGORIE_REQUEST,
+  SINGLE_SUB_CATEGORIE_RESET,
+  SINGLE_SUB_CATEGORIE_SUCCESS,
   STATUS_CATEGORIE_FAIL,
   STATUS_CATEGORIE_REQUEST,
   STATUS_CATEGORIE_RESET,
@@ -22,6 +26,10 @@ import {
   UPDATE_PARENT_CATEGORIE_REQUEST,
   UPDATE_PARENT_CATEGORIE_RESET,
   UPDATE_PARENT_CATEGORIE_SUCCESS,
+  UPDATE_SUB_CATEGORIE_FAIL,
+  UPDATE_SUB_CATEGORIE_REQUEST,
+  UPDATE_SUB_CATEGORIE_RESET,
+  UPDATE_SUB_CATEGORIE_SUCCESS,
 } from "../constants/CategoreConstants";
 
 export const newCategoreReducer = (state = {}, action) => {
@@ -190,6 +198,81 @@ export const updateParentCategoryReducer = (state = {}, action) => {
         error: action.payload,
       };
     case UPDATE_PARENT_CATEGORIE_RESET:
+      return {
+        ...state,
+        loading: false,
+        isUpdate: null,
+      };
+    case ALL_CATEGORIE_ERRORS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+//------------------- single sub category
+
+export const SingleSubCategoryReducer = (state = {data:[] }, action) => {
+  switch (action.type) {
+    case SINGLE_SUB_CATEGORIE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case SINGLE_SUB_CATEGORIE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+      };
+    case SINGLE_SUB_CATEGORIE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case SINGLE_SUB_CATEGORIE_RESET:
+      return {
+        ...state,
+        loading: false,
+        data: null,
+      };
+    case ALL_CATEGORIE_ERRORS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+//-------------------update sub category------------
+
+export const UpdateSubCategoryReducer = (state = { }, action) => {
+  switch (action.type) {
+    case UPDATE_SUB_CATEGORIE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_SUB_CATEGORIE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdate:true
+      };
+    case UPDATE_SUB_CATEGORIE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case UPDATE_SUB_CATEGORIE_RESET:
       return {
         ...state,
         loading: false,

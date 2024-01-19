@@ -1,15 +1,11 @@
 import React from "react";
-
 import "./cards.css";
-
 import { useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import Bestselling from "./Cards/Bestselling";
 import BrandCard from "./Cards/BrandCard";
 import TopSellingProducts from "./Cards/TopSellingProducts";
-import BeautyCard from "./Cards/BeautyCard";
-import BeautyItems from "./Cards/BeautyItems";
 
 const Cards = () => {
   const navigate = useNavigate();
@@ -19,7 +15,7 @@ const Cards = () => {
   };
 
   return (
-    <section id="cards-section" className="section-cont">
+    <div id="cards-section" className="section-cont">
       <div className="cont-area-h">
         <div className="desktop-grid-4 grid-container">
           <Bestselling />
@@ -40,11 +36,9 @@ const Cards = () => {
               </>
             )}
           </div>
-          
-          
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

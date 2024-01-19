@@ -8,7 +8,6 @@ const RemoveItem = ({ item }) => {
 
   const removeEventListener = (id) => {
     dispatch(removeCartItem(id));
-
   };
 
   return (

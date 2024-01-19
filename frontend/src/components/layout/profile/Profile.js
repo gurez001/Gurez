@@ -73,9 +73,9 @@ const Profile = ({ isAuthenticated, user }) => {
           <img
             className="speedDial icon"
             src={
-              user&&user.avatar&&user.avatar.url
-              ? `http://localhost:8000/${user.avatar.url}`
-              : "/icon.png"
+              user && user.avatar && user.avatar.url
+                ? `http://localhost:8000/${user.avatar.url}`
+                : "/icon.png"
             }
             alt="Profile"
           />

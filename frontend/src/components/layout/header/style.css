@@ -180,23 +180,23 @@ header {
   top: 50px;
 }
 
-.nav-area .loading-containor{
+.nav-area .loading-containor {
   height: 40px !important;
-  width:70px;
+  width: 70px;
 }
 .nav-area .loading {
-  width:40px;
+  width: 40px;
   height: 40px;
 }
-.nav-area  .loading > div {
+.nav-area .loading > div {
   width: 40px;
   height: 40px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.719);
 }
-.nav-area  span.loading-text {
+.nav-area span.loading-text {
   font-size: 4px;
 }
-.header{
+.header {
   transition: 0.3s;
 }
 .sticky {
@@ -327,13 +327,13 @@ header {
     position: absolute;
     right: 0px;
   }
-  .nav-mob-action{
+  .nav-mob-action {
     padding-bottom: 10px;
   }
   .nav-mob-action-col {
     display: flex;
     align-items: center;
-    padding:20px 10px;
+    padding: 20px 10px;
     position: relative;
     height: 50px;
   }
@@ -374,7 +374,7 @@ header {
     top: 50%;
     transform: translate(50%, -50%);
   }
-  .nav-area .loading-containor{
+  .nav-area .loading-containor {
     position: absolute;
     right: 0px;
     width: 60px;
@@ -382,16 +382,15 @@ header {
 }
 
 /* Navlink pag */
-.parent-navlist li{
-  position:relative;
+.parent-navlist li {
+  position: relative;
 }
-.parent-navlist li:hover .child-navlist  {
-  display:block;
-  
+.parent-navlist li:hover .child-navlist {
+  display: block;
 }
-.child-navlist{
-  position:absolute;
-  display:none;
-  background:white;
+.child-navlist {
+  position: absolute;
+  display: none;
+  background: white;
   width: 200px;
 }

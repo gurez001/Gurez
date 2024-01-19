@@ -19,11 +19,11 @@
   display: flex;
 }
 .main-product-gallery ul {
-  margin: 5px;
+  margin: 0px;
   padding: 0;
 }
 .main-product-gallery li {
-  margin: 5px;
+  margin: 0 6px 0 0;
 }
 .main-product-gallery-left {
   width: 25%;

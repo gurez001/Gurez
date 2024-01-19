@@ -171,7 +171,7 @@ exports.updateOrder = catchAsyncError(async (req, res, next) => {
       const errors = [];
       for (const o of Order.orderItem) {
         try {
-          // console.log(Order.orderItem);
+
           await updateStatus(o.productId, o.quantity, link);
           const orderS = {
             status: Order.orderStatus,

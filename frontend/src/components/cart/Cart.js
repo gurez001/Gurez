@@ -22,11 +22,7 @@ const Cart = () => {
   }, [cartItem]);
   return (
     <>
-      <MetaData
-        title={"My cart"}
-        content={"My cart"}
-        keywords={"My cart"}
-      />
+      <MetaData title={"My cart"} content={"My cart"} keywords={"My cart"} />
       <section className="section-cont">
         <div id="cart-cont" className="cont-area-h">
           {cItem === 0 ? (

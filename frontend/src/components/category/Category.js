@@ -1,26 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   ClearError,
   getCategorie,
-  getProduct,
 } from "../../actions/ProductAction";
 import ProductCard from "../home/assets/ProductCard";
 import Loader from "../layout/loader/Loader";
-import { FaAngleRight } from "react-icons/fa6";
 import { useAlert } from "react-alert";
 import Pagination from "react-js-pagination";
-import MetaData from "../layout/metaData/MetaData";
 import { FaAlignLeft } from "react-icons/fa6";
 import Asidebar from "../layout/aside/Asidebar";
 import ErrorPage from "../404Page/ErrorPage";
 import { getAllCategories } from "../../actions/CategoreAction";
 const Category = () => {
 
-
-    const { category, id } = useParams();
-  const subcategory = id;
+  const { category } = useParams();
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -30,40 +25,10 @@ const Category = () => {
     error: caterror,
   } = useSelector((state) => state.allCategroe);
 
-
-
-  const validCategories = {
-    "beauty-item": ["essential-oil", "oil-shampoo"],
-    "packing-material": [
-      "3-ply-box",
-      "3-ply-white-box/",
-      "corrugated-kraft-paper-roll",
-      "flap-box",
-      "paper-bubble-wrap-packing-material",
-      "polybag",
-      "tape",
-      "thermal-label-paper",
-      "white-flap-box",
-    ],
-    "pet-products": [
-      "brush",
-      "feeding-bowl",
-      "paw-butter-cream",
-      "pet-food",
-      "pet-powder",
-      "pet-shampoo",
-      "pet-spray",
-      "waste-picker",
-    ],
-    // Add more categories and their IDs as needed
-  };
-
-  // const isValidCategory = validCategories[category];
-  // const isValidId = isValidCategory && isValidCategory.includes(subcategory);
-
   const { loding, products, productsCount, error, resultPerPage } = useSelector(
     (state) => state.catProducts
   );
+  
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   //this use state for mob
   const [sideBarActive, setsideBarActive] = useState(false);
@@ -74,13 +39,7 @@ const Category = () => {
     setCurrentPage(e);
   };
 
-  // categories
-  const [categorie, setCategories] = useState("");
-  const categories = ["beauty item", "packing material", "pet products"];
-
-  const categoriesHeandler = (e) => {
-    // console.log(categorie)
-    setCategories(e);
+  const categoriesHeandler = (e) => {   
     setsideBarActive(false);
   };
 
@@ -103,7 +62,6 @@ const Category = () => {
   const clearFilterHeandler = (e) => {
     setCurrentPage(1);
     setPrice([0, 25000]);
-    setCategories(category);
     setRatings(0);
     setClearFilter(true);
     setsideBarActive(false);
@@ -113,13 +71,13 @@ const Category = () => {
     setsideBarActive(!sideBarActive);
   };
 
- //---------- filter categore by url
+  //---------- filter categore by url
   const catArray = [...allcategroes];
   const cat = catArray.find((item) => item.slug === category);
 
   const isValidCategory = cat && cat;
 
- //---------- filter categore by url -- end
+  //---------- filter categore by url -- end
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -128,8 +86,8 @@ const Category = () => {
     if (clearFilter) {
       setClearFilter(false);
 
-    //   dispatch(getProduct(currentPage, price, categorie,subcategory, ratings));
-       dispatch(getCategorie(currentPage, price, cat && cat._id, ratings));
+      //   dispatch(getProduct(currentPage, price, categorie,subcategory, ratings));
+      dispatch(getCategorie(currentPage, price, cat && cat._id, ratings));
     }
 
     dispatch(getAllCategories());
@@ -146,12 +104,12 @@ const Category = () => {
     };
   }, [dispatch, category, alert, currentPage, error, price, ratings]);
 
-  let productCategory = "";
-  if (products) {
-    for (let i = 0; i < products.length; i++) {
-      productCategory = products[0].category;
-    }
-  }
+  // let productCategory = "";
+  // if (products) {
+  //   for (let i = 0; i < products.length; i++) {
+  //     productCategory = products[0].category;
+  //   }
+  // }
 
   return (
     <>
@@ -178,7 +136,7 @@ const Category = () => {
                       <Asidebar
                         price={price} // filter price input slider
                         inputevent={priceHeandler} // filter price event handler
-                        categories={categories} // filter  categories
+                        // categories={categories} // filter  categories
                         categoriesHeandler={categoriesHeandler} // filter event categoriesHeandler
                         ratingsHeandle={ratingsHeandle} //Rating filter input handler
                         ratings={ratings} // rating filter
@@ -234,7 +192,7 @@ const Category = () => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Category
+export default Category;

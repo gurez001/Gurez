@@ -35,16 +35,6 @@ const ProductCard = ({ product }) => {
         <div className="product-card-row">
           <div className="prod-img-cont">
             <div className="prod-card-img">
-              {/* {product.images && product.imageId[0] && (
-                // <img
-                //   src={
-                //     Array.isArray(product.imageId)
-                //       ? `http://localhost:8000/${product.imageId[0].path}`
-                //       : null
-                //   }
-                //   alt={product.name}
-                // />
-                )} */}
               <LazyLoadImages product={product.images && product.imageId[0]} />
               <div className="prod-wish">
                 <FaHeart
@@ -88,15 +78,13 @@ const ProductCard = ({ product }) => {
               <Rating {...options} />
               <span className="rev-tot">
                 (
-                {product.reviewsids && product.reviewsids.length < 1 ? "No reviews" : product.reviewsids && product.reviewsids.length}
+                {product.reviewsids && product.reviewsids.length < 1
+                  ? "No reviews"
+                  : product.reviewsids && product.reviewsids.length}
                 )
               </span>
             </div>
-            {/* <div className="product-card-dis space-set">
-              <div className="prod-card-description"
-                dangerouslySetInnerHTML={{ __html: product.description }}
-              />
-            </div> */}
+
             <div className="product-cat space-set">
               <p>
                 <Link
@@ -112,9 +100,7 @@ const ProductCard = ({ product }) => {
             </div>
           </div>
           <div className="product-card_btn space-set">
-            <button onClick={() => buyNow(product.slug, 1)}>
-              Buy Now
-            </button>
+            <button onClick={() => buyNow(product.slug, 1)}>Buy Now</button>
           </div>
         </div>
       </div>

@@ -29,19 +29,17 @@ aside {
   width: 100%;
 }
 .product-card {
-  position:relative
+  position: relative;
 }
 .product-card_btn {
-  
-  bottom:10px;
-  width:100%;
+  bottom: 10px;
+  width: 100%;
 }
-.shop-page .product-details h3{
+.shop-page .product-details h3 {
   margin: 5px 0 0 0;
- 
 }
-.shop-page .product-details h3 a{
-width: 260px;
+.shop-page .product-details h3 a {
+  width: 260px;
   white-space: nowrap;
   display: block;
   overflow: hidden;

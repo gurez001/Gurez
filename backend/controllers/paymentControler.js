@@ -92,7 +92,7 @@ exports.paymentApiKey = catchAsyncError(async (req, res, next) => {
 exports.payentDataApi = catchAsyncError(async (req, res, next) => {
   try {
     const {paymentid} = req.params;
-    console.log(paymentid)
+
     const { data } = await axios.get(
       `https://api.razorpay.com/v1/payments/${paymentid}`,
       {
@@ -102,7 +102,7 @@ exports.payentDataApi = catchAsyncError(async (req, res, next) => {
         },
       }
       );
-      console.log(data)
+
       res.status(200).json({
       success: true,
       data,

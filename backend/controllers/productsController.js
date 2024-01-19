@@ -241,7 +241,7 @@ exports.getAdminAllProducts = catchAsyncError(async (req, res, next) => {
 //------ get single products
 exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
   try {
-    console.log( req.params.metalink)
+
     let Product;
     if (isNaN(req.params.metalink)) {
       Product = await products

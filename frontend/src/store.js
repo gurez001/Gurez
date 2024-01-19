@@ -43,7 +43,9 @@ import {
 } from "./reducers/imageGelleryReducer";
 import { WishListReducer } from "./reducers/WiahListReducer";
 import {
+  SingleSubCategoryReducer,
   StatusCategoryReducer,
+  UpdateSubCategoryReducer,
   getAllCategoriesReducer,
   newCategoreReducer,
   singleCatReducer,
@@ -115,6 +117,8 @@ const reducer = combineReducers({
   adminCategoryStatusUpdate: StatusCategoryReducer,
   adminSingleCategory: singleCatReducer,
   adminUpdateParentCategory: updateParentCategoryReducer,
+  adminsingleSubCategory: SingleSubCategoryReducer,
+  adminUpdateSubCategory: UpdateSubCategoryReducer,
 });
 
 let inialState = {

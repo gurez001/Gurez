@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import JoditEditor from "jodit-react";
 
-const MyEditor = ({ event,value }) => {
+const MyEditor = ({ event, value }) => {
   const editor = useRef(null);
 
   const config = {
-    readonly: false, // all options from https://xdsoft.net/jodit/doc/
+    readonly: false, 
   };
 
   return (

@@ -29,8 +29,8 @@ const CartEmty = (loading) => {
         keywords={"Empty Cart"}
       />
       <div className="cart-emty">
-        <h2>You are not Selecting any product</h2>
-        <p>Redirecting to Shop Page in {reTime} sec</p>
+        <h2>No products are being selected by you.</h2>
+        <p>Taking you to the shop page in {reTime} seconds</p>
       </div>
     </>
   );

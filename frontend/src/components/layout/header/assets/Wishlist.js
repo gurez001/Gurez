@@ -1,10 +1,9 @@
 import React from "react";
 import { FaHeart } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
-import {useDispatch,useSelector}from 'react-redux';
+import { useSelector } from "react-redux";
 export const Wishlist = () => {
-
-  const {wishL}= useSelector(state=>state.wishList);
+  const { wishL } = useSelector((state) => state.wishList);
 
   return (
     <div className="wishlist-row">
