@@ -13,14 +13,13 @@ const productModels = require("../models/productModels");
 
 exports.createProductReviews = catchAsyncError(async (req, res, next) => {
   try {
-    const { rating, comment, productId, imageid } = req.body;
+    const { rating, comment, productId } = req.body;
 
     const user = req.user;
     const product = await productModels.findById(productId);
 
     const reviews = {
       user: user._id,
-      imageid,
       rating,
       productid: productId,
       comment,
@@ -38,9 +37,11 @@ exports.createProductReviews = catchAsyncError(async (req, res, next) => {
         product.reviewsids.push(newReview._id);
         await product.save();
       }
+      
       let revilength = await reviewsSchema.find({
-        productid: isExistReview.productid,
+        productid: productId,
       });
+
       const length = revilength.length;
       const sum = revilength.reduce((acc, review) => acc + review.rating, 0);
       const average = sum / length;
@@ -50,6 +51,7 @@ exports.createProductReviews = catchAsyncError(async (req, res, next) => {
         message: "Review created successfully",
         newReview,
       });
+      return;
     }
 
     isExistReview.rating = rating;
@@ -57,7 +59,7 @@ exports.createProductReviews = catchAsyncError(async (req, res, next) => {
     await isExistReview.save();
 
     let revilength = await reviewsSchema.find({
-      productid: isExistReview.productid,
+      productid: productId,
     });
     const length = revilength.length;
     const sum = revilength.reduce((acc, review) => acc + review.rating, 0);
@@ -70,6 +72,7 @@ exports.createProductReviews = catchAsyncError(async (req, res, next) => {
       isExistReview,
     });
   } catch (error) {
+
     return next(
       new ErrorHandler(`product review internal server error: ${error}`, 500)
     );
@@ -93,7 +96,6 @@ exports.getAllReviews = catchAsyncError(async (req, res, next) => {
       productReview,
     });
   } catch (error) {
-
     return next(new ErrorHandler("Product review internal server error:", 500));
   }
 });
