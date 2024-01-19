@@ -1,21 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
-  clearErrors,
   getAllImages,
-  getImageId,
 } from "../../../../actions/imageGelleryAction";
-import { useAlert } from "react-alert";
-import Pagination from "react-js-pagination";
-
 import MetaData from "../../../layout/metaData/MetaData";
 import { Aside } from "../../aside/Aside";
-import Gallery from "react-photo-gallery";
-import SelectedImage from "./SelectedImage";
 import "./allImage.css";
 import { NavLink } from "react-router-dom";
-import Loader from "../../../layout/loader/Loader";
 import ImageGallery from "./ImageGallery";
 import ImageAside from "./ImageAside";
 
@@ -62,9 +54,9 @@ const AllImages = () => {
                     </div>
                   </div>
                 </section>
-                {images && images.length > 0 ? <ImageAside
-                images={images}
-                /> : null}
+                {images && images.length > 0 ? (
+                  <ImageAside images={images} />
+                ) : null}
               </div>
             </div>
           </div>

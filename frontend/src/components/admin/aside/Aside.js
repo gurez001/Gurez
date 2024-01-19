@@ -100,25 +100,7 @@ export const Aside = ({ status }) => {
                   </NavLink>
                 </TreeItem>
               </TreeView>
-              <TreeView>
-                <span>
-                  <FaArrowRightArrowLeft />
-                </span>
-                <TreeItem nodeId="1" label="Analytics">
-                  <NavLink to={"/admin/analytics/overview"}>
-                    <TreeItem nodeId="2" label="Overview" />
-                  </NavLink>
-                  <NavLink to={"/admin/analytics/product"}>
-                    <TreeItem nodeId="2" label="Product" />
-                  </NavLink>
-                  <NavLink to={"/admin/analytics/revenue"}>
-                    <TreeItem nodeId="2" label="Revenue" />
-                  </NavLink>
-                  <NavLink to={"/admin/analytics/order"}>
-                    <TreeItem nodeId="2" label="Order" />
-                  </NavLink>
-                </TreeItem>
-              </TreeView>
+              
               <TreeView>
                 <span>
                   <FaArrowRightArrowLeft />

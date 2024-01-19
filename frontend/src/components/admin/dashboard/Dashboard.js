@@ -19,7 +19,6 @@ import { getAllorders } from "../../../actions/OrderAction";
 import { getAllUsers } from "../../../actions/UserAction";
 import MetaData from "../../layout/metaData/MetaData";
 
-
 Chartjs.register(
   LineElement,
   CategoryScale,
@@ -96,9 +95,9 @@ export const Dashboard = () => {
   return (
     <>
       <MetaData
-        title={'Admin Dashboard'}
-        content={'Admin Dashboard'}
-        keywords={'Admin Dashboard'}
+        title={"Admin Dashboard"}
+        content={"Admin Dashboard"}
+        keywords={"Admin Dashboard"}
       />
       <div className="admin-page">
         <div className="admin-page-area">
@@ -111,7 +110,7 @@ export const Dashboard = () => {
                     <div className="dashboard-title">
                       <h1>Dashboard</h1>
                     </div>
-                  
+
                     <div className="dashboard-summary">
                       <p>
                         <span> Total</span>

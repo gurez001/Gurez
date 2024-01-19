@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 
-import { clearErrors, uploadImage } from "../../../../actions/imageGelleryAction";
+import {
+  clearErrors,
+  uploadImage,
+} from "../../../../actions/imageGelleryAction";
 import { Dropzone, FileMosaic } from "@files-ui/react";
 
 export const ImageUploaderForm = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
-
-  const { loading: allImgLoading } = useSelector((state) => state.images);
-  const { loading: uploadLoading, images ,error} = useSelector(
+  const { loading: uploadLoading, error } = useSelector(
     (state) => state.uploadImage
   );
 
@@ -29,12 +30,12 @@ export const ImageUploaderForm = () => {
     }
   };
 
-  useEffect(()=>{
-if(error){
-  alert.error(error);
-  dispatch(clearErrors());
-}
-  },[error,alert,dispatch])
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+  }, [error, alert, dispatch]);
   return (
     <>
       <Dropzone onChange={updateFiles} value={files}>

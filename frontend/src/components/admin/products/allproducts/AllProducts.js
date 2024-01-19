@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DataGrid } from "@material-ui/data-grid";
 
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
+import {  Switch } from "@material-ui/core";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Aside } from "../../aside/Aside";
 import { FaUpRightFromSquare, FaTrash } from "react-icons/fa6";
@@ -21,6 +21,8 @@ export const AllProducts = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const Navigate = useNavigate();
+  
+  const [checked, setChecked] = useState({});
   const { error, products, loding } = useSelector((state) => state.products);
   const {
     error: deletError,
@@ -31,6 +33,17 @@ export const AllProducts = () => {
   const deletehandler = (id) => {
     dispatch(deleteAdminProduct(id));
   };
+
+  const handleChange = (id) => {
+    const newCheckedState = !checked[id];
+    setChecked((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+    // dispatch(StausCategory(id, newCheckedState));
+  };
+
+
 
   useEffect(() => {
     if (error) {
@@ -85,6 +98,7 @@ export const AllProducts = () => {
       flex: 0.3,
       shortable: false,
       renderCell: (params) => {
+        const rowStatus = params.row.status;
         return (
           <>
             <MetaData
@@ -92,6 +106,12 @@ export const AllProducts = () => {
               content={"Admin all product list"}
               keywords={"Admin all product list"}
             />
+              <Switch
+              className={rowStatus ? "toggle-chekbox-active" : ""}
+              checked={checked[params.row.id] || false}
+              onChange={() => handleChange(params.row.id)}
+              inputProps={{ "aria-label": "controlled" }}
+            /> 
             <NavLink
               to={`/admin/update-product/${params.getValue(params.id, "id")}`}
             >

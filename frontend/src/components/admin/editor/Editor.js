@@ -8,15 +8,15 @@ const Editor = ({ value, event }) => {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
   };
 
-//   useEffect(() => {
-//     if (value) {
-//       setContent(value);
-//     }
-//   });
-const contentHeandle = (e) => {
+  //   useEffect(() => {
+  //     if (value) {
+  //       setContent(value);
+  //     }
+  //   });
+  const contentHeandle = (e) => {
     setContent(e);
   };
-console.log(content)
+  console.log(content);
   return (
     <div>
       <div className="App">

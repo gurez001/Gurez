@@ -7,6 +7,7 @@ import { NavLink, useParams } from "react-router-dom";
 import TimeAndDate from "../../layout/time/TimeAndDate";
 import MetaData from "../../layout/metaData/MetaData";
 import { getPaymentData } from "../../../actions/Paymentaction";
+import { FaRegCheckCircle } from "react-icons/fa";
 
 export const OrderDetails = () => {
   const alert = useAlert();
@@ -27,8 +28,11 @@ export const OrderDetails = () => {
 
   return (
     <>
-  
-      <MetaData title={'My Order Details'} content={'My Order Details'} keywords={'My Order Details'} />
+      <MetaData
+        title={"My Order Details"}
+        content={"My Order Details"}
+        keywords={"My Order Details"}
+      />
       <section className="section-cont">
         <div id="order-details" className="cont-area-h">
           {loading ? (
@@ -36,22 +40,97 @@ export const OrderDetails = () => {
           ) : orders && orders ? (
             <>
               <div className="order-d-page">
-                <h1>Order's</h1>
+                <h1>Order's Details</h1>
+<div className="order-thank">
+<FaRegCheckCircle/>
+<p><strong>THANK YOU!</strong>
+Thank you for shopping with us. Your account has been charged and your transaction is successful. We will be processing your order soon.
+</p>
+</div>
+
                 <h2>
-                  <NavLink to={`/order/${orders._id}/123`} >123 </NavLink>
-                  
+                  <NavLink to={`/order/${orders && orders._id}/123`}>123 </NavLink>
                 </h2>
                 <div className="order-containor">
                   <div className="order-header">
-                    <div>
-                      <p>Order ID #{orders._id}</p>
-                    </div>
-                    <div>
-                      <p>
-                        Order status <span>{orders.orderStatus}</span>
-                      </p>
-                    </div>
+                    <ul className="overview-ul">
+                      <li className="overview-item">
+                        <span>Order ID:</span> <strong> #{orders._id}</strong>
+                      </li>
+                      <li className="overview-item">
+                        <span>Status:</span>{" "}
+                        <strong>{orders.orderStatus}</strong>
+                      </li>
+                      <li className="overview-item">
+                        <span>Date:</span>
+                        <strong>
+                          <TimeAndDate time={orders.creditAt}/>
+                          </strong>
+                      </li>
+                      <li className="overview-item">
+                        <span>Email: </span>{" "}
+                        <strong>{orders.shippingInfo && orders.shippingInfo.email}</strong>
+                      </li>
+                      <li className="overview-item">
+                        <span>Total:</span> <strong>{orders.totalPrice}</strong>
+                      </li>
+                      <li className="overview-item">
+                        <span>Payment Method: </span>{" "}
+                        <strong>{orders.paymentInfo && orders.paymentInfo.mode}</strong>
+                      </li>
+                    </ul>
                   </div>
+                  <div className="orders">
+                    <h2>ORDER DETAILS</h2>
+                 <div className="order-li">
+
+                    {orderItem &&
+                      orderItem.map((item, i) => {
+                        return (
+                          <div key={i} className="order-item">
+                          <div className="order-li-item-price">
+                              <p><strong>{item.name}</strong>
+                              <span>{item.price}</span></p>
+                            </div>
+                            <div className="order-li-item-price">
+                              <p>
+                                <strong>Quantity:</strong>
+                                <span>{item.price}x{item.quantity}</span>
+                              </p>
+                            </div>
+                          
+                                             
+                          </div>
+                        );
+                      })}
+  <div className="order-li-item-price">
+                              <p>
+                                <strong>GST:</strong>
+                                <span>{Math.ceil(orders && orders.taxPrice)}</span>
+                              </p>
+                            </div>
+<div className="order-li-item-price">
+                              <p>
+                                <strong>Shipping Price:</strong>
+                                <span>{orders && orders.shippingPrice}</span>
+                              </p>
+                            </div>
+                            <div className="order-li-item-price">
+                              <p>
+                                <strong>Payment method:</strong>
+                                <span>{orders.paymentInfo && orders.paymentInfo.mode}</span>
+                              </p>
+                            </div>
+                            <div className="order-li-item-price order-li-border">
+                              <p>
+                                <strong>Total:</strong>
+                                <span>{orders && orders.totalPrice}</span>
+                              </p>
+                            </div>
+                      </div>
+                  </div>
+               
+
                   <div className="order-details">
                     <div className="billing-details">
                       <h2>Billing details</h2>
@@ -101,37 +180,6 @@ export const OrderDetails = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="orders">
-                    <h2>My Items</h2>
-                    {orderItem &&
-                      orderItem.map((item, i) => {
-                        return (
-                          <div key={i} className="order-item">
-                            <div className="order-item-img">
-                              <img
-                                src={`http://localhost:8000/${item.image[0]}`}
-                                alt={item.name}
-                              />
-                            </div>
-                            <div className="order-item-name">
-                              <h3>{item.name}</h3>
-                            </div>
-                            <div className="order-item-price">
-                              <p>
-                                <span>₹{item.price}</span>x
-                                <span>{item.quantity}</span>
-                              </p>
-                            </div>
-                            <div className="order-item-total">
-                              <p>₹{item.price * item.quantity}</p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                  </div>
-                  <h3>
-                    <TimeAndDate time={orders.creditAt} />
-                  </h3>
                 </div>
               </div>
             </>
