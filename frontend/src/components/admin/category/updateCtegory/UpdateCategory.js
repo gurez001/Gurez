@@ -1,40 +1,23 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Aside } from "../../aside/Aside";
-import CategoreForm from "../allCategory/assets/CategoreForm";
+import SelectCategore from "../allCategory/assets/SelectCategore";
 import CreateSeo from "../../seo/create/CreateSeo";
 import { Button } from "@material-ui/core";
-import SelectCategore from "../allCategory/assets/SelectCategore";
+import { useDispatch, useSelector } from "react-redux";
+import { useAlert } from "react-alert";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   clearErrors,
   getSingleParentCat,
   updateParentCategory,
 } from "../../../../actions/CategoreAction";
-import { useDispatch, useSelector } from "react-redux";
-import { useAlert } from "react-alert";
-import Loader from "../../../layout/loader/Loader";
 import { UPDATE_PARENT_CATEGORIE_RESET } from "../../../../constants/CategoreConstants";
 
 const UpdateCategory = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
   const alert = useAlert();
-  const Navigate = useNavigate();
-  const {
-    loading: updateLoading,
-    isUpdate,
-    error: UpdateError,
-  } = useSelector((state) => state.adminUpdateParentCategory);
-  const { loading, parent, error } = useSelector(
-    (state) => state.adminSingleCategory
-  );
-
-  const [seoInputValue, setSeoInputValue] = useState({
-    seotitle: "",
-    keyword: "",
-    metadec: "",
-    metalink: "",
-  });
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const [inputValue, setInputValue] = useState({
     name: "",
@@ -44,7 +27,13 @@ const UpdateCategory = () => {
     description: "",
   });
 
-  // console.log(inputValue,seoInputValue)
+  const [seoInputValue, setSeoInputValue] = useState({
+    seotitle: "",
+    keyword: "",
+    metadec: "",
+    metalink: "",
+    productsubcatid: "",
+  });
 
   const handelInputValue = (e) => {
     const { name, value } = e.target;
@@ -57,55 +46,46 @@ const UpdateCategory = () => {
     setSeoInputValue({ ...seoInputValue, [name]: value });
   };
 
+  const { loading, parent, error } = useSelector(
+    (state) => state.adminSingleCategory
+  );
+
+  const {
+    loading: updateLoading,
+    isUpdate,
+    error: updateError,
+  } = useSelector((state) => state.adminUpdateParentCategory);
+
   const submitHandler = (e) => {
     e.preventDefault();
-    const { seotitle, keyword, metadec, metalink } = seoInputValue;
-    const { name, slug, title, description, parent } = inputValue;
+    const { name, slug, parent, title, description } = inputValue;
+    const { seotitle, keyword, metadec, metalink, productsubcatid } =
+      seoInputValue;
+
     dispatch(
       updateParentCategory(
         id,
         name,
         slug,
+        parent,
         title,
         description,
-        parent,
         seotitle,
         keyword,
         metadec,
-        metalink
+        metalink,
+        productsubcatid
       )
     );
-    // dispatch(CreateNewCategore(name, slug, title, parent, description,seotitle,
-    //   keyword,
-    //   metadec,));
   };
 
   useMemo(() => {
-    // if (parent && parent._id !== id) {
     dispatch(getSingleParentCat(id));
-    // }
   }, []);
-
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
-    }
-    if (UpdateError) {
-      alert.error(error);
-      dispatch(clearErrors());
-    }
-    if (isUpdate) {
-      alert.success("Parent category successfully updated");
-      dispatch({ type: UPDATE_PARENT_CATEGORIE_RESET });
-      Navigate("/admin/categorie/");
-    }
-
-    if (inputValue.title) {
-      setSeoInputValue((prev) => ({ ...prev, seotitle: inputValue.title }));
-    }
-    if (inputValue.slug) {
-      setSeoInputValue((prev) => ({ ...prev, metalink: inputValue.slug }));
     }
     if (parent) {
       setInputValue({
@@ -115,25 +95,24 @@ const UpdateCategory = () => {
         title: parent && parent.title,
         description: parent && parent.description,
       });
-
       setSeoInputValue({
-        seotitle: parent && parent.seo && parent.seo.metatitle,
-        keyword: parent && parent.seo && parent.seo.keyword,
-        metadec: parent && parent.seo && parent.seo.metadec,
-        metalink: parent && parent.seo && parent.seo.metalink,
+        seotitle: parent.seo && parent.seo.metatitle,
+        keyword: parent.seo && parent.seo.keyword,
+        metadec: parent.seo && parent.seo.metadec,
+        metalink: parent.seo && parent.seo.metalink,
+        productsubcatid: parent.seo && parent.seo.productcatid,
       });
     }
-  }, [
-    id,
-    inputValue.title,
-    inputValue.slug,
-    parent && parent,
-    error,
-    alert,
-    dispatch,
-    UpdateError,
-    isUpdate,
-  ]);
+    if (updateError) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    if (isUpdate) {
+      alert.success("Parent category Updated Successfully");
+      dispatch({ type: UPDATE_PARENT_CATEGORIE_RESET });
+      navigate("/admin/categorie");
+    }
+  }, [dispatch, alert, error, updateError,parent, isUpdate]);
 
   return (
     <>
@@ -143,69 +122,71 @@ const UpdateCategory = () => {
           <div id="ad-body">
             <div className="ad-cont">
               <section className="ad-section">
-                {loading && updateLoading ? (
-                  <Loader />
-                ) : (
-                  <>
-                    <div className="all-products-cont">
-                      <div>
-                        <form onSubmit={submitHandler}>
-                          <div className="input-field-area">
-                            <label htmlFor="name">Name</label>
-                            <input
-                              type="text"
-                              value={inputValue.name}
-                              name="name"
-                              onChange={handelInputValue}
-                            />
-                          </div>
-                          <div className="input-field-area">
-                            <label htmlFor="slug">Slug</label>
-                            <input
-                              type="text"
-                              value={inputValue.slug}
-                              name="slug"
-                              onChange={handelInputValue}
-                            />
-                          </div>
-                          <div className="input-field-area">
-                            <label htmlFor="parent">Parent category</label>
-                            <SelectCategore
-                              parent={inputValue.parent}
-                              handelInputValue={handelInputValue}
-                            />
-                          </div>
-                          <div className="input-field-area">
-                            <label htmlFor="title">Title</label>
-                            <input
-                              type="text"
-                              name="title"
-                              value={inputValue.title}
-                              onChange={handelInputValue}
-                            />
-                          </div>
-                          <div className="input-field-area">
-                            <label htmlFor="description">Description</label>
-                            <input
-                              type="text"
-                              name="description"
-                              value={inputValue.description}
-                              onChange={handelInputValue}
-                            />
-                          </div>
-                          <div>
-                            <Button type="submit">Submit</Button>
-                          </div>
-                        </form>
+                {/* {loading && updateLoading ? (
+                <Loader />
+              ) : (
+                <> */}
+                <div className="all-products-cont">
+                  <div>
+                    <form onSubmit={submitHandler}>
+                      <div className="input-field-area">
+                        <label htmlFor="name">Name</label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={inputValue.name}
+                          onChange={handelInputValue}
+                        />
                       </div>
-                    </div>
-                    <CreateSeo
-                      seoInputValue={seoInputValue}
-                      seoHandler={seoHandler}
-                      submitHandler={submitHandler}
-                    />
-                  </>
-                )}
+                      <div className="input-field-area">
+                        <label htmlFor="slug">Slug</label>
+                        <input
+                          type="text"
+                          name="slug"
+                          value={inputValue.slug}
+                          onChange={handelInputValue}
+                        />
+                      </div>
+                      <div className="input-field-area">
+                        <label htmlFor="parent">Parent category</label>
+                        <SelectCategore
+                          parent={inputValue.parent}
+                          handelInputValue={handelInputValue}
+                        />
+                      </div>
+                      <div className="input-field-area">
+                        <label htmlFor="title">Title</label>
+                        <input
+                          type="text"
+                          name="title"
+                          value={inputValue.title}
+                          onChange={handelInputValue}
+                        />
+                      </div>
+                      <div className="input-field-area">
+                        <label htmlFor="description">Description</label>
+                        <input
+                          type="text"
+                          name="description"
+                          value={inputValue.description}
+                          onChange={handelInputValue}
+                        />
+                      </div>
+                      <h2>SEO</h2>
+                      <CreateSeo
+                        seoInputValue={seoInputValue}
+                        seoHandler={seoHandler}
+                        submitHandler={submitHandler}
+                      />
+                      <div>
+                        <Button type="submit">Submit</Button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                {/* </>
+              )} */}
               </section>
             </div>
           </div>

@@ -13,12 +13,11 @@ import { useAlert } from "react-alert";
 import { useNavigate, useParams } from "react-router-dom";
 import { UPDATE_SUB_CATEGORIE_RESET } from "../../../../constants/CategoreConstants";
 
-
 const UpdateSubCategory = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { id } = useParams();
-const navigate=useNavigate();
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     name: "",
     slug: "",
@@ -32,43 +31,57 @@ const navigate=useNavigate();
     keyword: "",
     metadec: "",
     metalink: "",
-    productsubcatid:""
+    productsubcatid: "",
   });
 
   const handelInputValue = (e) => {
     const { name, value } = e.target;
     setInputValue({ ...inputValue, [name]: value });
-    
   };
 
+  const seoHandler = (e) => {
+    const { name, value } = e.target;
 
-
-const seoHandler = (e) => {
-  const { name, value } = e.target;
-
-  setSeoInputValue({ ...seoInputValue, [name]: value });
-};
+    setSeoInputValue({ ...seoInputValue, [name]: value });
+  };
 
   const { loading, data, error } = useSelector(
     (state) => state.adminsingleSubCategory
   );
 
-  const {loading:updateloading,isUpdate,error:updateerror}=useSelector((state)=>state.adminUpdateSubCategory)
+  const {
+    loading: updateloading,
+    isUpdate,
+    error: updateerror,
+  } = useSelector((state) => state.adminUpdateSubCategory);
 
-
-  const submitHandler=(e)=>{
+  const submitHandler = (e) => {
     e.preventDefault();
-  const {name,slug,parent,title,description}=inputValue;
-  const {seotitle,keyword,metadec,metalink,productsubcatid}=seoInputValue;
-  console.log(inputValue,seoInputValue)
+    const { name, slug, parent, title, description } = inputValue;
+    const { seotitle, keyword, metadec, metalink, productsubcatid } =
+      seoInputValue;
+    console.log(inputValue, seoInputValue);
 
-  dispatch(UpdateSubCategoryAction(id,name,slug,parent,title,description,seotitle,keyword,metadec,metalink,productsubcatid))
-  }
+    dispatch(
+      UpdateSubCategoryAction(
+        id,
+        name,
+        slug,
+        parent,
+        title,
+        description,
+        seotitle,
+        keyword,
+        metadec,
+        metalink,
+        productsubcatid
+      )
+    );
+  };
 
   useMemo(() => {
     dispatch(SingleSubCategoryAction(id));
   }, []);
-
 
   useEffect(() => {
     if (error) {
@@ -88,21 +101,20 @@ const seoHandler = (e) => {
         keyword: data.seo && data.seo.keyword,
         metadec: data.seo && data.seo.metadec,
         metalink: data.seo && data.seo.metalink,
-        productsubcatid: data.seo && data.seo.productsubcatid
-      })
+        productsubcatid: data.seo && data.seo.productsubcatid,
+      });
     }
-    
-    if(updateerror){
-      alert.error(error);
-      dispatch(clearErrors())
-    }
-if(isUpdate){
-  alert.success("Sub Category update Successfull");
-  dispatch({type:UPDATE_SUB_CATEGORIE_RESET});
-  navigate('/admin/categorie')
-}
 
-  }, [dispatch, error, alert, data && data,isUpdate,updateerror,navigate]);
+    if (updateerror) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    if (isUpdate) {
+      alert.success("Sub Category update Successfull");
+      dispatch({ type: UPDATE_SUB_CATEGORIE_RESET });
+      navigate("/admin/categorie");
+    }
+  }, [dispatch, error, alert, data && data, isUpdate, updateerror, navigate]);
 
   return (
     <>
@@ -118,9 +130,7 @@ if(isUpdate){
                 <> */}
                 <div className="all-products-cont">
                   <div>
-                    <form
-                     onSubmit={submitHandler}
-                    >
+                    <form onSubmit={submitHandler}>
                       <div className="input-field-area">
                         <label htmlFor="name">Name</label>
                         <input
@@ -166,17 +176,17 @@ if(isUpdate){
                       </div>
                       <h2>SEO</h2>
                       <CreateSeo
-                  seoInputValue={seoInputValue}
-                  seoHandler={seoHandler}
-                  submitHandler={submitHandler}
-                />
+                        seoInputValue={seoInputValue}
+                        seoHandler={seoHandler}
+                        submitHandler={submitHandler}
+                      />
                       <div>
                         <Button type="submit">Submit</Button>
                       </div>
                     </form>
                   </div>
                 </div>
-               
+
                 {/* </>
               )} */}
               </section>

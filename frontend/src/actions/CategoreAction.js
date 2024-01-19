@@ -253,7 +253,7 @@ export const SingleSubCategoryAction = (id) => async (dispatch) => {
   try {
     dispatch({ type: SINGLE_SUB_CATEGORIE_REQUEST });
     const { data } = await axios.get(`/api/v1/product/all-sub-category/${id}`);
-    
+
     dispatch({ type: SINGLE_SUB_CATEGORIE_SUCCESS, payload: data.subcategory });
   } catch (error) {
     dispatch({
@@ -265,47 +265,53 @@ export const SingleSubCategoryAction = (id) => async (dispatch) => {
 
 //-----------UPDATE SUB CATEGORY------------------
 
-export const UpdateSubCategoryAction = (
-  id,
-  name,
-  slug,
-  title,
-  description,
-  parent,
-  seotitle,
-  keyword,
-  metadec,
-  metalink,
-  productsubcatid,
-) => async (dispatch) => {
-  try {
-    dispatch({ type: UPDATE_SUB_CATEGORIE_REQUEST });
+export const UpdateSubCategoryAction =
+  (
+    id,
+    name,
+    slug,
+    parent,
+    title,
+    description,
+    seotitle,
+    keyword,
+    metadec,
+    metalink,
+    productsubcatid
+  ) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_SUB_CATEGORIE_REQUEST });
 
-    const formdata=new FormData();
-    formdata.append("name",name);
-    formdata.append("slug",slug);
-    formdata.append("title",title);
-    formdata.append("description",description);
-    formdata.append("parent",parent);
-    formdata.append("seotitle",seotitle);
-    formdata.append("keyword",keyword);
-    formdata.append("metadec",metadec);
-    formdata.append("metalink",metalink);
-    formdata.append("productsubcatid",productsubcatid);
+      const formdata = new FormData();
+      formdata.append("name", name);
+      formdata.append("slug", slug);
+      formdata.append("title", title);
+      formdata.append("description", description);
+      formdata.append("parent", parent);
+      formdata.append("seotitle", seotitle);
+      formdata.append("keyword", keyword);
+      formdata.append("metadec", metadec);
+      formdata.append("metalink", metalink);
+      formdata.append("productsubcatid", productsubcatid);
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
 
-    const { data } = await axios.put(`/api/v1//update/sub-category/${id}`,formdata,config);
+      const { data } = await axios.put(
+        `/api/v1//update/sub-category/${id}`,
+        formdata,
+        config
+      );
 
-    dispatch({ type: UPDATE_SUB_CATEGORIE_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_SUB_CATEGORIE_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      dispatch({ type: UPDATE_SUB_CATEGORIE_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_SUB_CATEGORIE_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
