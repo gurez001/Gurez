@@ -6,7 +6,7 @@ export const ReviewStar = ({ product }) => {
     return null; // Handle the case where product or reviews are undefined
   }
   // console.log(product.reviewsids.length)
-  const starValue = [0, 0, 0, 0, 0];
+  const starValue = [1 , 2, 3, 4, 5];
   const starInPercentage = [0, 0, 0, 0, 0];
 
   
@@ -21,7 +21,7 @@ export const ReviewStar = ({ product }) => {
   if (product && product.reviewsids && product.reviewsids.length > 0) {
     product.reviewsids.forEach((review) => {
       const rating = review.rating;
-      starValue[rating - 1] += rating;
+      // starValue[rating - 1] += rating;
       starInPercentage[rating - 1] += 100 / reviewLength;
     });
   }
