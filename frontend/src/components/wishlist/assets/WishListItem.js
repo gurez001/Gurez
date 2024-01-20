@@ -13,6 +13,7 @@ export const WishListItem = ({ item }) => {
     dispatch(addItemsToCart(id, qunty));
     Navigate("/cart");
   };
+  const formattedPrice = new Intl.NumberFormat('en-IN').format(parseFloat(item.price));
   return (
     <>
       <div className="w-item">
@@ -27,7 +28,7 @@ export const WishListItem = ({ item }) => {
         </div>
         <div className="w-item-fun">
           <RemoveWishItem item={item} />
-          <div>₹{item.price}</div>
+          <div>₹{formattedPrice}.00</div>
           <div><Button onClick={() => buyNow(item.link, 1)}>Buy now</Button></div>
         </div>
       </div>

@@ -1,10 +1,12 @@
 import React from "react";
+import Currency from "../../layout/currency/Currency";
 
 export const SubTotal = ({ item, quantity }) => {
-  return (
+ return (
     <>
       <div className="sub-total">
-        <p>₹{item * quantity}</p>
+      <Currency price={item * quantity} />
+      
       </div>
     </>
   );

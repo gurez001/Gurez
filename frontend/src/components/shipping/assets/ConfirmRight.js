@@ -2,6 +2,7 @@ import { Button } from "@material-ui/core";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ApplyCoupen from "./ApplyCoupen";
+import Currency from "../../layout/currency/Currency";
 export const ConfirmRight = ({ cartItem, shippingInfo }) => {
   const [coupon, setCoupon] = useState("");
   const [couponValid, setCouponValid] = useState("");
@@ -66,8 +67,9 @@ export const ConfirmRight = ({ cartItem, shippingInfo }) => {
               </div>
               <p>{item.name}</p>
               <span>
-                {item.quantity} x {item.price} =
-                <b>{item.price * item.quantity} </b>
+              <Currency price={item.quantity}  /> X <Currency price={item.price}  /> =  
+              <Currency price={item.price * item.quantity}/>
+               
               </span>
             </div>
           ))}
@@ -75,7 +77,7 @@ export const ConfirmRight = ({ cartItem, shippingInfo }) => {
           <div className="order-summery-conf-area">
             <p>
               <span> Sub total:</span>
-              <span>{subtotal}</span>
+              <span> <Currency price={subtotal}/> </span>
             </p>
             {discounted ? (
               <>
@@ -85,7 +87,8 @@ export const ConfirmRight = ({ cartItem, shippingInfo }) => {
                   </span>
 
                   <span>
-                    RS {discounted ? discounted : null}
+                  
+                    RS {discounted ? <Currency price={discounted}/> : null}
                     <span onClick={removeCoupon}>Remove</span>
                   </span>
                 </p>
@@ -93,18 +96,18 @@ export const ConfirmRight = ({ cartItem, shippingInfo }) => {
             ) : null}
             <p>
               <span>Shipping Charges:</span>
-              <span>Rs{shippingChargs}</span>
+              <span><Currency price={shippingChargs}/> </span>
             </p>
             <p>
               <span>GST:</span>
-              <span>RS{tax}</span>
+              <span><Currency price={tax}/></span>
             </p>
 
             <p>
               <span>
                 <b>Total:</b>
               </span>
-              <span>Rs{totalPrice - (discounted ? discounted : 0)}</span>
+              <span><Currency price={totalPrice - (discounted ? discounted : 0)}/></span>
             </p>
           </div>
 

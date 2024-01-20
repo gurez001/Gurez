@@ -318,4 +318,10 @@
     right: 32px;
     top: -9px;
   }
+  .avg-rating-container{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin-bottom: 20px;
+  }
 }

@@ -128,4 +128,7 @@
   .order-summery-conf-area p span {
     width: 50%;
   }
+  .oder-left p{
+    flex-direction: column;
+  }
 }

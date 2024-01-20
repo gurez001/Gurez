@@ -13,6 +13,9 @@ const Details = ({ product }) => {
 
     const average =sum/ reviewLength ;
 
+
+    const formattedPrice = new Intl.NumberFormat('en-IN').format(parseFloat(product && product.price));
+const formattedMaxPrice = new Intl.NumberFormat('en-IN').format(parseFloat(product && product.maxprice));
   return (
     <>
       <div className="summary entry-summary">
@@ -76,7 +79,7 @@ const Details = ({ product }) => {
         </div>
         <div className="product-price">
           <p>
-            ₹{product && product.price} - ₹{product && product.maxprice}
+            ₹{formattedPrice}.00 - ₹{formattedMaxPrice}.00
           </p>
         </div>
         <div className="ratings">
@@ -97,11 +100,11 @@ const Details = ({ product }) => {
         <div className="price">
           <p>
             <ins>
-              <span> ₹{product && product.price}</span>
-            </ins>
+              <span> ₹{formattedPrice}.00</span>
+            </ins> 
             -
-            <del>
-              <span>₹{product && product.maxprice}</span>
+             <del>
+              <span>₹{formattedMaxPrice}.00</span>
             </del>
           </p>
         </div>

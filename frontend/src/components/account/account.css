@@ -148,4 +148,13 @@
     width: 95px;
     height: 61px;
   }
+  .ot-det{
+    width:100%
+  }
+  .userDetails p{
+    display: inline-grid
+  }
+  .userDetails p b {
+    border:none
+  }
 }

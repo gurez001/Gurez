@@ -7,6 +7,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import RemoveItem from "./assets/RemoveItem";
 import "./cart.css";
 import MetaData from "../layout/metaData/MetaData";
+import Currency from "../layout/currency/Currency";
 
 const Cart = () => {
   const Navigate = useNavigate();
@@ -20,6 +21,7 @@ const Cart = () => {
   useEffect(() => {
     setCitem(cartItem.length);
   }, [cartItem]);
+
   return (
     <>
       <MetaData title={"My cart"} content={"My cart"} keywords={"My cart"} />
@@ -53,9 +55,11 @@ const Cart = () => {
                 </div>
                 <div className="gross-profit">
                   <div className="groos-profit-row">
-                    <p>{`₹${cartItem.reduce((acc, item) => {
-                      return acc + item.quantity * item.price;
-                    }, 0)}`}</p>
+                    <Currency
+                      price={cartItem.reduce((acc, item) => {
+                        return acc + item.quantity * item.price;
+                      }, 0)}
+                    />
                   </div>
                   <div className="checkout-btn">
                     <button onClick={checkOutEvent}>Checkout</button>

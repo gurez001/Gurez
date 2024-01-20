@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import Currency from "../../layout/currency/Currency";
 
 export const CartItemCart = ({ item }) => {
   return (
@@ -13,7 +14,7 @@ export const CartItemCart = ({ item }) => {
         </p>
       </div>
       <div className="cart-price">
-        <span>₹{item.price}</span>
+        <Currency price={item.price} />
       </div>
     </>
   );

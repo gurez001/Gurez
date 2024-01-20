@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
   const addToWishtHandler = (id) => {
     dispatch(wishListAction(id));
   };
-
+  const formattedPrice = new Intl.NumberFormat('en-IN').format(parseFloat(product.price));
   return (
     <>
       <div className="product-card">
@@ -64,7 +64,7 @@ const ProductCard = ({ product }) => {
           </div>
           <div className="product-details">
             <div className="product-price space-set">
-              <span>₹{product.price}</span>
+              <span>₹{formattedPrice}.00</span>
             </div>
             <h3>
               <Link
