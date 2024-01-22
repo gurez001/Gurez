@@ -2,6 +2,7 @@ import React from "react";
 import { FaCartArrowDown } from "react-icons/fa6";
 import TimeAndDate from "../../layout/time/TimeAndDate";
 import { NavLink } from "react-router-dom";
+import Currency from "../../layout/currency/Currency";
 export const OrderCard = ({ orders }) => {
   return (
     <>
@@ -34,7 +35,7 @@ export const OrderCard = ({ orders }) => {
                     </div>
                     <div className="order-card-status">
                       <span>{item.orderStatus}</span>
-                      <span>₹{item.totalPrice}</span>
+                      <span><Currency price={item.totalPrice}/> </span>
                       <span>{item.orderItem[0].quantity}</span>
                       <TimeAndDate time={item.creditAt} />
                     </div>

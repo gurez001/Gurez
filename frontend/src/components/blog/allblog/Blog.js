@@ -26,7 +26,7 @@ function Blog() {
       <div className="cont-area-h">
         <div className="cont-row">
           <div className="blog-left">
-            <div className="blog-row">
+            <div id="blog-cards" className="blog-row">
               {loading ? (
                 <Loader />
               ) : (

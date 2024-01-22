@@ -8,6 +8,7 @@ import TimeAndDate from "../../layout/time/TimeAndDate";
 import MetaData from "../../layout/metaData/MetaData";
 import { getPaymentData } from "../../../actions/Paymentaction";
 import { FaRegCheckCircle } from "react-icons/fa";
+import Currency from "../../layout/currency/Currency";
 
 export const OrderDetails = () => {
   const alert = useAlert();
@@ -72,7 +73,7 @@ Thank you for shopping with us. Your account has been charged and your transacti
                         <strong>{orders.shippingInfo && orders.shippingInfo.email}</strong>
                       </li>
                       <li className="overview-item">
-                        <span>Total:</span> <strong>{orders.totalPrice}</strong>
+                        <span>Total:</span> <strong><Currency price={orders.totalPrice} /> </strong>
                       </li>
                       <li className="overview-item">
                         <span>Payment Method: </span>{" "}

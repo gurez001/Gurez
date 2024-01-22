@@ -19,7 +19,7 @@
 }
 
 .aside-price-categories li {
-  padding: 3px 10px;
+
   margin: 1px 0;
   cursor: pointer;
   text-transform: uppercase;
@@ -39,6 +39,12 @@
 }
 .aside-price-categories ul ul li a {
   font-size: 14px;
+  padding: 3px 10px;
+  display: block;
+}
+ .parent-cate-list{
+  padding: 3px 10px;
+  display: block;
 }
 
 .aside-price-categories ul ul li:hover {
